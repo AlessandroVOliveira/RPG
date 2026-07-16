@@ -6,82 +6,153 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
   :root{
-    --bg:#1b1c22; --panel:#242530; --panel2:#2c2d3a; --border:#3c3e50;
-    --text:#e8e8ef; --muted:#9a9bb0; --accent:#c9a15a; --accent2:#7fa8c9;
-    --good:#7ec98f; --bad:#d97b7b; --input-bg:#1b1c26;
+    --paper:#efe7d3; --paper2:#f8f2e2; --ink:#241f19; --ink-soft:#4a4136;
+    --red:#8f2a2a; --red-dark:#6e1f1f; --line:#241f19;
+    --good:#3f6b3f; --bad:#8f2a2a; --box:#fffdf6;
   }
   *{box-sizing:border-box;}
   body{
-    margin:0; font-family:'Georgia', 'Segoe UI', serif; background:var(--bg); color:var(--text);
-    padding:20px; line-height:1.4;
+    margin:0; font-family:'Segoe UI', Tahoma, sans-serif; color:var(--ink); line-height:1.35;
+    padding:18px; background:
+      radial-gradient(ellipse at 20% 10%, rgba(255,255,255,0.35), transparent 60%),
+      radial-gradient(ellipse at 90% 80%, rgba(0,0,0,0.06), transparent 55%),
+      var(--paper);
   }
-  h1{ font-family:'Segoe UI', sans-serif; letter-spacing:1px; color:var(--accent); margin:0 0 4px 0; font-size:1.8em;}
-  h2{ font-family:'Segoe UI', sans-serif; color:var(--accent2); border-bottom:1px solid var(--border); padding-bottom:4px; margin-top:0; font-size:1.1em; text-transform:uppercase; letter-spacing:0.5px;}
-  .sub{color:var(--muted); font-size:0.9em; margin-bottom:18px;}
-  .toolbar{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px;}
-  button{
-    font-family:'Segoe UI', sans-serif; background:var(--panel2); color:var(--text); border:1px solid var(--border);
-    padding:7px 14px; border-radius:6px; cursor:pointer; font-size:0.85em;
+  h1.title{
+    font-family:Georgia, 'Times New Roman', serif; font-weight:800; text-transform:uppercase;
+    letter-spacing:6px; color:var(--red); margin:0 0 2px 0; font-size:2em;
+    text-shadow:1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000, 2px 2px 0 rgba(0,0,0,0.15);
+    -webkit-text-stroke:1px #1a1310;
   }
-  button:hover{ border-color:var(--accent); color:var(--accent);}
-  button.danger:hover{ border-color:var(--bad); color:var(--bad);}
-  .grid{ display:grid; gap:16px; }
-  .grid-2{ grid-template-columns:1fr 1fr; }
-  .grid-3{ grid-template-columns:1fr 1fr 1fr; }
-  .panel{ background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:16px; }
-  label{ display:block; font-size:0.72em; text-transform:uppercase; letter-spacing:0.5px; color:var(--muted); margin-bottom:3px; font-family:'Segoe UI', sans-serif;}
-  input[type=text], input[type=number], textarea, select{
-    width:100%; background:var(--input-bg); border:1px solid var(--border); color:var(--text);
-    padding:6px 8px; border-radius:5px; font-family:inherit; font-size:0.95em;
-  }
-  input:focus, textarea:focus, select:focus{ outline:none; border-color:var(--accent);}
-  textarea{ resize:vertical; min-height:50px; }
-  .field{ margin-bottom:10px; }
-  .row-fields{ display:flex; gap:10px; flex-wrap:wrap; }
-  .row-fields > div{ flex:1; min-width:110px; }
-
-  .attrs{ display:grid; grid-template-columns:repeat(6,1fr); gap:10px; }
-  .attr-box{ background:var(--panel2); border:1px solid var(--border); border-radius:8px; padding:10px; text-align:center; }
-  .attr-box label{ text-align:center; }
-  .attr-box input{ text-align:center; font-size:1.1em; font-weight:bold; }
-  .attr-mod{ margin-top:6px; font-family:'Segoe UI',sans-serif; font-size:1.3em; color:var(--accent); font-weight:bold; }
-
-  .stat-box{ background:var(--panel2); border:1px solid var(--border); border-radius:8px; padding:10px; text-align:center;}
-  .stat-box .big{ font-family:'Segoe UI',sans-serif; font-size:1.6em; font-weight:bold; color:var(--good); }
-  .stat-box .big.def{ color:var(--accent2); }
-
-  table{ width:100%; border-collapse:collapse; font-size:0.88em; }
-  th{ text-align:left; font-family:'Segoe UI',sans-serif; text-transform:uppercase; font-size:0.72em; color:var(--muted); padding:4px 6px; border-bottom:1px solid var(--border);}
-  td{ padding:4px 6px; border-bottom:1px solid #2f303d; vertical-align:middle;}
-  tr.trained{ background:rgba(201,161,90,0.06); }
-  .total-cell{ font-weight:bold; font-family:'Segoe UI',sans-serif; color:var(--good); text-align:center; font-size:1.05em;}
-  .badge{ font-size:0.68em; padding:1px 6px; border-radius:10px; border:1px solid var(--border); color:var(--muted); margin-left:4px; white-space:nowrap;}
-  .badge.warn{ color:var(--bad); border-color:var(--bad); }
-  .small-input{ width:52px; text-align:center; padding:4px; }
-  .skill-name{ font-family:'Segoe UI',sans-serif; }
-  input[type=checkbox]{ width:18px; height:18px; cursor:pointer; accent-color:var(--accent); }
-  .del-btn{ background:none; border:none; color:var(--bad); cursor:pointer; font-size:1.1em; padding:2px 6px;}
-  .add-row-btn{ margin-top:8px; }
-  footer{ text-align:center; color:var(--muted); font-size:0.78em; margin-top:30px; font-family:'Segoe UI',sans-serif;}
-  .hint{ font-size:0.75em; color:var(--muted); margin-top:4px; font-family:'Segoe UI',sans-serif;}
-  #fileInput{ display:none; }
-  .saved-flash{ color:var(--good); font-family:'Segoe UI',sans-serif; font-size:0.8em; opacity:0; transition:opacity .3s; }
+  .sub{color:var(--ink-soft); font-size:0.85em; margin-bottom:14px; font-family:'Segoe UI',sans-serif;}
+  .saved-flash{ color:var(--good); font-size:0.8em; opacity:0; transition:opacity .3s; font-weight:600;}
   .saved-flash.show{ opacity:1; }
-  @media (max-width: 900px){
-    .attrs{ grid-template-columns:repeat(3,1fr); }
-    .grid-2, .grid-3{ grid-template-columns:1fr; }
+
+  .toolbar{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;}
+  button{
+    font-family:'Segoe UI', sans-serif; background:var(--box); color:var(--ink); border:2px solid var(--line);
+    padding:6px 14px; border-radius:4px; cursor:pointer; font-size:0.82em; font-weight:600;
   }
+  button:hover{ background:var(--red); color:var(--paper2); }
+  button.danger:hover{ background:var(--bad); color:#fff; }
+  #fileInput{ display:none; }
+
+  /* ---- panel / torn banner ---- */
+  .sheet{ max-width:1400px; margin:0 auto; }
+  .cols{ display:grid; grid-template-columns:1.15fr 0.85fr; gap:18px; align-items:start; }
+  .col{ display:flex; flex-direction:column; gap:16px; }
+  @media (max-width:1000px){ .cols{ grid-template-columns:1fr; } }
+
+  .panel{
+    background:var(--paper2); border:2.5px solid var(--line); border-radius:6px;
+    box-shadow:2px 3px 0 rgba(0,0,0,0.12);
+    margin-bottom:0;
+  }
+  .panel-head{
+    background:linear-gradient(180deg, var(--red), var(--red-dark)); color:#f3e9d5;
+    font-family:Georgia, serif; font-weight:800; text-transform:uppercase; letter-spacing:2px;
+    padding:7px 16px 14px; font-size:0.92em;
+    clip-path: polygon(0 0,100% 0,100% 60%,96% 100%,92% 62%,88% 100%,84% 62%,80% 100%,76% 62%,72% 100%,68% 62%,64% 100%,60% 62%,56% 100%,52% 62%,48% 100%,44% 62%,40% 100%,36% 62%,32% 100%,28% 62%,24% 100%,20% 62%,16% 100%,12% 62%,8% 100%,4% 62%,0 100%);
+  }
+  .panel-body{ padding:14px 16px 16px; }
+  .panel-body.tight{ padding:8px 10px 10px; }
+
+  label{ display:block; font-size:0.68em; text-transform:uppercase; letter-spacing:0.5px; color:var(--ink-soft); margin-bottom:2px; font-family:'Segoe UI', sans-serif; font-weight:600;}
+  input[type=text], input[type=number], textarea, select{
+    width:100%; background:var(--box); border:1.5px solid #b8ac8e; color:var(--ink);
+    padding:5px 7px; border-radius:3px; font-family:inherit; font-size:0.93em;
+  }
+  input:focus, textarea:focus, select:focus{ outline:none; border-color:var(--red);}
+  textarea{ resize:vertical; min-height:60px; }
+  .field{ margin-bottom:8px; }
+  .row-fields{ display:flex; gap:10px; flex-wrap:wrap; }
+  .row-fields > div{ flex:1; min-width:100px; }
+
+  /* ---- header ---- */
+  .header-panel{ display:grid; grid-template-columns:2fr 1fr auto; gap:14px; align-items:end; padding:14px 18px; background:var(--paper2); border:2.5px solid var(--line); border-radius:6px; box-shadow:2px 3px 0 rgba(0,0,0,0.12); margin-bottom:16px;}
+  .header-panel .name-field input{ font-size:1.3em; font-weight:700; font-family:Georgia,serif; }
+  .personagem-row{ grid-column:1/-1; display:grid; grid-template-columns:1fr 1fr 1.3fr 1fr; gap:10px; }
+  .wordmark{ text-align:right; }
+  .wordmark .t{ font-family:Georgia,serif; font-weight:900; font-size:1.6em; color:var(--red); letter-spacing:2px; -webkit-text-stroke:1px #1a1310;}
+  .wordmark .s{ font-size:0.65em; color:var(--ink-soft); letter-spacing:3px; text-transform:uppercase;}
+
+  /* ---- attribute shields ---- */
+  .attrs{ display:grid; grid-template-columns:repeat(6,1fr); gap:14px 10px; margin-bottom:22px; }
+  .attr-shield{
+    position:relative; background:linear-gradient(180deg,#fff,#f2ead4); border:3px solid var(--line);
+    border-radius:12px 12px 3px 3px; padding:8px 4px 18px; text-align:center;
+  }
+  .attr-shield .lbl{ font-family:Georgia,serif; font-weight:800; letter-spacing:2px; color:var(--red); font-size:0.78em; }
+  .attr-shield input.score{ text-align:center; font-size:0.85em; margin-top:2px; padding:2px; }
+  .attr-shield .mod{ font-size:1.9em; font-weight:800; font-family:Georgia,serif; margin-top:2px; }
+  .attr-shield .base-circle{
+    position:absolute; left:50%; bottom:-15px; transform:translateX(-50%);
+    width:30px;height:30px;border-radius:50%; background:#fff; border:3px solid var(--line);
+    display:flex;align-items:center;justify-content:center; font-size:0.72em; font-weight:700;
+  }
+
+  /* ---- stat boxes (PV/PM/Defesa) ---- */
+  .stat-row{ display:flex; gap:12px; }
+  .stat-shield{
+    flex:1; background:linear-gradient(180deg,#fff,#f2ead4); border:3px solid var(--line); border-radius:10px 10px 22px 22px;
+    padding:8px 10px 10px; text-align:center;
+  }
+  .stat-shield .lbl{ font-family:Georgia,serif; font-weight:800; text-transform:uppercase; letter-spacing:1px; color:var(--red); font-size:0.72em; margin-bottom:4px;}
+  .stat-shield .nums{ display:flex; align-items:center; justify-content:center; gap:6px; }
+  .stat-shield input{ text-align:center; font-weight:700; font-size:1.1em; width:56px; padding:3px;}
+  .stat-shield .slash{ font-weight:800; color:var(--ink-soft); }
+  .stat-shield .max{ font-weight:800; font-size:1.1em; }
+  .stat-shield .cap{ font-size:0.68em; color:var(--ink-soft); margin-top:3px; }
+  .stat-shield .cap input{ width:44px; display:inline-block; font-size:0.9em; padding:1px;}
+
+  /* ---- tables ---- */
+  table{ width:100%; border-collapse:collapse; font-size:0.83em; }
+  th{ text-align:left; font-family:'Segoe UI',sans-serif; text-transform:uppercase; font-size:0.68em; color:var(--ink-soft); padding:3px 5px; border-bottom:2px solid var(--line);}
+  td{ padding:3px 5px; border-bottom:1px solid #cfc3a3; vertical-align:middle;}
+  tr.trained{ background:rgba(143,42,42,0.08); }
+  .total-box{
+    display:inline-block; min-width:32px; text-align:center; font-weight:800; font-family:Georgia,serif;
+    background:var(--box); border:2px solid var(--line); border-radius:4px; padding:1px 6px; color:var(--red-dark);
+  }
+  .breakdown{ font-size:0.85em; color:var(--ink-soft); white-space:nowrap; }
+  .badge{ font-size:0.62em; padding:0 4px; border-radius:3px; border:1px solid var(--ink-soft); color:var(--ink-soft); margin-left:4px; white-space:nowrap;}
+  .badge.warn{ color:var(--red); border-color:var(--red); }
+  .small-input{ width:48px; text-align:center; padding:3px; }
+  .skill-name{ font-family:'Segoe UI',sans-serif; font-weight:600; }
+  input[type=checkbox]{ width:17px; height:17px; cursor:pointer; accent-color:var(--red); }
+  .del-btn{ background:none; border:none; color:var(--bad); cursor:pointer; font-size:1.05em; padding:2px 5px;}
+  .add-row-btn{ margin-top:8px; }
+
+  /* ---- defesa box ---- */
+  .defesa-box{
+    display:flex; align-items:center; gap:14px; background:linear-gradient(180deg,#fff,#f2ead4);
+    border:3px solid var(--line); border-radius:12px; padding:12px; margin-bottom:10px;
+  }
+  .defesa-shield{
+    width:86px;height:86px; border-radius:50% 50% 50% 4px / 55% 55% 45% 45%; background:#fff; border:4px solid var(--line);
+    display:flex; align-items:center; justify-content:center; font-size:2em; font-weight:800; font-family:Georgia,serif; color:var(--red-dark);
+    flex:0 0 auto;
+  }
+  .defesa-formula{ font-size:0.82em; color:var(--ink-soft); }
+
+  footer{ text-align:center; color:var(--ink-soft); font-size:0.75em; margin-top:26px; font-family:'Segoe UI',sans-serif;}
+  .hint{ font-size:0.72em; color:var(--ink-soft); margin-top:4px; font-family:'Segoe UI',sans-serif;}
+  .page-divider{ text-align:center; margin:26px 0 16px; font-family:Georgia,serif; text-transform:uppercase; letter-spacing:4px; color:var(--ink-soft); font-size:0.8em; }
+  .page-divider::before, .page-divider::after{ content:""; display:inline-block; width:120px; height:1px; background:var(--ink-soft); vertical-align:middle; margin:0 10px;}
+
   @media print{
-    body{ background:#fff; color:#000; }
-    .panel{ border:1px solid #999; break-inside:avoid; }
+    body{ background:#fff; }
+    .panel, .header-panel{ box-shadow:none; break-inside:avoid; }
     .toolbar, .del-btn, .add-row-btn{ display:none !important; }
   }
 </style>
 </head>
 <body>
 
-<h1 id="sheetTitle">Ficha T20</h1>
-<div class="sub">Ficha eletrônica de Tormenta 20 — campos calculados automaticamente conforme o livro do jogador. <span class="saved-flash" id="savedFlash">salvo ✓</span></div>
+<div class="sheet">
+
+<h1 class="title" id="sheetTitle">Tormenta</h1>
+<div class="sub">Ficha eletrônica de Tormenta20 — layout espelha a ficha oficial, campos calculados automaticamente. <span class="saved-flash" id="savedFlash">salvo ✓</span></div>
 
 <div class="toolbar">
   <button onclick="exportJSON()">⬇ Exportar JSON</button>
@@ -91,160 +162,225 @@
   <input type="file" id="fileInput" accept="application/json">
 </div>
 
-<!-- IDENTIFICAÇÃO -->
-<div class="panel" style="margin-bottom:16px;">
-  <h2>Identificação</h2>
-  <div class="row-fields">
-    <div class="field"><label>Nome do Personagem</label><input type="text" id="m_nome"></div>
-    <div class="field"><label>Jogador</label><input type="text" id="m_jogador"></div>
+<div id="updateBanner" style="display:none; background:#2f5233; color:#f3e9d5; border:2px solid var(--line); border-radius:6px; padding:10px 14px; margin-bottom:16px; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; font-family:'Segoe UI',sans-serif; font-size:0.88em;">
+  <span>📦 Os dados padrão deste arquivo foram atualizados desde a última vez que você abriu a ficha neste navegador.</span>
+  <span style="display:flex; gap:8px;">
+    <button onclick="applyDefaultUpdate()" style="background:#f3e9d5; color:#2f5233;">Atualizar agora</button>
+    <button onclick="dismissUpdateBanner()">Ignorar</button>
+  </span>
+</div>
+
+<!-- HEADER / PERSONAGEM -->
+<div class="header-panel">
+  <div class="field name-field"><label>Personagem</label><input type="text" id="m_nome"></div>
+  <div class="field"><label>Jogador</label><input type="text" id="m_jogador"></div>
+  <div class="wordmark"><div class="t">Tormenta</div><div class="s">20</div></div>
+  <div class="personagem-row">
     <div class="field"><label>Raça</label><input type="text" id="m_raca"></div>
     <div class="field"><label>Origem</label><input type="text" id="m_origem"></div>
-    <div class="field"><label>Classe</label><input type="text" id="m_classe"></div>
-    <div class="field"><label>Divindade</label><input type="text" id="m_divindade"></div>
-  </div>
-  <div class="row-fields">
-    <div class="field" style="max-width:100px;"><label>Nível</label><input type="number" id="m_nivel" min="1" max="20"></div>
-    <div class="field" style="max-width:140px;"><label>Experiência</label><input type="number" id="m_exp"></div>
-    <div class="field" style="max-width:160px;"><label>Tamanho</label>
-      <select id="m_tamanho">
-        <option>Minúsculo</option><option>Pequeno</option><option>Médio</option><option>Grande</option><option>Enorme</option><option>Colossal</option>
-      </select>
+    <div class="field"><label>Classe &amp; Nível</label>
+      <div class="row-fields" style="gap:6px;">
+        <div><input type="text" id="m_classe"></div>
+        <div style="max-width:60px;"><input type="number" id="m_nivel" min="1" max="20"></div>
+      </div>
     </div>
-    <div class="field" style="max-width:140px;"><label>Deslocamento base (m)</label><input type="number" id="m_desloc_base"></div>
+    <div class="field"><label>Divindade</label><input type="text" id="m_divindade"></div>
   </div>
 </div>
 
 <!-- ATRIBUTOS -->
-<div class="panel" style="margin-bottom:16px;">
-  <h2>Atributos</h2>
-  <div class="attrs">
-    <div class="attr-box"><label>Força</label><input type="number" id="a_for"><div class="attr-mod" id="mod_for">+0</div></div>
-    <div class="attr-box"><label>Destreza</label><input type="number" id="a_des"><div class="attr-mod" id="mod_des">+0</div></div>
-    <div class="attr-box"><label>Constituição</label><input type="number" id="a_con"><div class="attr-mod" id="mod_con">+0</div></div>
-    <div class="attr-box"><label>Inteligência</label><input type="number" id="a_int"><div class="attr-mod" id="mod_int">+0</div></div>
-    <div class="attr-box"><label>Sabedoria</label><input type="number" id="a_sab"><div class="attr-mod" id="mod_sab">+0</div></div>
-    <div class="attr-box"><label>Carisma</label><input type="number" id="a_car"><div class="attr-mod" id="mod_car">+0</div></div>
-  </div>
+<div class="attrs">
+  <div class="attr-shield"><div class="lbl">For</div><input type="number" class="score" id="a_for"><div class="mod" id="mod_for">+0</div><div class="base-circle" id="base_for">19</div></div>
+  <div class="attr-shield"><div class="lbl">Des</div><input type="number" class="score" id="a_des"><div class="mod" id="mod_des">+0</div><div class="base-circle" id="base_des">13</div></div>
+  <div class="attr-shield"><div class="lbl">Con</div><input type="number" class="score" id="a_con"><div class="mod" id="mod_con">+0</div><div class="base-circle" id="base_con">17</div></div>
+  <div class="attr-shield"><div class="lbl">Int</div><input type="number" class="score" id="a_int"><div class="mod" id="mod_int">+0</div><div class="base-circle" id="base_int">11</div></div>
+  <div class="attr-shield"><div class="lbl">Sab</div><input type="number" class="score" id="a_sab"><div class="mod" id="mod_sab">+0</div><div class="base-circle" id="base_sab">14</div></div>
+  <div class="attr-shield"><div class="lbl">Car</div><input type="number" class="score" id="a_car"><div class="mod" id="mod_car">+0</div><div class="base-circle" id="base_car">12</div></div>
 </div>
 
-<!-- COMBATE -->
-<div class="panel" style="margin-bottom:16px;">
-  <h2>Combate</h2>
-  <div class="grid grid-3">
-    <div class="stat-box"><label>Pontos de Vida</label>
-      <div class="row-fields" style="justify-content:center;">
-        <div style="max-width:80px;"><input type="number" id="pv_atual" class="small-input" style="width:100%;"></div>
-        <div class="big" style="align-self:center;">/ <span id="pv_max">0</span></div>
+<div class="cols">
+  <!-- ===== LEFT COLUMN ===== -->
+  <div class="col">
+
+    <div class="stat-row">
+      <div class="stat-shield">
+        <div class="lbl">Pontos de Vida</div>
+        <div class="nums"><input type="number" id="pv_atual"><span class="slash">/</span><span class="max" id="pv_max">0</span></div>
+        <div class="cap">Temp <input type="number" id="pv_temp"></div>
       </div>
-      <div class="hint">Temp: <input type="number" id="pv_temp" class="small-input"></div>
-    </div>
-    <div class="stat-box"><label>Pontos de Mana</label>
-      <div class="row-fields" style="justify-content:center;">
-        <div style="max-width:80px;"><input type="number" id="pm_atual" class="small-input" style="width:100%;"></div>
-        <div class="big" style="align-self:center;">/ <span id="pm_max">0</span></div>
+      <div class="stat-shield">
+        <div class="lbl">Pontos de Mana</div>
+        <div class="nums"><input type="number" id="pm_atual"><span class="slash">/</span><span class="max" id="pm_max">0</span></div>
+        <div class="cap">Temp <input type="number" id="pm_temp"></div>
       </div>
-      <div class="hint">Temp: <input type="number" id="pm_temp" class="small-input"></div>
     </div>
-    <div class="stat-box"><label>Defesa</label><div class="big def" id="defesa_total">10</div>
-      <div class="hint" id="defesa_formula"></div>
-    </div>
-  </div>
-  <div class="grid grid-3" style="margin-top:12px;">
-    <div class="stat-box"><label>Deslocamento</label><div class="big" id="desloc_total">9m</div></div>
-    <div class="stat-box"><label>Iniciativa</label><div class="big" id="iniciativa_total">+0</div></div>
-    <div class="stat-box"><label>Bônus de Ataque Especial (PM)</label><div class="big" style="font-size:1.1em;">1 PM = +4 ataque/dano *</div></div>
-  </div>
-  <div class="hint">* Escala: +4 a cada 1 PM extra a cada 4 níveis (nível 1-4: só +4 por 1 PM).</div>
 
-  <h2 style="margin-top:18px;">Configuração de Defesa</h2>
-  <div class="row-fields">
-    <div class="field" style="max-width:160px;">
-      <label>Armadura pesada?</label>
-      <select id="d_pesada"><option value="true">Sim (ignora Destreza)</option><option value="false">Não</option></select>
+    <div class="panel">
+      <div class="panel-head">Ataques</div>
+      <div class="panel-body tight">
+        <table>
+          <thead><tr><th>Arma</th><th>Teste</th><th>Dano</th><th>Crít.</th><th>Tipo</th><th>Alcance</th><th></th></tr></thead>
+          <tbody id="ataques_body"></tbody>
+        </table>
+        <button class="add-row-btn" onclick="addAtaque()">+ ataque</button>
+      </div>
     </div>
-    <div class="field">
-      <label>Armadura (predefinida)</label>
-      <select id="d_armadura_preset"></select>
+
+    <div class="panel">
+      <div class="panel-head">Defesa</div>
+      <div class="panel-body">
+        <div class="defesa-box">
+          <div class="defesa-shield" id="defesa_total">10</div>
+          <div class="defesa-formula" id="defesa_formula"></div>
+        </div>
+        <div class="row-fields">
+          <div class="field" style="max-width:170px;"><label>Armadura pesada?</label>
+            <select id="d_pesada"><option value="true">Sim (ignora Destreza)</option><option value="false">Não</option></select>
+          </div>
+          <div class="field"><label>Armadura (preset)</label><select id="d_armadura_preset"></select></div>
+          <div class="field" style="max-width:90px;"><label>Bônus</label><input type="number" id="d_armadura_bonus"></div>
+          <div class="field" style="max-width:90px;"><label>Penalid.</label><input type="number" id="d_armadura_pen"></div>
+        </div>
+        <div class="field"><label>Nome da armadura</label><input type="text" id="d_armadura_nome"></div>
+        <div class="row-fields">
+          <div class="field"><label>Escudo (preset)</label><select id="d_escudo_preset"></select></div>
+          <div class="field" style="max-width:90px;"><label>Bônus</label><input type="number" id="d_escudo_bonus"></div>
+          <div class="field" style="max-width:90px;"><label>Penalid.</label><input type="number" id="d_escudo_pen"></div>
+          <div class="field" style="max-width:100px;"><label>Outros</label><input type="number" id="d_outros"></div>
+        </div>
+        <div class="field"><label>Nome do escudo</label><input type="text" id="d_escudo_nome"></div>
+        <div class="hint" id="carga_penalidade_hint"></div>
+      </div>
     </div>
-    <div class="field"><label>Nome da Armadura</label><input type="text" id="d_armadura_nome"></div>
-    <div class="field" style="max-width:90px;"><label>Bônus Def.</label><input type="number" id="d_armadura_bonus"></div>
-    <div class="field" style="max-width:90px;"><label>Penalidade</label><input type="number" id="d_armadura_pen"></div>
+
+    <div class="panel">
+      <div class="panel-head">Proficiências</div>
+      <div class="panel-body tight"><textarea id="t_proficiencias"></textarea></div>
+    </div>
+
+    <div class="row-fields">
+      <div class="panel" style="flex:1;">
+        <div class="panel-head">Tamanho / Exp.</div>
+        <div class="panel-body tight">
+          <div class="field"><label>Tamanho</label>
+            <select id="m_tamanho"><option>Minúsculo</option><option>Pequeno</option><option>Médio</option><option>Grande</option><option>Enorme</option><option>Colossal</option></select>
+          </div>
+          <div class="field"><label>Experiência</label><input type="number" id="m_exp"></div>
+        </div>
+      </div>
+      <div class="panel" style="flex:1;">
+        <div class="panel-head">Deslocamento</div>
+        <div class="panel-body tight">
+          <div class="field"><label>Base (m)</label><input type="number" id="m_desloc_base"></div>
+          <div class="field"><label>Final</label><div class="total-box" id="desloc_total" style="font-size:1.1em;">9m</div></div>
+        </div>
+      </div>
+    </div>
+
   </div>
-  <div class="row-fields">
-    <div class="field">
-      <label>Escudo (predefinido)</label>
-      <select id="d_escudo_preset"></select>
+
+  <!-- ===== RIGHT COLUMN: PERICIAS ===== -->
+  <div class="col">
+    <div class="panel">
+      <div class="panel-head">Perícias</div>
+      <div class="panel-body tight">
+        <div class="hint">🔒 = só treinada · 🛡 = sofre penalidade de armadura</div>
+        <table>
+          <thead><tr><th>Perícia</th><th>Total</th><th colspan="4">= ½Nv + Atr + Trei + Outros</th><th>Trei.</th></tr></thead>
+          <tbody id="pericias_body"></tbody>
+        </table>
+      </div>
     </div>
-    <div class="field"><label>Nome do Escudo</label><input type="text" id="d_escudo_nome"></div>
-    <div class="field" style="max-width:90px;"><label>Bônus Def.</label><input type="number" id="d_escudo_bonus"></div>
-    <div class="field" style="max-width:90px;"><label>Penalidade</label><input type="number" id="d_escudo_pen"></div>
-    <div class="field" style="max-width:120px;"><label>Outros bônus Def.</label><input type="number" id="d_outros"></div>
   </div>
 </div>
 
-<!-- PERICIAS -->
-<div class="panel" style="margin-bottom:16px;">
-  <h2>Perícias</h2>
-  <div class="hint">Fórmula: ½ nível (arred. p/ baixo) + mod. atributo + treino (+2 / +4 no 7º / +6 no 15º) + penalidade de armadura (se aplicável) + outros. 🔒 = só pode ser usada treinada.</div>
-  <table>
-    <thead><tr><th>Treinada</th><th>Perícia</th><th>Atrib.</th><th>Outros</th><th>Total</th></tr></thead>
-    <tbody id="pericias_body"></tbody>
-  </table>
-</div>
-
-<!-- ATAQUES -->
-<div class="panel" style="margin-bottom:16px;">
-  <h2>Ataques</h2>
-  <table>
-    <thead><tr><th>Arma</th><th>Perícia</th><th>Outro Bônus</th><th>Bônus Total</th><th>Dano Base</th><th>+For?</th><th>Outro Dano</th><th>Dano Total</th><th>Crítico</th><th>Tipo</th><th>Alcance</th><th></th></tr></thead>
-    <tbody id="ataques_body"></tbody>
-  </table>
-  <button class="add-row-btn" onclick="addAtaque()">+ Adicionar ataque</button>
+<!-- EQUIPAMENTO -->
+<div class="panel" style="margin-top:16px;">
+  <div class="panel-head">Equipamento</div>
+  <div class="panel-body">
+    <table>
+      <thead><tr><th>Item</th><th style="width:70px;">Qtd.</th><th style="width:80px;">Peso un.</th><th style="width:80px;">Subtotal</th><th></th></tr></thead>
+      <tbody id="inventario_body"></tbody>
+    </table>
+    <button class="add-row-btn" onclick="addItem()">+ item</button>
+    <div class="row-fields" style="margin-top:12px;">
+      <div class="field" style="max-width:110px;"><label>T$</label><input type="number" id="tibares"></div>
+      <div class="field" style="max-width:110px;"><label>TO (=T$10)</label><input type="number" id="tibaresOuro"></div>
+      <div class="field" style="max-width:130px;"><label>Total em T$</label><div class="total-box" id="tibares_total">0</div></div>
+      <div class="field" style="max-width:150px;"><label>Carga usada</label><input type="text" id="carga_usada" disabled></div>
+      <div class="field" style="max-width:170px;"><label>Máx. sem penal. (For×3)</label><input type="text" id="carga_max" disabled></div>
+      <div class="field" style="max-width:170px;"><label>Levantar (For×10)</label><input type="text" id="carga_levantar" disabled></div>
+    </div>
+  </div>
 </div>
 
 <!-- PODERES -->
-<div class="panel" style="margin-bottom:16px;">
-  <h2>Poderes e Habilidades Especiais</h2>
-  <table>
-    <thead><tr><th style="width:22%;">Nome</th><th style="width:20%;">Fonte</th><th>Efeito</th><th></th></tr></thead>
-    <tbody id="poderes_body"></tbody>
-  </table>
-  <button class="add-row-btn" onclick="addPoder()">+ Adicionar poder</button>
-</div>
-
-<!-- INVENTARIO -->
-<div class="panel" style="margin-bottom:16px;">
-  <h2>Inventário</h2>
-  <table>
-    <thead><tr><th>Item</th><th style="width:80px;">Qtd.</th><th style="width:100px;">Peso (kg, un.)</th><th style="width:100px;">Subtotal</th><th></th></tr></thead>
-    <tbody id="inventario_body"></tbody>
-  </table>
-  <button class="add-row-btn" onclick="addItem()">+ Adicionar item</button>
-  <div class="row-fields" style="margin-top:12px;">
-    <div class="field" style="max-width:140px;"><label>Tibares (T$)</label><input type="number" id="tibares"></div>
-    <div class="field" style="max-width:160px;"><label>Carga usada (kg)</label><input type="text" id="carga_usada" disabled></div>
-    <div class="field" style="max-width:160px;"><label>Limite de carga (manual)</label><input type="number" id="limite_carga"></div>
+<div class="panel" style="margin-top:16px;">
+  <div class="panel-head">Poderes e Habilidades Especiais</div>
+  <div class="panel-body">
+    <table>
+      <thead><tr><th style="width:22%;">Nome</th><th style="width:20%;">Fonte</th><th>Efeito</th><th></th></tr></thead>
+      <tbody id="poderes_body"></tbody>
+    </table>
+    <button class="add-row-btn" onclick="addPoder()">+ poder</button>
   </div>
 </div>
 
-<!-- TEXTOS -->
-<div class="panel" style="margin-bottom:16px;">
-  <h2>Anotações</h2>
-  <div class="field"><label>Proficiências e outras características</label><textarea id="t_proficiencias"></textarea></div>
-  <div class="field"><label>Habilidades de Raça e Origem</label><textarea id="t_raca_origem"></textarea></div>
-  <div class="field"><label>Habilidades de Classe e Poderes</label><textarea id="t_classe_poderes"></textarea></div>
-  <div class="field"><label>Magias</label><textarea id="t_magias"></textarea></div>
-  <div class="field"><label>Anotações gerais</label><textarea id="t_anotacoes"></textarea></div>
+<div class="page-divider">página 2</div>
+
+<div class="cols">
+  <div class="col">
+    <div class="panel">
+      <div class="panel-head">Descrição</div>
+      <div class="panel-body tight"><textarea id="t_descricao" style="min-height:90px;"></textarea></div>
+    </div>
+    <div class="panel">
+      <div class="panel-head">Habilidades de Raça e Origem</div>
+      <div class="panel-body tight"><textarea id="t_raca_origem" style="min-height:110px;"></textarea></div>
+    </div>
+    <div class="panel">
+      <div class="panel-head">Habilidades de Classe e Poderes</div>
+      <div class="panel-body tight"><textarea id="t_classe_poderes" style="min-height:110px;"></textarea></div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="panel">
+      <div class="panel-head">Magias</div>
+      <div class="panel-body tight">
+        <div class="row-fields">
+          <div class="field" style="max-width:120px;"><label>Atributo-chave</label>
+            <select id="magia_attr"><option value="for">For</option><option value="des">Des</option><option value="con">Con</option><option value="int">Int</option><option value="sab">Sab</option><option value="car">Car</option></select>
+          </div>
+          <div class="field" style="max-width:90px;"><label>Mod.</label><div class="total-box" id="magia_mod">+0</div></div>
+          <div class="field" style="max-width:150px;"><label>Teste de Resistência</label><div class="total-box" id="magia_cd">10</div></div>
+        </div>
+        <div class="hint">CD = 10 + ½ nível + mod. atributo-chave</div>
+        <table>
+          <thead><tr><th>Magia</th><th>Escola</th><th>Exec.</th><th>Alc.</th><th>Área</th><th>Dur.</th><th>Resist.</th><th>Efeito</th><th></th></tr></thead>
+          <tbody id="magias_body"></tbody>
+        </table>
+        <button class="add-row-btn" onclick="addMagia()">+ magia</button>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-head">Anotações</div>
+      <div class="panel-body tight"><textarea id="t_anotacoes" style="min-height:120px;"></textarea></div>
+    </div>
+  </div>
 </div>
 
-<footer>Ficha gerada a partir das regras de Tormenta20 (livro do jogador). Cálculos automáticos: Perícias (pág. 114), Defesa (pág. 106), Armas &amp; Armaduras (pág. 141-149).</footer>
+<footer>Ficha gerada a partir das regras de Tormenta20 (livro do jogador). Cálculos automáticos: Perícias (pág. 114), Defesa (pág. 106), Carga (pág. 153), Armas &amp; Armaduras (pág. 141-149).</footer>
+
+</div>
 
 <script id="default-data" type="application/json">
 {
+  "_dataVersion": 2,
   "meta": {
     "nome": "Andor Duvane",
     "jogador": "",
     "raca": "Humano",
+    "naturalidade": "Doherimm",
     "origem": "Soldado",
     "classe": "Guerreiro",
     "nivel": 1,
@@ -306,15 +442,18 @@
     "vontade": { "treinada": false, "outroBonus": 0 }
   },
   "ataques": [
-    { "nome": "Espada Longa", "pericia": "luta", "outroBonus": 0, "dano": "1d8", "somaForca": true, "outroDano": 0, "critico": "19-20/x2", "tipo": "Corte", "alcance": "Corpo a corpo" },
-    { "nome": "Adaga", "pericia": "luta", "outroBonus": 0, "dano": "1d4", "somaForca": true, "outroDano": 0, "critico": "19-20/x2", "tipo": "Corte/Perfuração", "alcance": "Corpo a corpo / Curto (arremesso)" }
+    { "nome": "Espada Longa", "pericia": "luta", "outroBonus": 1, "dano": "1d8", "somaForca": true, "outroDano": 0, "critico": "19-20/x2", "tipo": "Corte", "alcance": "Corpo a corpo" },
+    { "nome": "Adaga", "pericia": "luta", "outroBonus": 1, "dano": "1d4", "somaForca": true, "outroDano": 0, "critico": "19-20/x2", "tipo": "Corte/Perfuração", "alcance": "Corpo a corpo / Curto (arremesso)" },
+    { "nome": "Desarmado (Despertar)", "pericia": "luta", "outroBonus": 1, "dano": "1d8", "somaForca": true, "outroDano": 0, "critico": "19-20/x2", "tipo": "Impacto — ignora RD mundana", "alcance": "Corpo a corpo" }
   ],
   "poderes": [
     { "nome": "Estilo de Arma e Escudo", "fonte": "Raça (Humano — Versátil)", "efeito": "+2 na Defesa fornecida pelo escudo." },
     { "nome": "Bloqueio com Escudo", "fonte": "Origem (Soldado)", "efeito": "1 PM ao ser atingido: RD contra aquele ataque = bônus de Defesa do escudo." },
     { "nome": "Influência Militar", "fonte": "Origem (Soldado, poder único)", "efeito": "Hospedagem e informação em qualquer acampamento ou base militar, para você e aliados." },
     { "nome": "Ataque Especial", "fonte": "Classe (Guerreiro)", "efeito": "Gasta PM para +4 no teste de ataque ou na rolagem de dano (escala com o nível)." },
-    { "nome": "Durão", "fonte": "Classe (Guerreiro, 3º nível)", "efeito": "Gasta 2 PM para reduzir o dano sofrido à metade." }
+    { "nome": "Durão", "fonte": "Classe (Guerreiro, 3º nível)", "efeito": "Gasta 2 PM para reduzir o dano sofrido à metade." },
+    { "nome": "Despertar", "fonte": "Concedida pelo mestre (homebrew)", "efeito": "Emite uma luz (cor à escolha). +1 no teste de ataque (armado e desarmado). Ataque desarmado causa o mesmo dano do ataque armado e ignora Resistência a Dano mundana." },
+    { "nome": "Lutar em Formação", "fonte": "Talento Nativo — Mundo de Arton (edição antiga, adaptado p/ T20)", "efeito": "Quando adjacente a um aliado, +1 em testes de ataque e na Defesa. Pré-requisito (nativo de Doherimm, Tapista ou Yuden) cumprido: Andor é natural de Doherimm." }
   ],
   "inventario": [
     { "item": "Espada Longa", "qtd": 1, "peso": 2 },
@@ -328,12 +467,14 @@
     { "item": "Insígnia do exército", "qtd": 1, "peso": 0 }
   ],
   "tibares": 14,
-  "limiteCargaManual": null,
+  "tibaresOuro": 0,
+  "magiasConfig": { "atributoChave": "int" },
+  "listaMagias": [],
   "textos": {
+    "descricao": "Natural de Doherimm, o complexo subterrâneo dos anões — cresceu como um dos poucos humanos daquelas cavernas, treinado desde cedo a lutar em formação fechada ao lado de guardas anões. Essa origem é a base do talento nativo Lutar em Formação. Levou esse treinamento pro Reinado quando se alistou como soldado.",
     "proficiencias": "Armas marciais, armaduras pesadas, escudos.",
     "habilidadesRacaOrigem": "Humano: +2 em três atributos diferentes (Força, Constituição, Sabedoria); Versátil (2 perícias à escolha, pode trocar uma por poder geral). Origem Soldado: itens (arma marcial, uniforme militar, insígnia); Influência Militar; um poder de combate à escolha.",
     "habilidadesClassePoderes": "Guerreiro: PV 20+Con (+5+Con/nível); PM 3/nível; Ataque Especial; Poder de Guerreiro a cada nível par a partir do 2º; Durão (3º), Ataque Extra (6º), Campeão (20º).",
-    "magias": "",
     "anotacoes": "Conceito: \"Protetor Imortal\" — guerreiro silencioso e disciplinado que absorve dano destinado aos aliados."
   }
 }
@@ -405,17 +546,45 @@ function getDefaultData(){
   return JSON.parse(document.getElementById('default-data').textContent);
 }
 
+let pendingDefaultData = null;
+
 function loadData(){
+  const def = getDefaultData();
   const saved = localStorage.getItem('t20_ficha_data');
   if(saved){
-    try{ DATA = JSON.parse(saved); return; }catch(e){}
+    try{
+      DATA = JSON.parse(saved);
+      const savedVersion = DATA._dataVersion || 0;
+      const defVersion = def._dataVersion || 0;
+      const dismissedVersion = Number(localStorage.getItem('t20_ficha_dismissed_version') || 0);
+      if(defVersion > savedVersion && defVersion > dismissedVersion){
+        pendingDefaultData = def;
+        document.getElementById('updateBanner').style.display = 'flex';
+      }
+      return;
+    }catch(e){}
   }
-  DATA = getDefaultData();
+  DATA = def;
+}
+
+function applyDefaultUpdate(){
+  if(!pendingDefaultData) return;
+  DATA = pendingDefaultData;
+  pendingDefaultData = null;
+  document.getElementById('updateBanner').style.display = 'none';
+  renderAll();
+  saveData();
+}
+
+function dismissUpdateBanner(){
+  if(pendingDefaultData) localStorage.setItem('t20_ficha_dismissed_version', pendingDefaultData._dataVersion || 0);
+  document.getElementById('updateBanner').style.display = 'none';
 }
 
 function resetToDefault(){
   if(!confirm('Restaurar os dados originais do Andor? Isso substitui os dados atuais na tela (o arquivo JSON exportado não é afetado).')) return;
   DATA = getDefaultData();
+  document.getElementById('updateBanner').style.display = 'none';
   renderAll();
   saveData();
 }
@@ -458,7 +627,7 @@ document.getElementById('fileInput').addEventListener('change', function(e){
 
 // ---------- RENDER ----------
 
-function fillPresetSelect(sel, list, current){
+function fillPresetSelect(sel, list){
   sel.innerHTML = '';
   list.forEach((it, i)=>{
     const opt = document.createElement('option');
@@ -471,7 +640,8 @@ function fillPresetSelect(sel, list, current){
 
 function renderAll(){
   const d = DATA;
-  document.getElementById('sheetTitle').textContent = d.meta.nome ? ('Ficha T20 — ' + d.meta.nome) : 'Ficha T20';
+  document.getElementById('sheetTitle').textContent = 'Tormenta';
+  document.title = d.meta.nome ? ('Ficha T20 — ' + d.meta.nome) : 'Ficha T20';
 
   document.getElementById('m_nome').value = d.meta.nome||'';
   document.getElementById('m_jogador').value = d.meta.jogador||'';
@@ -505,21 +675,23 @@ function renderAll(){
   document.getElementById('d_escudo_pen').value = d.defesa.escudo.penalidade;
   document.getElementById('d_outros').value = d.defesa.outrosBonus||0;
 
-  fillPresetSelect(document.getElementById('d_armadura_preset'), ARMADURAS, d.defesa.armadura);
-  fillPresetSelect(document.getElementById('d_escudo_preset'), ESCUDOS, d.defesa.escudo);
+  fillPresetSelect(document.getElementById('d_armadura_preset'), ARMADURAS);
+  fillPresetSelect(document.getElementById('d_escudo_preset'), ESCUDOS);
 
   renderPericias();
   renderAtaques();
   renderPoderes();
   renderInventario();
+  renderMagias();
 
   document.getElementById('tibares').value = d.tibares||0;
-  document.getElementById('limite_carga').value = d.limiteCargaManual||'';
+  document.getElementById('tibaresOuro').value = d.tibaresOuro||0;
+  document.getElementById('magia_attr').value = (d.magiasConfig && d.magiasConfig.atributoChave) || 'int';
 
+  document.getElementById('t_descricao').value = (d.textos && d.textos.descricao) || '';
   document.getElementById('t_proficiencias').value = d.textos.proficiencias||'';
   document.getElementById('t_raca_origem').value = d.textos.habilidadesRacaOrigem||'';
   document.getElementById('t_classe_poderes').value = d.textos.habilidadesClassePoderes||'';
-  document.getElementById('t_magias').value = d.textos.magias||'';
   document.getElementById('t_anotacoes').value = d.textos.anotacoes||'';
 
   recalc();
@@ -533,11 +705,13 @@ function renderPericias(){
     const tr = document.createElement('tr');
     tr.id = 'peri_row_' + p.id;
     tr.innerHTML = `
-      <td style="text-align:center;"><input type="checkbox" data-peri="${p.id}" class="peri-trained" ${sd.treinada?'checked':''}></td>
-      <td class="skill-name">${p.nome}${p.soTreinada?'<span class="badge warn">🔒 só treinada</span>':''}${p.penArmadura?'<span class="badge">armadura</span>':''}</td>
-      <td style="text-transform:uppercase; color:var(--muted); font-family:'Segoe UI',sans-serif; font-size:0.8em;">${p.attr}</td>
+      <td class="skill-name">${p.nome}${p.soTreinada?'<span class="badge warn">🔒</span>':''}${p.penArmadura?'<span class="badge">🛡</span>':''}</td>
+      <td><span class="total-box" id="peri_total_${p.id}">+0</span></td>
+      <td class="breakdown" id="peri_half_${p.id}">0</td>
+      <td class="breakdown" id="peri_attr_${p.id}">+0</td>
+      <td class="breakdown" id="peri_trei_${p.id}">+0</td>
       <td><input type="number" class="small-input peri-outro" data-peri="${p.id}" value="${sd.outroBonus||0}"></td>
-      <td class="total-cell" id="peri_total_${p.id}">+0</td>
+      <td style="text-align:center;"><input type="checkbox" data-peri="${p.id}" class="peri-trained" ${sd.treinada?'checked':''}></td>
     `;
     tbody.appendChild(tr);
   });
@@ -553,22 +727,28 @@ function renderAtaques(){
   DATA.ataques.forEach((atk, i)=>{
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td><input type="text" class="atk-nome" data-i="${i}" value="${atk.nome}" style="width:110px;"></td>
+      <td><input type="text" class="atk-nome" data-i="${i}" value="${atk.nome}" style="width:90px;"></td>
       <td>
-        <select class="atk-pericia" data-i="${i}" style="width:100px;">
-          <option value="luta" ${atk.pericia==='luta'?'selected':''}>Luta</option>
-          <option value="pontaria" ${atk.pericia==='pontaria'?'selected':''}>Pontaria</option>
-        </select>
+        <span class="total-box" id="atk_bonus_${i}">+0</span>
+        <div style="font-size:0.7em; margin-top:2px;">
+          <select class="atk-pericia" data-i="${i}" style="width:64px; padding:1px;">
+            <option value="luta" ${atk.pericia==='luta'?'selected':''}>Luta</option>
+            <option value="pontaria" ${atk.pericia==='pontaria'?'selected':''}>Pont.</option>
+          </select>
+          <input type="number" class="small-input atk-outro" data-i="${i}" value="${atk.outroBonus||0}" style="width:32px;" title="outro bônus">
+        </div>
       </td>
-      <td><input type="number" class="small-input atk-outro" data-i="${i}" value="${atk.outroBonus||0}"></td>
-      <td class="total-cell" id="atk_bonus_${i}">+0</td>
-      <td><input type="text" class="atk-dano small-input" data-i="${i}" value="${atk.dano}" style="width:60px;"></td>
-      <td style="text-align:center;"><input type="checkbox" class="atk-somafor" data-i="${i}" ${atk.somaForca?'checked':''}></td>
-      <td><input type="number" class="small-input atk-outrodano" data-i="${i}" value="${atk.outroDano||0}"></td>
-      <td class="total-cell" id="atk_dano_${i}">-</td>
-      <td><input type="text" class="atk-critico" data-i="${i}" value="${atk.critico||''}" style="width:75px;"></td>
-      <td><input type="text" class="atk-tipo" data-i="${i}" value="${atk.tipo||''}" style="width:80px;"></td>
-      <td><input type="text" class="atk-alcance" data-i="${i}" value="${atk.alcance||''}" style="width:110px;"></td>
+      <td>
+        <span class="total-box" id="atk_dano_${i}">-</span>
+        <div style="font-size:0.7em; margin-top:2px;">
+          <input type="text" class="atk-dano small-input" data-i="${i}" value="${atk.dano}" style="width:38px;">
+          <input type="number" class="small-input atk-outrodano" data-i="${i}" value="${atk.outroDano||0}" style="width:28px;" title="outro dano">
+          <label style="display:inline-block;"><input type="checkbox" class="atk-somafor" data-i="${i}" ${atk.somaForca?'checked':''} style="width:12px;height:12px;vertical-align:middle;"> For</label>
+        </div>
+      </td>
+      <td><input type="text" class="atk-critico small-input" data-i="${i}" value="${atk.critico||''}" style="width:60px;"></td>
+      <td><input type="text" class="atk-tipo small-input" data-i="${i}" value="${atk.tipo||''}" style="width:60px;"></td>
+      <td><input type="text" class="atk-alcance small-input" data-i="${i}" value="${atk.alcance||''}" style="width:80px;"></td>
       <td><button class="del-btn" onclick="removeAtaque(${i})">✕</button></td>
     `;
     tbody.appendChild(tr);
@@ -615,7 +795,7 @@ function renderInventario(){
       <td><input type="text" class="inv-item" data-i="${i}" value="${it.item}"></td>
       <td><input type="number" class="small-input inv-qtd" data-i="${i}" value="${it.qtd}"></td>
       <td><input type="number" class="small-input inv-peso" data-i="${i}" value="${it.peso}"></td>
-      <td class="total-cell" id="inv_sub_${i}">0</td>
+      <td><span class="total-box" id="inv_sub_${i}">0</span></td>
       <td><button class="del-btn" onclick="removeItem(${i})">✕</button></td>
     `;
     tbody.appendChild(tr);
@@ -630,6 +810,26 @@ function addItem(){
   renderInventario(); recalc();
 }
 function removeItem(i){ collectFromForm(); DATA.inventario.splice(i,1); renderInventario(); recalc(); }
+
+function renderMagias(){
+  const tbody = document.getElementById('magias_body');
+  tbody.innerHTML = '';
+  (DATA.listaMagias||[]).forEach((m,i)=>{
+    const tr = document.createElement('tr');
+    const fields = ['nome','escola','execucao','alcance','area','duracao','resistencia','efeito'];
+    tr.innerHTML = fields.map(f=>`<td><input type="text" class="mag-${f}" data-i="${i}" value="${(m[f]||'').replace(/"/g,'&quot;')}" style="width:100%; min-width:50px;"></td>`).join('')
+      + `<td><button class="del-btn" onclick="removeMagia(${i})">✕</button></td>`;
+    tbody.appendChild(tr);
+  });
+  tbody.querySelectorAll('input').forEach(el=> el.addEventListener('input', recalc));
+}
+function addMagia(){
+  collectFromForm();
+  if(!DATA.listaMagias) DATA.listaMagias = [];
+  DATA.listaMagias.push({nome:"",escola:"",execucao:"",alcance:"",area:"",duracao:"",resistencia:"",efeito:""});
+  renderMagias();
+}
+function removeMagia(i){ collectFromForm(); DATA.listaMagias.splice(i,1); renderMagias(); }
 
 // ---------- COLLECT (DOM -> DATA) ----------
 function collectFromForm(){
@@ -704,28 +904,39 @@ function collectFromForm(){
     d.inventario[i].peso = Number(tr.querySelector('.inv-peso').value)||0;
   });
 
-  d.tibares = Number(document.getElementById('tibares').value)||0;
-  const lc = document.getElementById('limite_carga').value;
-  d.limiteCargaManual = lc === '' ? null : Number(lc);
+  if(!d.listaMagias) d.listaMagias = [];
+  document.querySelectorAll('#magias_body tr').forEach((tr,i)=>{
+    if(!d.listaMagias[i]) return;
+    ['nome','escola','execucao','alcance','area','duracao','resistencia','efeito'].forEach(f=>{
+      const el = tr.querySelector('.mag-'+f);
+      if(el) d.listaMagias[i][f] = el.value;
+    });
+  });
+  if(!d.magiasConfig) d.magiasConfig = {atributoChave:'int'};
+  d.magiasConfig.atributoChave = document.getElementById('magia_attr').value;
 
+  d.tibares = Number(document.getElementById('tibares').value)||0;
+  d.tibaresOuro = Number(document.getElementById('tibaresOuro').value)||0;
+
+  if(!d.textos) d.textos = {};
+  d.textos.descricao = document.getElementById('t_descricao').value;
   d.textos.proficiencias = document.getElementById('t_proficiencias').value;
   d.textos.habilidadesRacaOrigem = document.getElementById('t_raca_origem').value;
   d.textos.habilidadesClassePoderes = document.getElementById('t_classe_poderes').value;
-  d.textos.magias = document.getElementById('t_magias').value;
   d.textos.anotacoes = document.getElementById('t_anotacoes').value;
 }
 
 // ---------- CALC ----------
-function periciaTotal(p, sd, nivel, attrMod){
+function periciaTotal(p, sd, nivel, attrMod, penalidadeArmaduraExtra){
   const metadeNivel = Math.floor(nivel/2);
   let treino = 0;
   if(sd.treinada){ treino = nivel>=15?6:(nivel>=7?4:2); }
   let penalidade = 0;
-  if(p.penArmadura){ penalidade = (DATA.defesa.armadura.penalidade||0) + (DATA.defesa.escudo.penalidade||0); }
+  if(p.penArmadura){ penalidade = (DATA.defesa.armadura.penalidade||0) + (DATA.defesa.escudo.penalidade||0) + penalidadeArmaduraExtra; }
   let tamanhoMod = 0;
-  if(p.id==='acrobacia' || p.id==='furtividade'){ /* pode-se usar mod de tamanho tbm, mas oficialmente é só Furtividade */ }
   if(p.id==='furtividade'){ tamanhoMod = TAMANHOS[DATA.meta.tamanho] ?? 0; }
-  return metadeNivel + attrMod + treino + penalidade + tamanhoMod + (sd.outroBonus||0);
+  const total = metadeNivel + attrMod + treino + penalidade + tamanhoMod + (sd.outroBonus||0);
+  return {total, metadeNivel, treino};
 }
 
 function recalc(){
@@ -743,6 +954,12 @@ function recalc(){
   document.getElementById('mod_int').textContent = fmt(mods.int);
   document.getElementById('mod_sab').textContent = fmt(mods.sab);
   document.getElementById('mod_car').textContent = fmt(mods.car);
+  document.getElementById('base_for').textContent = d.atributos.for;
+  document.getElementById('base_des').textContent = d.atributos.des;
+  document.getElementById('base_con').textContent = d.atributos.con;
+  document.getElementById('base_int').textContent = d.atributos.int;
+  document.getElementById('base_sab').textContent = d.atributos.sab;
+  document.getElementById('base_car').textContent = d.atributos.car;
 
   // PV / PM
   const cc = d.classeConfig || {pvBase:20, pvPorNivel:5, pmPorNivel:3};
@@ -750,6 +967,22 @@ function recalc(){
   const pmMax = cc.pmPorNivel * nivel;
   document.getElementById('pv_max').textContent = pvMax;
   document.getElementById('pm_max').textContent = pmMax;
+
+  // Carga (pág. 153): For x3 sem penalidade, For x10 máximo absoluto
+  let cargaTotal = 0;
+  d.inventario.forEach((it)=>{ cargaTotal += (it.qtd||0) * (it.peso||0); });
+  const cargaSemPenalidade = d.atributos.for * 3;
+  const cargaMaxAbsoluta = d.atributos.for * 10;
+  const sobrecarregado = cargaTotal > cargaSemPenalidade;
+  const penalidadeArmaduraExtra = sobrecarregado ? -2 : 0;
+  const deslocPenalidadeCarga = sobrecarregado ? 3 : 0;
+
+  document.getElementById('carga_max').value = cargaSemPenalidade + ' kg';
+  document.getElementById('carga_levantar').value = cargaMaxAbsoluta + ' kg';
+  const hint = document.getElementById('carga_penalidade_hint');
+  hint.textContent = sobrecarregado
+    ? `⚠ Sobrecarregado: carga (${Math.round(cargaTotal*100)/100}kg) acima de ${cargaSemPenalidade}kg — penalidade de armadura extra −2 e deslocamento −3m já aplicados abaixo.`
+    : '';
 
   // Defesa
   const defBase = 10;
@@ -762,21 +995,26 @@ function recalc(){
   // Deslocamento
   let desloc = d.meta.deslocamentoBase || 9;
   if(d.defesa.armaduraPesada) desloc = Math.max(0, desloc - 3);
+  desloc = Math.max(0, desloc - deslocPenalidadeCarga);
   document.getElementById('desloc_total').textContent = desloc + 'm';
 
   // Pericias
   let periValues = {};
   PERICIAS.forEach(p=>{
     const sd = d.pericias[p.id] || {treinada:false, outroBonus:0};
-    const total = periciaTotal(p, sd, nivel, mods[p.attr]);
-    periValues[p.id] = total;
+    const r = periciaTotal(p, sd, nivel, mods[p.attr], penalidadeArmaduraExtra);
+    periValues[p.id] = r.total;
     const cell = document.getElementById('peri_total_'+p.id);
-    if(cell) cell.textContent = fmt(total);
+    if(cell) cell.textContent = fmt(r.total);
+    const half = document.getElementById('peri_half_'+p.id);
+    if(half) half.textContent = r.metadeNivel;
+    const attrCell = document.getElementById('peri_attr_'+p.id);
+    if(attrCell) attrCell.textContent = fmt(mods[p.attr]) + ' ' + p.attr.charAt(0).toUpperCase()+p.attr.slice(1);
+    const treiCell = document.getElementById('peri_trei_'+p.id);
+    if(treiCell) treiCell.textContent = fmt(r.treino);
     const row = document.getElementById('peri_row_'+p.id);
     if(row) row.classList.toggle('trained', !!sd.treinada);
   });
-
-  document.getElementById('iniciativa_total').textContent = fmt(periValues['iniciativa']||0);
 
   // Ataques
   d.ataques.forEach((atk, i)=>{
@@ -791,14 +1029,22 @@ function recalc(){
   });
 
   // Inventario
-  let cargaTotal = 0;
   d.inventario.forEach((it,i)=>{
     const sub = (it.qtd||0) * (it.peso||0);
-    cargaTotal += sub;
     const cell = document.getElementById('inv_sub_'+i);
     if(cell) cell.textContent = (Math.round(sub*100)/100) + 'kg';
   });
   document.getElementById('carga_usada').value = (Math.round(cargaTotal*100)/100) + ' kg';
+
+  // Dinheiro
+  const totalTibares = (d.tibares||0) + (d.tibaresOuro||0)*10;
+  document.getElementById('tibares_total').textContent = totalTibares;
+
+  // Magias
+  const magAttr = (d.magiasConfig && d.magiasConfig.atributoChave) || 'int';
+  const magMod = mods[magAttr];
+  document.getElementById('magia_mod').textContent = fmt(magMod);
+  document.getElementById('magia_cd').textContent = 10 + Math.floor(nivel/2) + magMod;
 
   saveDebounced();
 }
@@ -831,8 +1077,8 @@ document.getElementById('d_escudo_preset').addEventListener('change', function()
  'a_for','a_des','a_con','a_int','a_sab','a_car',
  'pv_atual','pv_temp','pm_atual','pm_temp',
  'd_pesada','d_armadura_nome','d_armadura_bonus','d_armadura_pen','d_escudo_nome','d_escudo_bonus','d_escudo_pen','d_outros',
- 'tibares','limite_carga',
- 't_proficiencias','t_raca_origem','t_classe_poderes','t_magias','t_anotacoes'
+ 'tibares','tibaresOuro','magia_attr',
+ 't_descricao','t_proficiencias','t_raca_origem','t_classe_poderes','t_anotacoes'
 ].forEach(id=>{
   const el = document.getElementById(id);
   el.addEventListener('input', recalc);

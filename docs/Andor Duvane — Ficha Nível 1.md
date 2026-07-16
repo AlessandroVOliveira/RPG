@@ -1,6 +1,6 @@
 # Andor Duvane — Ficha de Nível 1 (pronta para transcrição)
 
-Guerreiro Humano · Origem: Soldado · "Protetor Imortal"
+Guerreiro Humano de Doherimm · Origem: Soldado · "Protetor Imortal"
 
 ---
 
@@ -10,6 +10,7 @@ Guerreiro Humano · Origem: Soldado · "Protetor Imortal"
 |---|---|
 | Nome | Andor Duvane |
 | Raça | Humano |
+| Naturalidade | Doherimm (complexo subterrâneo dos anões) |
 | Classe | Guerreiro |
 | Nível | 1 |
 | Origem | Soldado |
@@ -38,7 +39,7 @@ Guerreiro Humano · Origem: Soldado · "Protetor Imortal"
 |---|---|---|
 | **PV** | 20 + mod. Con (+3) | **23** |
 | **PM** | 3 (nível 1) | **3** |
-| **Defesa** | 10 + Brunea (+5) + Escudo leve com Estilo de Arma e Escudo (+3) — *sem bônus de Destreza: armadura pesada zera esse bônus* | **18** |
+| **Defesa** | 10 + Brunea (+5) + Escudo leve com Estilo de Arma e Escudo (+3) — *sem bônus de Destreza: armadura pesada zera esse bônus* | **18** (**19** adjacente a um aliado, com Lutar em Formação) |
 
 ---
 
@@ -74,6 +75,8 @@ Guerreiro Humano · Origem: Soldado · "Protetor Imortal"
 | Estilo de Arma e Escudo | Humano (Versátil) | +2 na Defesa do escudo |
 | Bloqueio com Escudo | Origem (Soldado) | 1 PM ao ser atingido → RD = bônus de Defesa do escudo |
 | Influência Militar | Origem (Soldado, poder único) | Hospedagem/informação em bases militares |
+| **Despertar** | Concedida pelo mestre (homebrew) | Emite luz (cor à escolha). +1 no teste de ataque, armado e desarmado. Ataque desarmado causa o mesmo dano do armado e ignora Resistência a Dano mundana. |
+| **Lutar em Formação** | Talento Nativo — livro de Arton (edição antiga, adaptado), justificado pela naturalidade de Doherimm | Quando adjacente a um aliado, +1 em testes de ataque e na Defesa. |
 
 ---
 
@@ -101,10 +104,13 @@ Guerreiro Humano · Origem: Soldado · "Protetor Imortal"
 
 ## Ataques
 
+Despertar dá +1 no teste de ataque em qualquer ataque, armado ou desarmado — já somado abaixo.
+
 | Arma | Teste de Ataque | Dano | Crítico | Observações |
 |---|---|---|---|---|
-| Espada Longa | 1d20 + **6** (Luta) | 1d8+4 | 19-20/x2 | Corpo a corpo, uma mão, corte |
-| Adaga | 1d20 + **6** (Luta) | 1d4+4 | 19-20/x2 | Corpo a corpo leve; pode arremessar em alcance curto |
+| Espada Longa | 1d20 + **7** (Luta +6, Despertar +1) | 1d8+4 | 19-20/x2 | Corpo a corpo, uma mão, corte |
+| Adaga | 1d20 + **7** (Luta +6, Despertar +1) | 1d4+4 | 19-20/x2 | Corpo a corpo leve; pode arremessar em alcance curto |
+| Desarmado (Despertar) | 1d20 + **7** (Luta +6, Despertar +1) | 1d8+4 | 19-20/x2 | Mesmo dano da Espada Longa (regra do Despertar); ignora RD mundana |
 
 **Ataque Especial:** 1 PM → +4 no teste de ataque OU na rolagem de dano com qualquer ataque.
 

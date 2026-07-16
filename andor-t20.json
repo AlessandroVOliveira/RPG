@@ -1,8 +1,10 @@
 {
+  "_dataVersion": 2,
   "meta": {
     "nome": "Andor Duvane",
     "jogador": "",
     "raca": "Humano",
+    "naturalidade": "Doherimm",
     "origem": "Soldado",
     "classe": "Guerreiro",
     "nivel": 1,
@@ -64,15 +66,18 @@
     "vontade": { "treinada": false, "outroBonus": 0 }
   },
   "ataques": [
-    { "nome": "Espada Longa", "pericia": "luta", "outroBonus": 0, "dano": "1d8", "somaForca": true, "outroDano": 0, "critico": "19-20/x2", "tipo": "Corte", "alcance": "Corpo a corpo" },
-    { "nome": "Adaga", "pericia": "luta", "outroBonus": 0, "dano": "1d4", "somaForca": true, "outroDano": 0, "critico": "19-20/x2", "tipo": "Corte/Perfuração", "alcance": "Corpo a corpo / Curto (arremesso)" }
+    { "nome": "Espada Longa", "pericia": "luta", "outroBonus": 1, "dano": "1d8", "somaForca": true, "outroDano": 0, "critico": "19-20/x2", "tipo": "Corte", "alcance": "Corpo a corpo" },
+    { "nome": "Adaga", "pericia": "luta", "outroBonus": 1, "dano": "1d4", "somaForca": true, "outroDano": 0, "critico": "19-20/x2", "tipo": "Corte/Perfuração", "alcance": "Corpo a corpo / Curto (arremesso)" },
+    { "nome": "Desarmado (Despertar)", "pericia": "luta", "outroBonus": 1, "dano": "1d8", "somaForca": true, "outroDano": 0, "critico": "19-20/x2", "tipo": "Impacto — ignora RD mundana", "alcance": "Corpo a corpo" }
   ],
   "poderes": [
     { "nome": "Estilo de Arma e Escudo", "fonte": "Raça (Humano — Versátil)", "efeito": "+2 na Defesa fornecida pelo escudo." },
     { "nome": "Bloqueio com Escudo", "fonte": "Origem (Soldado)", "efeito": "1 PM ao ser atingido: RD contra aquele ataque = bônus de Defesa do escudo." },
     { "nome": "Influência Militar", "fonte": "Origem (Soldado, poder único)", "efeito": "Hospedagem e informação em qualquer acampamento ou base militar, para você e aliados." },
     { "nome": "Ataque Especial", "fonte": "Classe (Guerreiro)", "efeito": "Gasta PM para +4 no teste de ataque ou na rolagem de dano (escala com o nível)." },
-    { "nome": "Durão", "fonte": "Classe (Guerreiro, 3º nível)", "efeito": "Gasta 2 PM para reduzir o dano sofrido à metade." }
+    { "nome": "Durão", "fonte": "Classe (Guerreiro, 3º nível)", "efeito": "Gasta 2 PM para reduzir o dano sofrido à metade." },
+    { "nome": "Despertar", "fonte": "Concedida pelo mestre (homebrew)", "efeito": "Emite uma luz (cor à escolha). +1 no teste de ataque (armado e desarmado). Ataque desarmado causa o mesmo dano do ataque armado e ignora Resistência a Dano mundana." },
+    { "nome": "Lutar em Formação", "fonte": "Talento Nativo — Mundo de Arton (edição antiga, adaptado p/ T20)", "efeito": "Quando adjacente a um aliado, +1 em testes de ataque e na Defesa. Pré-requisito (nativo de Doherimm, Tapista ou Yuden) cumprido: Andor é natural de Doherimm." }
   ],
   "inventario": [
     { "item": "Espada Longa", "qtd": 1, "peso": 2 },
@@ -86,12 +91,14 @@
     { "item": "Insígnia do exército", "qtd": 1, "peso": 0 }
   ],
   "tibares": 14,
-  "limiteCargaManual": null,
+  "tibaresOuro": 0,
+  "magiasConfig": { "atributoChave": "int" },
+  "listaMagias": [],
   "textos": {
+    "descricao": "Natural de Doherimm, o complexo subterrâneo dos anões — cresceu como um dos poucos humanos daquelas cavernas, treinado desde cedo a lutar em formação fechada ao lado de guardas anões. Essa origem é a base do talento nativo Lutar em Formação. Levou esse treinamento pro Reinado quando se alistou como soldado.",
     "proficiencias": "Armas marciais, armaduras pesadas, escudos.",
     "habilidadesRacaOrigem": "Humano: +2 em três atributos diferentes (Força, Constituição, Sabedoria); Versátil (2 perícias à escolha, pode trocar uma por poder geral). Origem Soldado: itens (arma marcial, uniforme militar, insígnia); Influência Militar; um poder de combate à escolha.",
     "habilidadesClassePoderes": "Guerreiro: PV 20+Con (+5+Con/nível); PM 3/nível; Ataque Especial; Poder de Guerreiro a cada nível par a partir do 2º; Durão (3º), Ataque Extra (6º), Campeão (20º).",
-    "magias": "",
     "anotacoes": "Conceito: \"Protetor Imortal\" — guerreiro silencioso e disciplinado que absorve dano destinado aos aliados."
   }
 }

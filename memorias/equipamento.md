@@ -60,6 +60,20 @@ Personagens de 1º nível começam com os itens da origem **+**:
 
 Não extraída em detalhe — só a regra do 1º nível foi confirmada (T$4d6). Se for criar um personagem de nível mais alto, reabrir a pág. 150-151 do livro.
 
+## Carga (pág. 153)
+
+```
+Carga sem penalidade = Força × 3 (kg)
+Carga máxima (erguer) = Força × 10 (kg)
+```
+Acima do primeiro limite (mas até o segundo): penalidade de armadura extra de −2 e deslocamento reduzido em 3m. Acima do segundo limite: não é possível carregar. Ex.: For 15 → carrega até 45kg sem penalidade, até 150kg com penalidade, nunca mais que 150kg.
+
+Confirmado tanto no texto do livro quanto na ficha oficial preenchível (`manuais/T20 - Ficha Editável.pdf`), que rotula os campos como "Carga Máxima (3x Força)" e "Levantar (até 10x Força)".
+
+## Dinheiro: T$ e TO (pág. 151)
+
+O Tibar de Ouro (TO) vale **T$ 10**. A ficha oficial tem os dois campos separados (T$ e TO).
+
 ## Itens & Serviços (Tabela 3-5, pág. 151) — alguns confirmados
 
 | Item | Preço | Peso |

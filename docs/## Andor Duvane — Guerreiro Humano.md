@@ -69,9 +69,19 @@ Das 34 origens do livro (Tabela 1-18, pág. 85-95), **Soldado** é a que mais ba
 | 19 | — | **Vitalidade** *(pré-req: Con 13 ✓)* | Geral · Destino | +1 PV por nível de personagem, +2 em Fortitude |
 | 20 | **Campeão** (automático — dano de todos os ataques sobe um passo; recupera metade dos PM gastos em Ataque Especial/Golpe Pessoal ao acertar) | **Romper Resistências** | Guerreiro | Ao fazer Ataque Especial, gasta 2 PM extras para ignorar qualquer resistência a dano do alvo |
 
-**Sobre "Despertar" e "Protetor Imortal":** não encontrei esses termos em nenhum dos dois manuais (livro do jogador nem livro de Arton) — são elementos próprios da build/história do Andor, fora das regras oficiais. Não mexi neles. Se quiser um poder *oficial* que reforce o lado desarmado, existe **Estilo Desarmado** (Geral · Combate, pré-req treinado em Luta ✓): ataques desarmados passam a causar 1d6 e podem ser letais ou não à vontade — dá pra encaixar no lugar de qualquer "Especialização em Arma" acima se preferir focar nisso.
+**Sobre "Protetor Imortal":** não é um termo do livro — é o conceito narrativo da build do Andor (guerreiro silencioso que absorve dano dos aliados), sem mecânica própria além do que já está na tabela acima.
 
-**Fontes:** Tabela 1-12 "O Guerreiro" e lista de Poderes de Guerreiro (Tormenta 20.pdf, "Construção de Personagem", pág. 64-66); Poderes de Combate e Poderes de Destino (Tormenta 20.pdf, "Perícias & Poderes", pág. 123-129); Origens (Tormenta 20.pdf, pág. 85-95); Humano (Tormenta 20.pdf, pág. 19).
+**Despertar (habilidade concedida pelo mestre — homebrew, não é regra oficial de nenhum manual):**
+- Emite uma luz (cor à escolha do jogador).
+- **+1 no teste de ataque**, tanto em ataques armados quanto desarmados.
+- Ataque desarmado passa a causar **o mesmo dano do ataque armado**.
+- O ataque desarmado **ignora Resistência a Dano mundana**.
+
+Isso é mais forte que o poder oficial **Estilo Desarmado** (Geral · Combate: ataques desarmados passam a causar 1d6, letais ou não à vontade) — Despertar substitui essa necessidade, já que iguala o dano desarmado ao armado diretamente. Não precisa escolher Estilo Desarmado em nenhum nível da tabela por causa disso.
+
+**Talento Nativo — Lutar em Formação (habilidade regional, edição antiga adaptada):** achado no livro de Arton (`tormenta-rpg---o-mundo-de-arton.pdf`), que é da edição **anterior** ao livro do jogador atual (usa termos como "CA" e "bônus base de ataque", não "poderes"). "Você recebeu treinamento militar para lutar com outros soldados." Traduzindo pra T20: **quando adjacente a um aliado, +1 em testes de ataque e na Defesa** — encaixa perfeitamente no conceito "Protetor Imortal". Pré-requisito original: nativo de Doherimm, Tapista ou Yuden — **resolvido**: Andor é natural de Doherimm (o complexo subterrâneo dos anões), criado ali antes de se alistar como soldado no Reinado. Já está no `andor-t20.json`/`Ficha T20.html`.
+
+**Fontes:** Tabela 1-12 "O Guerreiro" e lista de Poderes de Guerreiro (Tormenta 20.pdf, "Construção de Personagem", pág. 64-66); Poderes de Combate e Poderes de Destino (Tormenta 20.pdf, "Perícias & Poderes", pág. 123-129); Origens (Tormenta 20.pdf, pág. 85-95); Humano (Tormenta 20.pdf, pág. 19); Talentos Nativos (tormenta-rpg---o-mundo-de-arton.pdf, edição anterior, pág. 16-21).
 
 ---
 

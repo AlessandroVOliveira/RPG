@@ -25,3 +25,4 @@ memorias/             → regras de T20 já extraídas dos PDFs, organizadas por
 - Extração de texto de PDF com `pdftotext -layout` costuma embaralhar colunas de tabelas (aconteceu com a tabela de armas). Nesses casos, prefira `pdftotext -f <pág> -l <pág> "arquivo.pdf" -` (sem `-layout`, página isolada) e cruze duas extrações antes de cravar um número — ou marque explicitamente como não confirmado em vez de arriscar um valor errado.
 - `manuais/` está no `.gitignore` — os PDFs não vão para o repositório. Só `memorias/`, `docs/`, a ficha e o JSON precisam ser versionados para o projeto continuar usável em outra máquina.
 - "Despertar" e "Protetor Imortal" são conceitos homebrew do próprio jogador para o Andor, não termos do livro — não procure isso nos PDFs.
+- nunca se mencione como co autor dos comits.
