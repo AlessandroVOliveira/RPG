@@ -1,6 +1,6 @@
 # Poderes Gerais
 
-Fonte: `manuais/Tormenta 20.pdf`, "Perícias & Poderes", pág. 123-129.
+Fonte: `manuais-t20/Tormenta 20.pdf`, "Perícias & Poderes", pág. 123-129.
 
 Poderes gerais podem ser escolhidos por qualquer personagem (seguem as regras de habilidades de classe). Sempre que um personagem ganharia um poder de classe, pode trocá-lo por um poder geral (cumprindo os pré-requisitos). Grupos: **Combate** (melhora características de combate), **Destino** (melhora características fora de combate), **Magia** (ligado a magias/itens mágicos), **Concedidos** (recebidos por devotos de deuses), **Tormenta** (ligado à tempestade rubra — não documentado aqui).
 

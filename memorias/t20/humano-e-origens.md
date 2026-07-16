@@ -1,6 +1,6 @@
 # Raça Humano e Origens
 
-Fonte: `manuais/Tormenta 20.pdf`, pág. 19 (Humano) e pág. 85-95 (Origens).
+Fonte: `manuais-t20/Tormenta 20.pdf`, pág. 19 (Humano) e pág. 85-95 (Origens).
 
 ## Raça: Humano (pág. 19)
 

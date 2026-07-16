@@ -1,6 +1,6 @@
 # Talentos Nativos (livro de Arton — edição antiga, cuidado)
 
-Fonte: `manuais/tormenta-rpg---o-mundo-de-arton.pdf`, seção "Talentos Nativos", pág. 16-21 (numeração impressa do livro).
+Fonte: `manuais-t20/tormenta-rpg---o-mundo-de-arton.pdf`, seção "Talentos Nativos", pág. 16-21 (numeração impressa do livro).
 
 ## ⚠️ Aviso de edição
 

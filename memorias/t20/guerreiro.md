@@ -1,6 +1,6 @@
 # Classe Guerreiro
 
-Fonte: `manuais/Tormenta 20.pdf`, "Construção de Personagem", pág. 64-66.
+Fonte: `manuais-t20/Tormenta 20.pdf`, "Construção de Personagem", pág. 64-66.
 
 ## Características de Classe
 

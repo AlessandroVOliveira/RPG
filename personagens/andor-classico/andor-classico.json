@@ -1,0 +1,83 @@
+{
+  "_dataVersion": 1,
+  "_sistema": "Tormenta RPG (edição clássica, pré-T20) — ver memorias/classico/",
+  "meta": {
+    "nome": "Andor Duvane",
+    "jogador": "",
+    "raca": "Humano",
+    "naturalidade": "Doherimm",
+    "classe": "Guerreiro",
+    "nivel": 1,
+    "divindade": "",
+    "tendencia": "Leal e Neutro (não confirmado no livro — combina com histórico de soldado)",
+    "experiencia": 0,
+    "tamanho": "Médio",
+    "deslocamentoBase": 9
+  },
+  "atributos": {
+    "for": { "base": 17, "racial": 2, "total": 19, "mod": 4 },
+    "des": { "base": 13, "racial": 0, "total": 13, "mod": 1 },
+    "con": { "base": 15, "racial": 2, "total": 17, "mod": 3 },
+    "int": { "base": 11, "racial": 0, "total": 11, "mod": 0 },
+    "sab": { "base": 12, "racial": 0, "total": 12, "mod": 1 },
+    "car": { "base": 12, "racial": 0, "total": 12, "mod": 1 }
+  },
+  "classeConfig": {
+    "pvBase": 20,
+    "pvPorNivel": 5,
+    "bba": "cheio (= nível do personagem)",
+    "periciasTreinadasBase": 2
+  },
+  "pv": { "atual": 23, "maximo": 23, "temp": 0 },
+  "bba": 1,
+  "ca": {
+    "total": 17,
+    "formula": "10 + metade do nível (0) + mod. Destreza (+1) + armadura (Brunea +4) + escudo (Escudo pesado +2)",
+    "armadura": { "nome": "Brunea", "bonusCA": 4, "maxDes": 3, "penalidade": -3, "peso": 15 },
+    "escudo": { "nome": "Escudo pesado", "bonusCA": 2, "penalidade": -2, "peso": 7 }
+  },
+  "testesResistencia": {
+    "fortitude": { "base": 3, "talentoFortitudeMaior": "bônus de graça do Guerreiro, valor exato pendente — ver memorias/classico/talentos.md", "total": "3 + bônus do talento (não cravado)" },
+    "reflexos": { "base": 1, "total": 1 },
+    "vontade": { "base": 1, "total": 1 }
+  },
+  "pericias": {
+    "atletismo": { "treinada": true, "chave": "for", "graduacoes": 4, "total": 8 },
+    "intimidacao": { "treinada": true, "chave": "car", "graduacoes": 4, "total": 5 },
+    "percepcao": { "treinada": true, "chave": "sab", "graduacoes": 4, "total": 5 },
+    "iniciativa": { "treinada": true, "chave": "des", "graduacoes": 4, "total": 5 }
+  },
+  "ataques": [
+    { "nome": "Espada Longa", "bba": 1, "outroBonus": "+1 (Foco em Arma)", "totalAtaque": 6, "dano": "1d8+4", "critico": "19-20/x2", "tipo": "Corte", "mao": "Uma mão (permite escudo)" },
+    { "nome": "Desarmado (Despertar)", "bba": 1, "outroBonus": "+1 (Despertar)", "totalAtaque": 6, "dano": "1d8+4 (iguala o armado por causa do Despertar)", "critico": "19-20/x2 (por Despertar, ver talentos)", "tipo": "Impacto — ignora Redução de Dano mundana", "mao": "—" }
+  ],
+  "talentos": [
+    { "nome": "Foco em Arma (Espada Longa)", "nivel": 1, "fonte": "Talento comum (1º nível)", "efeito": "+1 em jogadas de ataque com espada longa." },
+    { "nome": "Esquiva", "nivel": 1, "fonte": "Técnica de Luta (Guerreiro)", "efeito": "+1 CA." },
+    { "nome": "Ataque com Escudo Aprimorado", "nivel": 1, "fonte": "Talento bônus de Humano", "efeito": "Mantém o bônus de CA do escudo mesmo atacando com ele." },
+    { "nome": "Duro de Matar", "nivel": 1, "fonte": "Talento bônus de Humano", "efeito": "1x/dia ignora completamente um dano que o levaria a 0 PV ou menos." }
+  ],
+  "talentosAutomaticos": [
+    { "nome": "Usar Armaduras (leves, médias e pesadas)", "fonte": "Guerreiro (talento adicional de graça)" },
+    { "nome": "Usar Armas (simples e marciais)", "fonte": "Guerreiro (talento adicional de graça)" },
+    { "nome": "Usar Escudos", "fonte": "Guerreiro (talento adicional de graça)" },
+    { "nome": "Fortitude Maior", "fonte": "Guerreiro (talento adicional de graça) — efeito exato pendente de confirmação" }
+  ],
+  "habilidadesEspeciais": [
+    { "nome": "Despertar", "fonte": "Concedida pelo mestre (homebrew, não é regra oficial)", "efeito": "Emite uma luz (cor à escolha). +1 nas jogadas de ataque (armado e desarmado). Ataque desarmado causa o mesmo dano do ataque armado e ignora Redução de Dano mundana." }
+  ],
+  "inventario": [
+    { "item": "Espada Longa", "qtd": 1, "peso": "não confirmado", "preco": "15 TO" },
+    { "item": "Escudo pesado", "qtd": 1, "peso": 7, "preco": "15 TO" },
+    { "item": "Brunea (armadura média)", "qtd": 1, "peso": 15, "preco": "50 TO" },
+    { "item": "Kit de Aventureiro (mochila, saco de dormir, corda, pederneira, 2 tochas, odre, ração 1 semana, traje de explorador)", "qtd": 1, "peso": "variado", "preco": "resto do dinheiro inicial" }
+  ],
+  "dinheiroInicial": 100,
+  "dinheiroGastoEquipamento": 80,
+  "tibaresRestantes": 20,
+  "textos": {
+    "descricao": "Mesmo histórico do Andor de T20: natural de Doherimm, o complexo subterrâneo dos anões, treinado desde cedo a lutar em formação ao lado de guardas anões antes de se alistar como soldado no Reinado.",
+    "conceito": "\"Protetor Imortal\" — guerreiro silencioso e disciplinado que absorve dano destinado aos aliados. Mecânica reconstruída no vocabulário desta edição (CA alta, Redução de Dano, talentos de escudo) em vez do PM/Defesa de T20.",
+    "pendencias": "Origem/antecedente narrativo ainda não tem equivalente mecânico extraído nesta edição (não há 'Origens' como em T20 — conferir Cap. 6: Características, pág. 114-125, ainda não lido). Talento Nativo 'Lutar em Formação' do livro de Arton (tormenta-rpg---o-mundo-de-arton.pdf) pode ser usado SEM adaptação nesta edição, já que o livro de Arton já é desta mesma edição clássica (CA/BBA) — só falta reextrair o texto exato (pág. 16-21) e conferir pré-requisito de naturalidade."
+  }
+}

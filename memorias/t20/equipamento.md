@@ -1,6 +1,6 @@
 # Equipamento
 
-Fonte: `manuais/Tormenta 20.pdf`, "Equipamento", pág. 136-155.
+Fonte: `manuais-t20/Tormenta 20.pdf`, "Equipamento", pág. 136-155.
 
 ## Armas confirmadas (extração direta, alta confiança)
 
@@ -9,7 +9,7 @@ Fonte: `manuais/Tormenta 20.pdf`, "Equipamento", pág. 136-155.
 | Espada Longa | 1d8 | 19-20/x2 | Uma mão | Corte | T$ 12 |
 | Adaga | 1d4 | 19-20/x2 | Leve (corpo a corpo ou arremesso) | Corte/Perfuração | T$ 2 |
 
-⚠️ O restante da Tabela 3-3 (Armas) veio corrompido na extração de texto do PDF (colunas embaralhadas por causa de ilustrações na página) — **não foram cravados** outros valores (ex. Machado de Guerra, Lança, Cimitarra etc.) para evitar errar um número. Se precisar de outra arma, seria bom reabrir `manuais/Tormenta 20.pdf` na página impressa 141-146 e conferir visualmente, ou usar uma fonte online confiável.
+⚠️ O restante da Tabela 3-3 (Armas) veio corrompido na extração de texto do PDF (colunas embaralhadas por causa de ilustrações na página) — **não foram cravados** outros valores (ex. Machado de Guerra, Lança, Cimitarra etc.) para evitar errar um número. Se precisar de outra arma, seria bom reabrir `manuais-t20/Tormenta 20.pdf` na página impressa 141-146 e conferir visualmente, ou usar uma fonte online confiável.
 
 Regra geral de dano: `Dano = dado da arma + Mod. de Força` (corpo a corpo/arremesso) ou `= dado da arma` (disparo, sem Força). Ver `regras-base.md`.
 
@@ -68,7 +68,7 @@ Carga máxima (erguer) = Força × 10 (kg)
 ```
 Acima do primeiro limite (mas até o segundo): penalidade de armadura extra de −2 e deslocamento reduzido em 3m. Acima do segundo limite: não é possível carregar. Ex.: For 15 → carrega até 45kg sem penalidade, até 150kg com penalidade, nunca mais que 150kg.
 
-Confirmado tanto no texto do livro quanto na ficha oficial preenchível (`manuais/T20 - Ficha Editável.pdf`), que rotula os campos como "Carga Máxima (3x Força)" e "Levantar (até 10x Força)".
+Confirmado tanto no texto do livro quanto na ficha oficial preenchível (`manuais-t20/T20 - Ficha Editável.pdf`), que rotula os campos como "Carga Máxima (3x Força)" e "Levantar (até 10x Força)".
 
 ## Dinheiro: T$ e TO (pág. 151)
 

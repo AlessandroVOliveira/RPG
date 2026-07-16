@@ -1,7 +1,8 @@
-# PDFs grandes — o livro do jogador sozinho tem ~108MB, acima do limite de arquivo do GitHub (100MB).
-# As regras relevantes já estão resumidas em memorias/. Remova esta linha se quiser versionar mesmo assim
+# PDFs grandes — o livro do jogador de T20 sozinho tem ~108MB, acima do limite de arquivo do GitHub (100MB).
+# As regras relevantes já estão resumidas em memorias/. Remova estas linhas se quiser versionar mesmo assim
 # (ou use Git LFS).
-manuais/
+manuais-t20/
+manuais-classico/
 
 # Lixo comum de SO/editor
 .DS_Store

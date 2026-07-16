@@ -1,23 +1,30 @@
-# RPG — Andor Duvane (Tormenta20)
+# RPG — Andor Duvane
+
+Um personagem, duas edições do sistema: o mestre trocou de Tormenta20 para a edição clássica do Tormenta RPG, então o projeto guarda as duas versões separadas.
 
 ## Estrutura
 
 ```
-Ficha T20.html      → ficha de personagem interativa (abrir no navegador, funciona offline)
-andor-t20.json       → dados do Andor Duvane, mesmo formato que a ficha lê/exporta/importa
-manuais/              → PDFs oficiais (livro do jogador, livro de Arton, fichas em branco) + fichas impressas
-docs/                 → anotações e builds em Markdown (atributos, progressão, raça/origem do Andor)
-anotacoes/            → notas de sessão/aventura em .txt (uso livre)
-memorias/             → resumo das regras de T20 extraídas dos PDFs, pra não ter que reabri-los toda hora
+personagens/
+  andor-classico/    → Andor ATIVO — ficha, JSON e docs da build atual (Tormenta RPG clássico)
+  andor-t20/          → Andor ARQUIVADO — versão anterior (Tormenta20), congelada
+manuais-classico/     → PDFs oficiais da edição clássica (gitignorado, muito grande)
+manuais-t20/           → PDFs oficiais de T20 (gitignorado, muito grande)
+memorias/
+  classico/            → regras da edição clássica extraídas dos PDFs, por tema
+  t20/                  → regras de T20 extraídas dos PDFs, por tema (arquivado)
+anotacoes/             → notas de sessão/aventura em .txt (compartilhado entre as duas versões)
+Imagens/                → arte de referência visual do Andor (compartilhada)
 ```
 
 ## Uso rápido
 
-- Jogar/editar a ficha: abra `Ficha T20.html` no navegador.
-- Consultar uma build ou decisão já tomada: `docs/`.
-- Consultar uma regra (fórmula de perícia, tabela de poderes, equipamento): `memorias/` primeiro, PDF em `manuais/` só se não estiver lá.
+- Jogar/editar a ficha ativa: ver `personagens/andor-classico/` (build em andamento).
+- Consultar a versão antiga: `personagens/andor-t20/Ficha T20.html`.
+- Consultar uma build ou decisão já tomada: `docs/` dentro da pasta de cada personagem.
+- Consultar uma regra: `memorias/classico/` primeiro (ou `memorias/t20/` para a versão arquivada), PDF em `manuais-classico/`/`manuais-t20/` só se não estiver lá.
 - Registrar o que aconteceu numa sessão: um `.txt` novo em `anotacoes/`.
 
 ## Portabilidade
 
-`memorias/`, `docs/`, `Ficha T20.html` e `andor-t20.json` são leves e foram pensados para ir num repositório git. Os PDFs de `manuais/` são grandes (o livro do jogador sozinho tem ~108MB) — considere não versioná-los (`.gitignore`) se o repositório remoto tiver limite de tamanho.
+`memorias/`, `personagens/` (fichas, JSONs, docs) e `anotacoes/` são leves e versionados no git. Os PDFs de `manuais-classico/` e `manuais-t20/` são grandes e ficam fora do repositório (`.gitignore`) — não são necessários para jogar, só para extrair regras ainda não documentadas em `memorias/`.

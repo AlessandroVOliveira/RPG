@@ -1,6 +1,6 @@
 # Regras base — Tormenta20
 
-Fonte: `manuais/Tormenta 20.pdf`. Página impressa do livro entre parênteses (não é o número de página do PDF).
+Fonte: `manuais-t20/Tormenta 20.pdf`. Página impressa do livro entre parênteses (não é o número de página do PDF).
 
 ## Modificador de Atributo
 
