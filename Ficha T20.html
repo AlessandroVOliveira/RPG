@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Ficha T20</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --bg:#1b1c22; --panel:#242530; --panel2:#2c2d3a; --border:#3c3e50;
+    --text:#e8e8ef; --muted:#9a9bb0; --accent:#c9a15a; --accent2:#7fa8c9;
+    --good:#7ec98f; --bad:#d97b7b; --input-bg:#1b1c26;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; font-family:'Georgia', 'Segoe UI', serif; background:var(--bg); color:var(--text);
+    padding:20px; line-height:1.4;
+  }
+  h1{ font-family:'Segoe UI', sans-serif; letter-spacing:1px; color:var(--accent); margin:0 0 4px 0; font-size:1.8em;}
+  h2{ font-family:'Segoe UI', sans-serif; color:var(--accent2); border-bottom:1px solid var(--border); padding-bottom:4px; margin-top:0; font-size:1.1em; text-transform:uppercase; letter-spacing:0.5px;}
+  .sub{color:var(--muted); font-size:0.9em; margin-bottom:18px;}
+  .toolbar{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px;}
+  button{
+    font-family:'Segoe UI', sans-serif; background:var(--panel2); color:var(--text); border:1px solid var(--border);
+    padding:7px 14px; border-radius:6px; cursor:pointer; font-size:0.85em;
+  }
+  button:hover{ border-color:var(--accent); color:var(--accent);}
+  button.danger:hover{ border-color:var(--bad); color:var(--bad);}
+  .grid{ display:grid; gap:16px; }
+  .grid-2{ grid-template-columns:1fr 1fr; }
+  .grid-3{ grid-template-columns:1fr 1fr 1fr; }
+  .panel{ background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:16px; }
+  label{ display:block; font-size:0.72em; text-transform:uppercase; letter-spacing:0.5px; color:var(--muted); margin-bottom:3px; font-family:'Segoe UI', sans-serif;}
+  input[type=text], input[type=number], textarea, select{
+    width:100%; background:var(--input-bg); border:1px solid var(--border); color:var(--text);
+    padding:6px 8px; border-radius:5px; font-family:inherit; font-size:0.95em;
+  }
+  input:focus, textarea:focus, select:focus{ outline:none; border-color:var(--accent);}
+  textarea{ resize:vertical; min-height:50px; }
+  .field{ margin-bottom:10px; }
+  .row-fields{ display:flex; gap:10px; flex-wrap:wrap; }
+  .row-fields > div{ flex:1; min-width:110px; }
+
+  .attrs{ display:grid; grid-template-columns:repeat(6,1fr); gap:10px; }
+  .attr-box{ background:var(--panel2); border:1px solid var(--border); border-radius:8px; padding:10px; text-align:center; }
+  .attr-box label{ text-align:center; }
+  .attr-box input{ text-align:center; font-size:1.1em; font-weight:bold; }
+  .attr-mod{ margin-top:6px; font-family:'Segoe UI',sans-serif; font-size:1.3em; color:var(--accent); font-weight:bold; }
+
+  .stat-box{ background:var(--panel2); border:1px solid var(--border); border-radius:8px; padding:10px; text-align:center;}
+  .stat-box .big{ font-family:'Segoe UI',sans-serif; font-size:1.6em; font-weight:bold; color:var(--good); }
+  .stat-box .big.def{ color:var(--accent2); }
+
+  table{ width:100%; border-collapse:collapse; font-size:0.88em; }
+  th{ text-align:left; font-family:'Segoe UI',sans-serif; text-transform:uppercase; font-size:0.72em; color:var(--muted); padding:4px 6px; border-bottom:1px solid var(--border);}
+  td{ padding:4px 6px; border-bottom:1px solid #2f303d; vertical-align:middle;}
+  tr.trained{ background:rgba(201,161,90,0.06); }
+  .total-cell{ font-weight:bold; font-family:'Segoe UI',sans-serif; color:var(--good); text-align:center; font-size:1.05em;}
+  .badge{ font-size:0.68em; padding:1px 6px; border-radius:10px; border:1px solid var(--border); color:var(--muted); margin-left:4px; white-space:nowrap;}
+  .badge.warn{ color:var(--bad); border-color:var(--bad); }
+  .small-input{ width:52px; text-align:center; padding:4px; }
+  .skill-name{ font-family:'Segoe UI',sans-serif; }
+  input[type=checkbox]{ width:18px; height:18px; cursor:pointer; accent-color:var(--accent); }
+  .del-btn{ background:none; border:none; color:var(--bad); cursor:pointer; font-size:1.1em; padding:2px 6px;}
+  .add-row-btn{ margin-top:8px; }
+  footer{ text-align:center; color:var(--muted); font-size:0.78em; margin-top:30px; font-family:'Segoe UI',sans-serif;}
+  .hint{ font-size:0.75em; color:var(--muted); margin-top:4px; font-family:'Segoe UI',sans-serif;}
+  #fileInput{ display:none; }
+  .saved-flash{ color:var(--good); font-family:'Segoe UI',sans-serif; font-size:0.8em; opacity:0; transition:opacity .3s; }
+  .saved-flash.show{ opacity:1; }
+  @media (max-width: 900px){
+    .attrs{ grid-template-columns:repeat(3,1fr); }
+    .grid-2, .grid-3{ grid-template-columns:1fr; }
+  }
+  @media print{
+    body{ background:#fff; color:#000; }
+    .panel{ border:1px solid #999; break-inside:avoid; }
+    .toolbar, .del-btn, .add-row-btn{ display:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<h1 id="sheetTitle">Ficha T20</h1>
+<div class="sub">Ficha eletrônica de Tormenta 20 — campos calculados automaticamente conforme o livro do jogador. <span class="saved-flash" id="savedFlash">salvo ✓</span></div>
+
+<div class="toolbar">
+  <button onclick="exportJSON()">⬇ Exportar JSON</button>
+  <button onclick="document.getElementById('fileInput').click()">⬆ Importar JSON</button>
+  <button onclick="window.print()">🖨 Imprimir</button>
+  <button class="danger" onclick="resetToDefault()">↺ Restaurar Andor (padrão)</button>
+  <input type="file" id="fileInput" accept="application/json">
+</div>
+
+<!-- IDENTIFICAÇÃO -->
+<div class="panel" style="margin-bottom:16px;">
+  <h2>Identificação</h2>
+  <div class="row-fields">
+    <div class="field"><label>Nome do Personagem</label><input type="text" id="m_nome"></div>
+    <div class="field"><label>Jogador</label><input type="text" id="m_jogador"></div>
+    <div class="field"><label>Raça</label><input type="text" id="m_raca"></div>
+    <div class="field"><label>Origem</label><input type="text" id="m_origem"></div>
+    <div class="field"><label>Classe</label><input type="text" id="m_classe"></div>
+    <div class="field"><label>Divindade</label><input type="text" id="m_divindade"></div>
+  </div>
+  <div class="row-fields">
+    <div class="field" style="max-width:100px;"><label>Nível</label><input type="number" id="m_nivel" min="1" max="20"></div>
+    <div class="field" style="max-width:140px;"><label>Experiência</label><input type="number" id="m_exp"></div>
+    <div class="field" style="max-width:160px;"><label>Tamanho</label>
+      <select id="m_tamanho">
+        <option>Minúsculo</option><option>Pequeno</option><option>Médio</option><option>Grande</option><option>Enorme</option><option>Colossal</option>
+      </select>
+    </div>
+    <div class="field" style="max-width:140px;"><label>Deslocamento base (m)</label><input type="number" id="m_desloc_base"></div>
+  </div>
+</div>
+
+<!-- ATRIBUTOS -->
+<div class="panel" style="margin-bottom:16px;">
+  <h2>Atributos</h2>
+  <div class="attrs">
+    <div class="attr-box"><label>Força</label><input type="number" id="a_for"><div class="attr-mod" id="mod_for">+0</div></div>
+    <div class="attr-box"><label>Destreza</label><input type="number" id="a_des"><div class="attr-mod" id="mod_des">+0</div></div>
+    <div class="attr-box"><label>Constituição</label><input type="number" id="a_con"><div class="attr-mod" id="mod_con">+0</div></div>
+    <div class="attr-box"><label>Inteligência</label><input type="number" id="a_int"><div class="attr-mod" id="mod_int">+0</div></div>
+    <div class="attr-box"><label>Sabedoria</label><input type="number" id="a_sab"><div class="attr-mod" id="mod_sab">+0</div></div>
+    <div class="attr-box"><label>Carisma</label><input type="number" id="a_car"><div class="attr-mod" id="mod_car">+0</div></div>
+  </div>
+</div>
+
+<!-- COMBATE -->
+<div class="panel" style="margin-bottom:16px;">
+  <h2>Combate</h2>
+  <div class="grid grid-3">
+    <div class="stat-box"><label>Pontos de Vida</label>
+      <div class="row-fields" style="justify-content:center;">
+        <div style="max-width:80px;"><input type="number" id="pv_atual" class="small-input" style="width:100%;"></div>
+        <div class="big" style="align-self:center;">/ <span id="pv_max">0</span></div>
+      </div>
+      <div class="hint">Temp: <input type="number" id="pv_temp" class="small-input"></div>
+    </div>
+    <div class="stat-box"><label>Pontos de Mana</label>
+      <div class="row-fields" style="justify-content:center;">
+        <div style="max-width:80px;"><input type="number" id="pm_atual" class="small-input" style="width:100%;"></div>
+        <div class="big" style="align-self:center;">/ <span id="pm_max">0</span></div>
+      </div>
+      <div class="hint">Temp: <input type="number" id="pm_temp" class="small-input"></div>
+    </div>
+    <div class="stat-box"><label>Defesa</label><div class="big def" id="defesa_total">10</div>
+      <div class="hint" id="defesa_formula"></div>
+    </div>
+  </div>
+  <div class="grid grid-3" style="margin-top:12px;">
+    <div class="stat-box"><label>Deslocamento</label><div class="big" id="desloc_total">9m</div></div>
+    <div class="stat-box"><label>Iniciativa</label><div class="big" id="iniciativa_total">+0</div></div>
+    <div class="stat-box"><label>Bônus de Ataque Especial (PM)</label><div class="big" style="font-size:1.1em;">1 PM = +4 ataque/dano *</div></div>
+  </div>
+  <div class="hint">* Escala: +4 a cada 1 PM extra a cada 4 níveis (nível 1-4: só +4 por 1 PM).</div>
+
+  <h2 style="margin-top:18px;">Configuração de Defesa</h2>
+  <div class="row-fields">
+    <div class="field" style="max-width:160px;">
+      <label>Armadura pesada?</label>
+      <select id="d_pesada"><option value="true">Sim (ignora Destreza)</option><option value="false">Não</option></select>
+    </div>
+    <div class="field">
+      <label>Armadura (predefinida)</label>
+      <select id="d_armadura_preset"></select>
+    </div>
+    <div class="field"><label>Nome da Armadura</label><input type="text" id="d_armadura_nome"></div>
+    <div class="field" style="max-width:90px;"><label>Bônus Def.</label><input type="number" id="d_armadura_bonus"></div>
+    <div class="field" style="max-width:90px;"><label>Penalidade</label><input type="number" id="d_armadura_pen"></div>
+  </div>
+  <div class="row-fields">
+    <div class="field">
+      <label>Escudo (predefinido)</label>
+      <select id="d_escudo_preset"></select>
+    </div>
+    <div class="field"><label>Nome do Escudo</label><input type="text" id="d_escudo_nome"></div>
+    <div class="field" style="max-width:90px;"><label>Bônus Def.</label><input type="number" id="d_escudo_bonus"></div>
+    <div class="field" style="max-width:90px;"><label>Penalidade</label><input type="number" id="d_escudo_pen"></div>
+    <div class="field" style="max-width:120px;"><label>Outros bônus Def.</label><input type="number" id="d_outros"></div>
+  </div>
+</div>
+
+<!-- PERICIAS -->
+<div class="panel" style="margin-bottom:16px;">
+  <h2>Perícias</h2>
+  <div class="hint">Fórmula: ½ nível (arred. p/ baixo) + mod. atributo + treino (+2 / +4 no 7º / +6 no 15º) + penalidade de armadura (se aplicável) + outros. 🔒 = só pode ser usada treinada.</div>
+  <table>
+    <thead><tr><th>Treinada</th><th>Perícia</th><th>Atrib.</th><th>Outros</th><th>Total</th></tr></thead>
+    <tbody id="pericias_body"></tbody>
+  </table>
+</div>
+
+<!-- ATAQUES -->
+<div class="panel" style="margin-bottom:16px;">
+  <h2>Ataques</h2>
+  <table>
+    <thead><tr><th>Arma</th><th>Perícia</th><th>Outro Bônus</th><th>Bônus Total</th><th>Dano Base</th><th>+For?</th><th>Outro Dano</th><th>Dano Total</th><th>Crítico</th><th>Tipo</th><th>Alcance</th><th></th></tr></thead>
+    <tbody id="ataques_body"></tbody>
+  </table>
+  <button class="add-row-btn" onclick="addAtaque()">+ Adicionar ataque</button>
+</div>
+
+<!-- PODERES -->
+<div class="panel" style="margin-bottom:16px;">
+  <h2>Poderes e Habilidades Especiais</h2>
+  <table>
+    <thead><tr><th style="width:22%;">Nome</th><th style="width:20%;">Fonte</th><th>Efeito</th><th></th></tr></thead>
+    <tbody id="poderes_body"></tbody>
+  </table>
+  <button class="add-row-btn" onclick="addPoder()">+ Adicionar poder</button>
+</div>
+
+<!-- INVENTARIO -->
+<div class="panel" style="margin-bottom:16px;">
+  <h2>Inventário</h2>
+  <table>
+    <thead><tr><th>Item</th><th style="width:80px;">Qtd.</th><th style="width:100px;">Peso (kg, un.)</th><th style="width:100px;">Subtotal</th><th></th></tr></thead>
+    <tbody id="inventario_body"></tbody>
+  </table>
+  <button class="add-row-btn" onclick="addItem()">+ Adicionar item</button>
+  <div class="row-fields" style="margin-top:12px;">
+    <div class="field" style="max-width:140px;"><label>Tibares (T$)</label><input type="number" id="tibares"></div>
+    <div class="field" style="max-width:160px;"><label>Carga usada (kg)</label><input type="text" id="carga_usada" disabled></div>
+    <div class="field" style="max-width:160px;"><label>Limite de carga (manual)</label><input type="number" id="limite_carga"></div>
+  </div>
+</div>
+
+<!-- TEXTOS -->
+<div class="panel" style="margin-bottom:16px;">
+  <h2>Anotações</h2>
+  <div class="field"><label>Proficiências e outras características</label><textarea id="t_proficiencias"></textarea></div>
+  <div class="field"><label>Habilidades de Raça e Origem</label><textarea id="t_raca_origem"></textarea></div>
+  <div class="field"><label>Habilidades de Classe e Poderes</label><textarea id="t_classe_poderes"></textarea></div>
+  <div class="field"><label>Magias</label><textarea id="t_magias"></textarea></div>
+  <div class="field"><label>Anotações gerais</label><textarea id="t_anotacoes"></textarea></div>
+</div>
+
+<footer>Ficha gerada a partir das regras de Tormenta20 (livro do jogador). Cálculos automáticos: Perícias (pág. 114), Defesa (pág. 106), Armas &amp; Armaduras (pág. 141-149).</footer>
+
+<script id="default-data" type="application/json">
+{
+  "meta": {
+    "nome": "Andor Duvane",
+    "jogador": "",
+    "raca": "Humano",
+    "origem": "Soldado",
+    "classe": "Guerreiro",
+    "nivel": 1,
+    "divindade": "",
+    "experiencia": 0,
+    "tamanho": "Médio",
+    "deslocamentoBase": 9
+  },
+  "atributos": {
+    "for": 19,
+    "des": 13,
+    "con": 17,
+    "int": 11,
+    "sab": 14,
+    "car": 12
+  },
+  "classeConfig": {
+    "pvBase": 20,
+    "pvPorNivel": 5,
+    "pmPorNivel": 3
+  },
+  "pv": { "atual": 23, "temp": 0 },
+  "pm": { "atual": 3, "temp": 0 },
+  "defesa": {
+    "armaduraPesada": true,
+    "armadura": { "nome": "Brunea", "bonus": 5, "penalidade": -2, "peso": 15 },
+    "escudo": { "nome": "Escudo leve + Estilo de Arma e Escudo", "bonus": 3, "penalidade": -1, "peso": 3 },
+    "outrosBonus": 0
+  },
+  "pericias": {
+    "acrobacia": { "treinada": false, "outroBonus": 0 },
+    "adestramento": { "treinada": true, "outroBonus": 0 },
+    "atletismo": { "treinada": false, "outroBonus": 0 },
+    "atuacao": { "treinada": false, "outroBonus": 0 },
+    "cavalgar": { "treinada": false, "outroBonus": 0 },
+    "conhecimento": { "treinada": false, "outroBonus": 0 },
+    "cura": { "treinada": false, "outroBonus": 0 },
+    "diplomacia": { "treinada": false, "outroBonus": 0 },
+    "enganacao": { "treinada": false, "outroBonus": 0 },
+    "fortitude": { "treinada": true, "outroBonus": 0 },
+    "furtividade": { "treinada": false, "outroBonus": 0 },
+    "guerra": { "treinada": true, "outroBonus": 0 },
+    "iniciativa": { "treinada": false, "outroBonus": 0 },
+    "intimidacao": { "treinada": true, "outroBonus": 0 },
+    "intuicao": { "treinada": false, "outroBonus": 0 },
+    "investigacao": { "treinada": false, "outroBonus": 0 },
+    "jogatina": { "treinada": false, "outroBonus": 0 },
+    "ladinagem": { "treinada": false, "outroBonus": 0 },
+    "luta": { "treinada": true, "outroBonus": 0 },
+    "misticismo": { "treinada": false, "outroBonus": 0 },
+    "nobreza": { "treinada": false, "outroBonus": 0 },
+    "oficio": { "treinada": false, "outroBonus": 0, "especialidade": "" },
+    "percepcao": { "treinada": false, "outroBonus": 0 },
+    "pilotagem": { "treinada": false, "outroBonus": 0 },
+    "pontaria": { "treinada": false, "outroBonus": 0 },
+    "reflexos": { "treinada": false, "outroBonus": 0 },
+    "religiao": { "treinada": false, "outroBonus": 0 },
+    "sobrevivencia": { "treinada": false, "outroBonus": 0 },
+    "vontade": { "treinada": false, "outroBonus": 0 }
+  },
+  "ataques": [
+    { "nome": "Espada Longa", "pericia": "luta", "outroBonus": 0, "dano": "1d8", "somaForca": true, "outroDano": 0, "critico": "19-20/x2", "tipo": "Corte", "alcance": "Corpo a corpo" },
+    { "nome": "Adaga", "pericia": "luta", "outroBonus": 0, "dano": "1d4", "somaForca": true, "outroDano": 0, "critico": "19-20/x2", "tipo": "Corte/Perfuração", "alcance": "Corpo a corpo / Curto (arremesso)" }
+  ],
+  "poderes": [
+    { "nome": "Estilo de Arma e Escudo", "fonte": "Raça (Humano — Versátil)", "efeito": "+2 na Defesa fornecida pelo escudo." },
+    { "nome": "Bloqueio com Escudo", "fonte": "Origem (Soldado)", "efeito": "1 PM ao ser atingido: RD contra aquele ataque = bônus de Defesa do escudo." },
+    { "nome": "Influência Militar", "fonte": "Origem (Soldado, poder único)", "efeito": "Hospedagem e informação em qualquer acampamento ou base militar, para você e aliados." },
+    { "nome": "Ataque Especial", "fonte": "Classe (Guerreiro)", "efeito": "Gasta PM para +4 no teste de ataque ou na rolagem de dano (escala com o nível)." },
+    { "nome": "Durão", "fonte": "Classe (Guerreiro, 3º nível)", "efeito": "Gasta 2 PM para reduzir o dano sofrido à metade." }
+  ],
+  "inventario": [
+    { "item": "Espada Longa", "qtd": 1, "peso": 2 },
+    { "item": "Adaga", "qtd": 1, "peso": 0.5 },
+    { "item": "Brunea (armadura pesada)", "qtd": 1, "peso": 15 },
+    { "item": "Escudo leve", "qtd": 1, "peso": 3 },
+    { "item": "Mochila", "qtd": 1, "peso": 1 },
+    { "item": "Saco de dormir", "qtd": 1, "peso": 0.5 },
+    { "item": "Traje de viajante", "qtd": 1, "peso": 2 },
+    { "item": "Uniforme militar", "qtd": 1, "peso": 2 },
+    { "item": "Insígnia do exército", "qtd": 1, "peso": 0 }
+  ],
+  "tibares": 14,
+  "limiteCargaManual": null,
+  "textos": {
+    "proficiencias": "Armas marciais, armaduras pesadas, escudos.",
+    "habilidadesRacaOrigem": "Humano: +2 em três atributos diferentes (Força, Constituição, Sabedoria); Versátil (2 perícias à escolha, pode trocar uma por poder geral). Origem Soldado: itens (arma marcial, uniforme militar, insígnia); Influência Militar; um poder de combate à escolha.",
+    "habilidadesClassePoderes": "Guerreiro: PV 20+Con (+5+Con/nível); PM 3/nível; Ataque Especial; Poder de Guerreiro a cada nível par a partir do 2º; Durão (3º), Ataque Extra (6º), Campeão (20º).",
+    "magias": "",
+    "anotacoes": "Conceito: \"Protetor Imortal\" — guerreiro silencioso e disciplinado que absorve dano destinado aos aliados."
+  }
+}
+
+</script>
+
+<script>
+const PERICIAS = [
+  {id:'acrobacia', nome:'Acrobacia', attr:'des', soTreinada:false, penArmadura:true},
+  {id:'adestramento', nome:'Adestramento', attr:'car', soTreinada:true, penArmadura:false},
+  {id:'atletismo', nome:'Atletismo', attr:'for', soTreinada:false, penArmadura:false},
+  {id:'atuacao', nome:'Atuação', attr:'car', soTreinada:false, penArmadura:false},
+  {id:'cavalgar', nome:'Cavalgar', attr:'des', soTreinada:false, penArmadura:false},
+  {id:'conhecimento', nome:'Conhecimento', attr:'int', soTreinada:true, penArmadura:false},
+  {id:'cura', nome:'Cura', attr:'sab', soTreinada:false, penArmadura:false},
+  {id:'diplomacia', nome:'Diplomacia', attr:'car', soTreinada:false, penArmadura:false},
+  {id:'enganacao', nome:'Enganação', attr:'car', soTreinada:false, penArmadura:false},
+  {id:'fortitude', nome:'Fortitude', attr:'con', soTreinada:false, penArmadura:false},
+  {id:'furtividade', nome:'Furtividade', attr:'des', soTreinada:false, penArmadura:true},
+  {id:'guerra', nome:'Guerra', attr:'int', soTreinada:true, penArmadura:false},
+  {id:'iniciativa', nome:'Iniciativa', attr:'des', soTreinada:false, penArmadura:false},
+  {id:'intimidacao', nome:'Intimidação', attr:'car', soTreinada:false, penArmadura:false},
+  {id:'intuicao', nome:'Intuição', attr:'sab', soTreinada:false, penArmadura:false},
+  {id:'investigacao', nome:'Investigação', attr:'int', soTreinada:false, penArmadura:false},
+  {id:'jogatina', nome:'Jogatina', attr:'car', soTreinada:true, penArmadura:false},
+  {id:'ladinagem', nome:'Ladinagem', attr:'des', soTreinada:true, penArmadura:true},
+  {id:'luta', nome:'Luta', attr:'for', soTreinada:false, penArmadura:false},
+  {id:'misticismo', nome:'Misticismo', attr:'int', soTreinada:true, penArmadura:false},
+  {id:'nobreza', nome:'Nobreza', attr:'int', soTreinada:true, penArmadura:false},
+  {id:'oficio', nome:'Ofício', attr:'int', soTreinada:true, penArmadura:false},
+  {id:'percepcao', nome:'Percepção', attr:'sab', soTreinada:false, penArmadura:false},
+  {id:'pilotagem', nome:'Pilotagem', attr:'des', soTreinada:true, penArmadura:false},
+  {id:'pontaria', nome:'Pontaria', attr:'des', soTreinada:false, penArmadura:false},
+  {id:'reflexos', nome:'Reflexos', attr:'des', soTreinada:false, penArmadura:false},
+  {id:'religiao', nome:'Religião', attr:'sab', soTreinada:true, penArmadura:false},
+  {id:'sobrevivencia', nome:'Sobrevivência', attr:'sab', soTreinada:false, penArmadura:false},
+  {id:'vontade', nome:'Vontade', attr:'sab', soTreinada:false, penArmadura:false},
+];
+
+// Tabela 3-4 (pág. 149) — reconstruída a partir do PDF do livro
+const ARMADURAS = [
+  {nome:"(nenhuma)", bonus:0, penalidade:0, peso:0, pesada:false},
+  {nome:"Armadura Acolchoada", bonus:1, penalidade:0, peso:5, pesada:false},
+  {nome:"Armadura de Couro", bonus:2, penalidade:0, peso:7, pesada:false},
+  {nome:"Couro Batido", bonus:3, penalidade:-1, peso:10, pesada:false},
+  {nome:"Gibão de Peles", bonus:4, penalidade:-3, peso:12, pesada:false},
+  {nome:"Couraça", bonus:5, penalidade:-4, peso:15, pesada:false},
+  {nome:"Brunea", bonus:5, penalidade:-2, peso:15, pesada:true},
+  {nome:"Cota de Malha", bonus:6, penalidade:-2, peso:20, pesada:true},
+  {nome:"Loriga Segmentada", bonus:7, penalidade:-3, peso:17, pesada:true},
+  {nome:"Meia Armadura", bonus:8, penalidade:-4, peso:22, pesada:true},
+  {nome:"Armadura Completa", bonus:10, penalidade:-5, peso:25, pesada:true},
+];
+const ESCUDOS = [
+  {nome:"(nenhum)", bonus:0, penalidade:0, peso:0},
+  {nome:"Escudo Leve", bonus:1, penalidade:-1, peso:3},
+  {nome:"Escudo Pesado", bonus:2, penalidade:-2, peso:7},
+];
+const TAMANHOS = {
+  "Minúsculo": 5, "Pequeno": 2, "Médio": 0, "Grande": -2, "Enorme": -5, "Colossal": -10
+};
+
+let DATA = null;
+
+function mod(score){ return Math.floor(((Number(score)||0) - 10)/2); }
+function fmt(n){ n = Math.round(n*100)/100; return (n>=0?'+':'') + n; }
+
+function getDefaultData(){
+  return JSON.parse(document.getElementById('default-data').textContent);
+}
+
+function loadData(){
+  const saved = localStorage.getItem('t20_ficha_data');
+  if(saved){
+    try{ DATA = JSON.parse(saved); return; }catch(e){}
+  }
+  DATA = getDefaultData();
+}
+
+function resetToDefault(){
+  if(!confirm('Restaurar os dados originais do Andor? Isso substitui os dados atuais na tela (o arquivo JSON exportado não é afetado).')) return;
+  DATA = getDefaultData();
+  renderAll();
+  saveData();
+}
+
+function saveData(){
+  collectFromForm();
+  localStorage.setItem('t20_ficha_data', JSON.stringify(DATA));
+  const el = document.getElementById('savedFlash');
+  el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'), 900);
+}
+
+function exportJSON(){
+  collectFromForm();
+  const blob = new Blob([JSON.stringify(DATA, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = (DATA.meta.nome || 'personagem').replace(/[^\w\- ]/g,'') + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+document.getElementById('fileInput').addEventListener('change', function(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev){
+    try{
+      DATA = JSON.parse(ev.target.result);
+      renderAll();
+      saveData();
+    }catch(err){
+      alert('Arquivo JSON inválido: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+});
+
+// ---------- RENDER ----------
+
+function fillPresetSelect(sel, list, current){
+  sel.innerHTML = '';
+  list.forEach((it, i)=>{
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = it.nome + (it.bonus?` (+${it.bonus} Def, ${it.penalidade} pen.)`:'');
+    sel.appendChild(opt);
+  });
+  sel.value = 0;
+}
+
+function renderAll(){
+  const d = DATA;
+  document.getElementById('sheetTitle').textContent = d.meta.nome ? ('Ficha T20 — ' + d.meta.nome) : 'Ficha T20';
+
+  document.getElementById('m_nome').value = d.meta.nome||'';
+  document.getElementById('m_jogador').value = d.meta.jogador||'';
+  document.getElementById('m_raca').value = d.meta.raca||'';
+  document.getElementById('m_origem').value = d.meta.origem||'';
+  document.getElementById('m_classe').value = d.meta.classe||'';
+  document.getElementById('m_divindade').value = d.meta.divindade||'';
+  document.getElementById('m_nivel').value = d.meta.nivel||1;
+  document.getElementById('m_exp').value = d.meta.experiencia||0;
+  document.getElementById('m_tamanho').value = d.meta.tamanho||'Médio';
+  document.getElementById('m_desloc_base').value = d.meta.deslocamentoBase||9;
+
+  document.getElementById('a_for').value = d.atributos.for;
+  document.getElementById('a_des').value = d.atributos.des;
+  document.getElementById('a_con').value = d.atributos.con;
+  document.getElementById('a_int').value = d.atributos.int;
+  document.getElementById('a_sab').value = d.atributos.sab;
+  document.getElementById('a_car').value = d.atributos.car;
+
+  document.getElementById('pv_atual').value = d.pv.atual;
+  document.getElementById('pv_temp').value = d.pv.temp||0;
+  document.getElementById('pm_atual').value = d.pm.atual;
+  document.getElementById('pm_temp').value = d.pm.temp||0;
+
+  document.getElementById('d_pesada').value = String(!!d.defesa.armaduraPesada);
+  document.getElementById('d_armadura_nome').value = d.defesa.armadura.nome;
+  document.getElementById('d_armadura_bonus').value = d.defesa.armadura.bonus;
+  document.getElementById('d_armadura_pen').value = d.defesa.armadura.penalidade;
+  document.getElementById('d_escudo_nome').value = d.defesa.escudo.nome;
+  document.getElementById('d_escudo_bonus').value = d.defesa.escudo.bonus;
+  document.getElementById('d_escudo_pen').value = d.defesa.escudo.penalidade;
+  document.getElementById('d_outros').value = d.defesa.outrosBonus||0;
+
+  fillPresetSelect(document.getElementById('d_armadura_preset'), ARMADURAS, d.defesa.armadura);
+  fillPresetSelect(document.getElementById('d_escudo_preset'), ESCUDOS, d.defesa.escudo);
+
+  renderPericias();
+  renderAtaques();
+  renderPoderes();
+  renderInventario();
+
+  document.getElementById('tibares').value = d.tibares||0;
+  document.getElementById('limite_carga').value = d.limiteCargaManual||'';
+
+  document.getElementById('t_proficiencias').value = d.textos.proficiencias||'';
+  document.getElementById('t_raca_origem').value = d.textos.habilidadesRacaOrigem||'';
+  document.getElementById('t_classe_poderes').value = d.textos.habilidadesClassePoderes||'';
+  document.getElementById('t_magias').value = d.textos.magias||'';
+  document.getElementById('t_anotacoes').value = d.textos.anotacoes||'';
+
+  recalc();
+}
+
+function renderPericias(){
+  const tbody = document.getElementById('pericias_body');
+  tbody.innerHTML = '';
+  PERICIAS.forEach(p=>{
+    const sd = DATA.pericias[p.id] || {treinada:false, outroBonus:0};
+    const tr = document.createElement('tr');
+    tr.id = 'peri_row_' + p.id;
+    tr.innerHTML = `
+      <td style="text-align:center;"><input type="checkbox" data-peri="${p.id}" class="peri-trained" ${sd.treinada?'checked':''}></td>
+      <td class="skill-name">${p.nome}${p.soTreinada?'<span class="badge warn">🔒 só treinada</span>':''}${p.penArmadura?'<span class="badge">armadura</span>':''}</td>
+      <td style="text-transform:uppercase; color:var(--muted); font-family:'Segoe UI',sans-serif; font-size:0.8em;">${p.attr}</td>
+      <td><input type="number" class="small-input peri-outro" data-peri="${p.id}" value="${sd.outroBonus||0}"></td>
+      <td class="total-cell" id="peri_total_${p.id}">+0</td>
+    `;
+    tbody.appendChild(tr);
+  });
+  tbody.querySelectorAll('.peri-trained, .peri-outro').forEach(el=>{
+    el.addEventListener('input', recalc);
+    el.addEventListener('change', recalc);
+  });
+}
+
+function renderAtaques(){
+  const tbody = document.getElementById('ataques_body');
+  tbody.innerHTML = '';
+  DATA.ataques.forEach((atk, i)=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input type="text" class="atk-nome" data-i="${i}" value="${atk.nome}" style="width:110px;"></td>
+      <td>
+        <select class="atk-pericia" data-i="${i}" style="width:100px;">
+          <option value="luta" ${atk.pericia==='luta'?'selected':''}>Luta</option>
+          <option value="pontaria" ${atk.pericia==='pontaria'?'selected':''}>Pontaria</option>
+        </select>
+      </td>
+      <td><input type="number" class="small-input atk-outro" data-i="${i}" value="${atk.outroBonus||0}"></td>
+      <td class="total-cell" id="atk_bonus_${i}">+0</td>
+      <td><input type="text" class="atk-dano small-input" data-i="${i}" value="${atk.dano}" style="width:60px;"></td>
+      <td style="text-align:center;"><input type="checkbox" class="atk-somafor" data-i="${i}" ${atk.somaForca?'checked':''}></td>
+      <td><input type="number" class="small-input atk-outrodano" data-i="${i}" value="${atk.outroDano||0}"></td>
+      <td class="total-cell" id="atk_dano_${i}">-</td>
+      <td><input type="text" class="atk-critico" data-i="${i}" value="${atk.critico||''}" style="width:75px;"></td>
+      <td><input type="text" class="atk-tipo" data-i="${i}" value="${atk.tipo||''}" style="width:80px;"></td>
+      <td><input type="text" class="atk-alcance" data-i="${i}" value="${atk.alcance||''}" style="width:110px;"></td>
+      <td><button class="del-btn" onclick="removeAtaque(${i})">✕</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+  tbody.querySelectorAll('input,select').forEach(el=>{
+    el.addEventListener('input', recalc);
+    el.addEventListener('change', recalc);
+  });
+}
+function addAtaque(){
+  collectFromForm();
+  DATA.ataques.push({nome:"Nova arma", pericia:"luta", outroBonus:0, dano:"1d6", somaForca:true, outroDano:0, critico:"x2", tipo:"", alcance:"Corpo a corpo"});
+  renderAtaques(); recalc();
+}
+function removeAtaque(i){ collectFromForm(); DATA.ataques.splice(i,1); renderAtaques(); recalc(); }
+
+function renderPoderes(){
+  const tbody = document.getElementById('poderes_body');
+  tbody.innerHTML = '';
+  DATA.poderes.forEach((p, i)=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input type="text" class="pod-nome" data-i="${i}" value="${p.nome}"></td>
+      <td><input type="text" class="pod-fonte" data-i="${i}" value="${p.fonte}"></td>
+      <td><input type="text" class="pod-efeito" data-i="${i}" value="${p.efeito}"></td>
+      <td><button class="del-btn" onclick="removePoder(${i})">✕</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+function addPoder(){
+  collectFromForm();
+  DATA.poderes.push({nome:"Novo poder", fonte:"", efeito:""});
+  renderPoderes();
+}
+function removePoder(i){ collectFromForm(); DATA.poderes.splice(i,1); renderPoderes(); }
+
+function renderInventario(){
+  const tbody = document.getElementById('inventario_body');
+  tbody.innerHTML = '';
+  DATA.inventario.forEach((it, i)=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input type="text" class="inv-item" data-i="${i}" value="${it.item}"></td>
+      <td><input type="number" class="small-input inv-qtd" data-i="${i}" value="${it.qtd}"></td>
+      <td><input type="number" class="small-input inv-peso" data-i="${i}" value="${it.peso}"></td>
+      <td class="total-cell" id="inv_sub_${i}">0</td>
+      <td><button class="del-btn" onclick="removeItem(${i})">✕</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+  tbody.querySelectorAll('input').forEach(el=>{
+    el.addEventListener('input', recalc);
+  });
+}
+function addItem(){
+  collectFromForm();
+  DATA.inventario.push({item:"Novo item", qtd:1, peso:0});
+  renderInventario(); recalc();
+}
+function removeItem(i){ collectFromForm(); DATA.inventario.splice(i,1); renderInventario(); recalc(); }
+
+// ---------- COLLECT (DOM -> DATA) ----------
+function collectFromForm(){
+  const d = DATA;
+  d.meta.nome = document.getElementById('m_nome').value;
+  d.meta.jogador = document.getElementById('m_jogador').value;
+  d.meta.raca = document.getElementById('m_raca').value;
+  d.meta.origem = document.getElementById('m_origem').value;
+  d.meta.classe = document.getElementById('m_classe').value;
+  d.meta.divindade = document.getElementById('m_divindade').value;
+  d.meta.nivel = Number(document.getElementById('m_nivel').value)||1;
+  d.meta.experiencia = Number(document.getElementById('m_exp').value)||0;
+  d.meta.tamanho = document.getElementById('m_tamanho').value;
+  d.meta.deslocamentoBase = Number(document.getElementById('m_desloc_base').value)||9;
+
+  d.atributos.for = Number(document.getElementById('a_for').value)||0;
+  d.atributos.des = Number(document.getElementById('a_des').value)||0;
+  d.atributos.con = Number(document.getElementById('a_con').value)||0;
+  d.atributos.int = Number(document.getElementById('a_int').value)||0;
+  d.atributos.sab = Number(document.getElementById('a_sab').value)||0;
+  d.atributos.car = Number(document.getElementById('a_car').value)||0;
+
+  d.pv.atual = Number(document.getElementById('pv_atual').value)||0;
+  d.pv.temp = Number(document.getElementById('pv_temp').value)||0;
+  d.pm.atual = Number(document.getElementById('pm_atual').value)||0;
+  d.pm.temp = Number(document.getElementById('pm_temp').value)||0;
+
+  d.defesa.armaduraPesada = document.getElementById('d_pesada').value === 'true';
+  d.defesa.armadura.nome = document.getElementById('d_armadura_nome').value;
+  d.defesa.armadura.bonus = Number(document.getElementById('d_armadura_bonus').value)||0;
+  d.defesa.armadura.penalidade = Number(document.getElementById('d_armadura_pen').value)||0;
+  d.defesa.escudo.nome = document.getElementById('d_escudo_nome').value;
+  d.defesa.escudo.bonus = Number(document.getElementById('d_escudo_bonus').value)||0;
+  d.defesa.escudo.penalidade = Number(document.getElementById('d_escudo_pen').value)||0;
+  d.defesa.outrosBonus = Number(document.getElementById('d_outros').value)||0;
+
+  document.querySelectorAll('.peri-trained').forEach(el=>{
+    const id = el.dataset.peri;
+    if(!d.pericias[id]) d.pericias[id] = {treinada:false, outroBonus:0};
+    d.pericias[id].treinada = el.checked;
+  });
+  document.querySelectorAll('.peri-outro').forEach(el=>{
+    const id = el.dataset.peri;
+    if(!d.pericias[id]) d.pericias[id] = {treinada:false, outroBonus:0};
+    d.pericias[id].outroBonus = Number(el.value)||0;
+  });
+
+  document.querySelectorAll('#ataques_body tr').forEach((tr,i)=>{
+    if(!d.ataques[i]) return;
+    d.ataques[i].nome = tr.querySelector('.atk-nome').value;
+    d.ataques[i].pericia = tr.querySelector('.atk-pericia').value;
+    d.ataques[i].outroBonus = Number(tr.querySelector('.atk-outro').value)||0;
+    d.ataques[i].dano = tr.querySelector('.atk-dano').value;
+    d.ataques[i].somaForca = tr.querySelector('.atk-somafor').checked;
+    d.ataques[i].outroDano = Number(tr.querySelector('.atk-outrodano').value)||0;
+    d.ataques[i].critico = tr.querySelector('.atk-critico').value;
+    d.ataques[i].tipo = tr.querySelector('.atk-tipo').value;
+    d.ataques[i].alcance = tr.querySelector('.atk-alcance').value;
+  });
+
+  document.querySelectorAll('#poderes_body tr').forEach((tr,i)=>{
+    if(!d.poderes[i]) return;
+    d.poderes[i].nome = tr.querySelector('.pod-nome').value;
+    d.poderes[i].fonte = tr.querySelector('.pod-fonte').value;
+    d.poderes[i].efeito = tr.querySelector('.pod-efeito').value;
+  });
+
+  document.querySelectorAll('#inventario_body tr').forEach((tr,i)=>{
+    if(!d.inventario[i]) return;
+    d.inventario[i].item = tr.querySelector('.inv-item').value;
+    d.inventario[i].qtd = Number(tr.querySelector('.inv-qtd').value)||0;
+    d.inventario[i].peso = Number(tr.querySelector('.inv-peso').value)||0;
+  });
+
+  d.tibares = Number(document.getElementById('tibares').value)||0;
+  const lc = document.getElementById('limite_carga').value;
+  d.limiteCargaManual = lc === '' ? null : Number(lc);
+
+  d.textos.proficiencias = document.getElementById('t_proficiencias').value;
+  d.textos.habilidadesRacaOrigem = document.getElementById('t_raca_origem').value;
+  d.textos.habilidadesClassePoderes = document.getElementById('t_classe_poderes').value;
+  d.textos.magias = document.getElementById('t_magias').value;
+  d.textos.anotacoes = document.getElementById('t_anotacoes').value;
+}
+
+// ---------- CALC ----------
+function periciaTotal(p, sd, nivel, attrMod){
+  const metadeNivel = Math.floor(nivel/2);
+  let treino = 0;
+  if(sd.treinada){ treino = nivel>=15?6:(nivel>=7?4:2); }
+  let penalidade = 0;
+  if(p.penArmadura){ penalidade = (DATA.defesa.armadura.penalidade||0) + (DATA.defesa.escudo.penalidade||0); }
+  let tamanhoMod = 0;
+  if(p.id==='acrobacia' || p.id==='furtividade'){ /* pode-se usar mod de tamanho tbm, mas oficialmente é só Furtividade */ }
+  if(p.id==='furtividade'){ tamanhoMod = TAMANHOS[DATA.meta.tamanho] ?? 0; }
+  return metadeNivel + attrMod + treino + penalidade + tamanhoMod + (sd.outroBonus||0);
+}
+
+function recalc(){
+  collectFromForm();
+  const d = DATA;
+  const nivel = d.meta.nivel || 1;
+
+  const mods = {
+    for: mod(d.atributos.for), des: mod(d.atributos.des), con: mod(d.atributos.con),
+    int: mod(d.atributos.int), sab: mod(d.atributos.sab), car: mod(d.atributos.car)
+  };
+  document.getElementById('mod_for').textContent = fmt(mods.for);
+  document.getElementById('mod_des').textContent = fmt(mods.des);
+  document.getElementById('mod_con').textContent = fmt(mods.con);
+  document.getElementById('mod_int').textContent = fmt(mods.int);
+  document.getElementById('mod_sab').textContent = fmt(mods.sab);
+  document.getElementById('mod_car').textContent = fmt(mods.car);
+
+  // PV / PM
+  const cc = d.classeConfig || {pvBase:20, pvPorNivel:5, pmPorNivel:3};
+  const pvMax = cc.pvBase + mods.con + Math.max(0,nivel-1) * (cc.pvPorNivel + mods.con);
+  const pmMax = cc.pmPorNivel * nivel;
+  document.getElementById('pv_max').textContent = pvMax;
+  document.getElementById('pm_max').textContent = pmMax;
+
+  // Defesa
+  const defBase = 10;
+  const desBonus = d.defesa.armaduraPesada ? 0 : mods.des;
+  const defesa = defBase + desBonus + (d.defesa.armadura.bonus||0) + (d.defesa.escudo.bonus||0) + (d.defesa.outrosBonus||0);
+  document.getElementById('defesa_total').textContent = defesa;
+  document.getElementById('defesa_formula').textContent =
+    `10 ${d.defesa.armaduraPesada? '+ 0 (Des ignorada)':'+ '+fmt(mods.des)+' Des'} + ${d.defesa.armadura.bonus||0} armadura + ${d.defesa.escudo.bonus||0} escudo + ${d.defesa.outrosBonus||0} outros`;
+
+  // Deslocamento
+  let desloc = d.meta.deslocamentoBase || 9;
+  if(d.defesa.armaduraPesada) desloc = Math.max(0, desloc - 3);
+  document.getElementById('desloc_total').textContent = desloc + 'm';
+
+  // Pericias
+  let periValues = {};
+  PERICIAS.forEach(p=>{
+    const sd = d.pericias[p.id] || {treinada:false, outroBonus:0};
+    const total = periciaTotal(p, sd, nivel, mods[p.attr]);
+    periValues[p.id] = total;
+    const cell = document.getElementById('peri_total_'+p.id);
+    if(cell) cell.textContent = fmt(total);
+    const row = document.getElementById('peri_row_'+p.id);
+    if(row) row.classList.toggle('trained', !!sd.treinada);
+  });
+
+  document.getElementById('iniciativa_total').textContent = fmt(periValues['iniciativa']||0);
+
+  // Ataques
+  d.ataques.forEach((atk, i)=>{
+    const periBase = periValues[atk.pericia] || 0;
+    const bonus = periBase + (atk.outroBonus||0);
+    const bonusCell = document.getElementById('atk_bonus_'+i);
+    if(bonusCell) bonusCell.textContent = fmt(bonus);
+    const forcaTxt = atk.somaForca ? fmt(mods.for) : '';
+    const outroTxt = atk.outroDano ? fmt(atk.outroDano) : '';
+    const danoCell = document.getElementById('atk_dano_'+i);
+    if(danoCell) danoCell.textContent = (atk.dano||'') + forcaTxt + outroTxt;
+  });
+
+  // Inventario
+  let cargaTotal = 0;
+  d.inventario.forEach((it,i)=>{
+    const sub = (it.qtd||0) * (it.peso||0);
+    cargaTotal += sub;
+    const cell = document.getElementById('inv_sub_'+i);
+    if(cell) cell.textContent = (Math.round(sub*100)/100) + 'kg';
+  });
+  document.getElementById('carga_usada').value = (Math.round(cargaTotal*100)/100) + ' kg';
+
+  saveDebounced();
+}
+
+let saveTimer = null;
+function saveDebounced(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveData, 600);
+}
+
+// ---------- PRESET LISTENERS ----------
+document.getElementById('d_armadura_preset').addEventListener('change', function(){
+  const it = ARMADURAS[Number(this.value)];
+  document.getElementById('d_armadura_nome').value = it.nome;
+  document.getElementById('d_armadura_bonus').value = it.bonus;
+  document.getElementById('d_armadura_pen').value = it.penalidade;
+  document.getElementById('d_pesada').value = String(it.pesada);
+  recalc();
+});
+document.getElementById('d_escudo_preset').addEventListener('change', function(){
+  const it = ESCUDOS[Number(this.value)];
+  document.getElementById('d_escudo_nome').value = it.nome;
+  document.getElementById('d_escudo_bonus').value = it.bonus;
+  document.getElementById('d_escudo_pen').value = it.penalidade;
+  recalc();
+});
+
+// Bind recalc to every top-level input that's not dynamically rebuilt
+['m_nome','m_jogador','m_raca','m_origem','m_classe','m_divindade','m_nivel','m_exp','m_tamanho','m_desloc_base',
+ 'a_for','a_des','a_con','a_int','a_sab','a_car',
+ 'pv_atual','pv_temp','pm_atual','pm_temp',
+ 'd_pesada','d_armadura_nome','d_armadura_bonus','d_armadura_pen','d_escudo_nome','d_escudo_bonus','d_escudo_pen','d_outros',
+ 'tibares','limite_carga',
+ 't_proficiencias','t_raca_origem','t_classe_poderes','t_magias','t_anotacoes'
+].forEach(id=>{
+  const el = document.getElementById(id);
+  el.addEventListener('input', recalc);
+  el.addEventListener('change', recalc);
+});
+
+// ---------- INIT ----------
+loadData();
+renderAll();
+</script>
+</body>
+</html>

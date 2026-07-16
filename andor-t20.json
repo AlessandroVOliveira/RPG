@@ -1,0 +1,97 @@
+{
+  "meta": {
+    "nome": "Andor Duvane",
+    "jogador": "",
+    "raca": "Humano",
+    "origem": "Soldado",
+    "classe": "Guerreiro",
+    "nivel": 1,
+    "divindade": "",
+    "experiencia": 0,
+    "tamanho": "Médio",
+    "deslocamentoBase": 9
+  },
+  "atributos": {
+    "for": 19,
+    "des": 13,
+    "con": 17,
+    "int": 11,
+    "sab": 14,
+    "car": 12
+  },
+  "classeConfig": {
+    "pvBase": 20,
+    "pvPorNivel": 5,
+    "pmPorNivel": 3
+  },
+  "pv": { "atual": 23, "temp": 0 },
+  "pm": { "atual": 3, "temp": 0 },
+  "defesa": {
+    "armaduraPesada": true,
+    "armadura": { "nome": "Brunea", "bonus": 5, "penalidade": -2, "peso": 15 },
+    "escudo": { "nome": "Escudo leve + Estilo de Arma e Escudo", "bonus": 3, "penalidade": -1, "peso": 3 },
+    "outrosBonus": 0
+  },
+  "pericias": {
+    "acrobacia": { "treinada": false, "outroBonus": 0 },
+    "adestramento": { "treinada": true, "outroBonus": 0 },
+    "atletismo": { "treinada": false, "outroBonus": 0 },
+    "atuacao": { "treinada": false, "outroBonus": 0 },
+    "cavalgar": { "treinada": false, "outroBonus": 0 },
+    "conhecimento": { "treinada": false, "outroBonus": 0 },
+    "cura": { "treinada": false, "outroBonus": 0 },
+    "diplomacia": { "treinada": false, "outroBonus": 0 },
+    "enganacao": { "treinada": false, "outroBonus": 0 },
+    "fortitude": { "treinada": true, "outroBonus": 0 },
+    "furtividade": { "treinada": false, "outroBonus": 0 },
+    "guerra": { "treinada": true, "outroBonus": 0 },
+    "iniciativa": { "treinada": false, "outroBonus": 0 },
+    "intimidacao": { "treinada": true, "outroBonus": 0 },
+    "intuicao": { "treinada": false, "outroBonus": 0 },
+    "investigacao": { "treinada": false, "outroBonus": 0 },
+    "jogatina": { "treinada": false, "outroBonus": 0 },
+    "ladinagem": { "treinada": false, "outroBonus": 0 },
+    "luta": { "treinada": true, "outroBonus": 0 },
+    "misticismo": { "treinada": false, "outroBonus": 0 },
+    "nobreza": { "treinada": false, "outroBonus": 0 },
+    "oficio": { "treinada": false, "outroBonus": 0, "especialidade": "" },
+    "percepcao": { "treinada": false, "outroBonus": 0 },
+    "pilotagem": { "treinada": false, "outroBonus": 0 },
+    "pontaria": { "treinada": false, "outroBonus": 0 },
+    "reflexos": { "treinada": false, "outroBonus": 0 },
+    "religiao": { "treinada": false, "outroBonus": 0 },
+    "sobrevivencia": { "treinada": false, "outroBonus": 0 },
+    "vontade": { "treinada": false, "outroBonus": 0 }
+  },
+  "ataques": [
+    { "nome": "Espada Longa", "pericia": "luta", "outroBonus": 0, "dano": "1d8", "somaForca": true, "outroDano": 0, "critico": "19-20/x2", "tipo": "Corte", "alcance": "Corpo a corpo" },
+    { "nome": "Adaga", "pericia": "luta", "outroBonus": 0, "dano": "1d4", "somaForca": true, "outroDano": 0, "critico": "19-20/x2", "tipo": "Corte/Perfuração", "alcance": "Corpo a corpo / Curto (arremesso)" }
+  ],
+  "poderes": [
+    { "nome": "Estilo de Arma e Escudo", "fonte": "Raça (Humano — Versátil)", "efeito": "+2 na Defesa fornecida pelo escudo." },
+    { "nome": "Bloqueio com Escudo", "fonte": "Origem (Soldado)", "efeito": "1 PM ao ser atingido: RD contra aquele ataque = bônus de Defesa do escudo." },
+    { "nome": "Influência Militar", "fonte": "Origem (Soldado, poder único)", "efeito": "Hospedagem e informação em qualquer acampamento ou base militar, para você e aliados." },
+    { "nome": "Ataque Especial", "fonte": "Classe (Guerreiro)", "efeito": "Gasta PM para +4 no teste de ataque ou na rolagem de dano (escala com o nível)." },
+    { "nome": "Durão", "fonte": "Classe (Guerreiro, 3º nível)", "efeito": "Gasta 2 PM para reduzir o dano sofrido à metade." }
+  ],
+  "inventario": [
+    { "item": "Espada Longa", "qtd": 1, "peso": 2 },
+    { "item": "Adaga", "qtd": 1, "peso": 0.5 },
+    { "item": "Brunea (armadura pesada)", "qtd": 1, "peso": 15 },
+    { "item": "Escudo leve", "qtd": 1, "peso": 3 },
+    { "item": "Mochila", "qtd": 1, "peso": 1 },
+    { "item": "Saco de dormir", "qtd": 1, "peso": 0.5 },
+    { "item": "Traje de viajante", "qtd": 1, "peso": 2 },
+    { "item": "Uniforme militar", "qtd": 1, "peso": 2 },
+    { "item": "Insígnia do exército", "qtd": 1, "peso": 0 }
+  ],
+  "tibares": 14,
+  "limiteCargaManual": null,
+  "textos": {
+    "proficiencias": "Armas marciais, armaduras pesadas, escudos.",
+    "habilidadesRacaOrigem": "Humano: +2 em três atributos diferentes (Força, Constituição, Sabedoria); Versátil (2 perícias à escolha, pode trocar uma por poder geral). Origem Soldado: itens (arma marcial, uniforme militar, insígnia); Influência Militar; um poder de combate à escolha.",
+    "habilidadesClassePoderes": "Guerreiro: PV 20+Con (+5+Con/nível); PM 3/nível; Ataque Especial; Poder de Guerreiro a cada nível par a partir do 2º; Durão (3º), Ataque Extra (6º), Campeão (20º).",
+    "magias": "",
+    "anotacoes": "Conceito: \"Protetor Imortal\" — guerreiro silencioso e disciplinado que absorve dano destinado aos aliados."
+  }
+}

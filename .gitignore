@@ -1,0 +1,11 @@
+# PDFs grandes — o livro do jogador sozinho tem ~108MB, acima do limite de arquivo do GitHub (100MB).
+# As regras relevantes já estão resumidas em memorias/. Remova esta linha se quiser versionar mesmo assim
+# (ou use Git LFS).
+manuais/
+
+# Lixo comum de SO/editor
+.DS_Store
+Thumbs.db
+
+# Permissões pessoais desta máquina (não confundir com .claude/settings.json, que é do projeto)
+.claude/settings.local.json
