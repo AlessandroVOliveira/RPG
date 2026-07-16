@@ -9,6 +9,7 @@ manuais/              → PDFs oficiais (livro do jogador, livro de Arton, ficha
 docs/                 → builds e decisões do Andor em Markdown (atributos, progressão, raça/origem)
 anotacoes/            → notas de sessão/aventura em .txt (uso livre do usuário)
 memorias/             → regras de T20 já extraídas dos PDFs, organizadas por tema
+Imagens/               → arte de referência visual do Andor, evolui conforme a aventura avança
 ```
 
 ## Fluxo de consulta de regras de Tormenta20
@@ -25,4 +26,5 @@ memorias/             → regras de T20 já extraídas dos PDFs, organizadas por
 - Extração de texto de PDF com `pdftotext -layout` costuma embaralhar colunas de tabelas (aconteceu com a tabela de armas). Nesses casos, prefira `pdftotext -f <pág> -l <pág> "arquivo.pdf" -` (sem `-layout`, página isolada) e cruze duas extrações antes de cravar um número — ou marque explicitamente como não confirmado em vez de arriscar um valor errado.
 - `manuais/` está no `.gitignore` — os PDFs não vão para o repositório. Só `memorias/`, `docs/`, a ficha e o JSON precisam ser versionados para o projeto continuar usável em outra máquina.
 - "Despertar" e "Protetor Imortal" são conceitos homebrew do próprio jogador para o Andor, não termos do livro — não procure isso nos PDFs.
+- Imagens novas em `Imagens/` costumam chegar como PNG grande (várias MB, gerado por IA). Antes de commitar, comprimir para JPEG qualidade ~88 (cai pra ~10% do tamanho, sem perda visível) e apagar o PNG original — não versionar o PNG bruto.
 - nunca se mencione como co autor dos comits.
