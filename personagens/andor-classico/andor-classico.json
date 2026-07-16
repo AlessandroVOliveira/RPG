@@ -37,7 +37,7 @@
     "escudo": { "nome": "Escudo pesado", "bonusCA": 2, "penalidade": -2, "peso": 7 }
   },
   "testesResistencia": {
-    "fortitude": { "base": 3, "talentoFortitudeMaior": "bônus de graça do Guerreiro, valor exato pendente — ver memorias/classico/talentos.md", "total": "3 + bônus do talento (não cravado)" },
+    "fortitude": { "base": 3, "bonusFortitudeMaior": 2, "total": 5 },
     "reflexos": { "base": 1, "total": 1 },
     "vontade": { "base": 1, "total": 1 }
   },
@@ -61,7 +61,32 @@
     { "nome": "Usar Armaduras (leves, médias e pesadas)", "fonte": "Guerreiro (talento adicional de graça)" },
     { "nome": "Usar Armas (simples e marciais)", "fonte": "Guerreiro (talento adicional de graça)" },
     { "nome": "Usar Escudos", "fonte": "Guerreiro (talento adicional de graça)" },
-    { "nome": "Fortitude Maior", "fonte": "Guerreiro (talento adicional de graça) — efeito exato pendente de confirmação" }
+    { "nome": "Fortitude Maior", "fonte": "Guerreiro (talento adicional de graça)", "efeito": "+2 no bônus base de Fortitude" }
+  ],
+  "progressaoTalentos": [
+    { "nivel": 2, "talento": "Ataque Poderoso", "fonte": "combate" },
+    { "nivel": 3, "talento": "Reflexos de Combate", "fonte": "comum" },
+    { "nivel": 4, "talento": "Especialização em Arma (Espada Longa)", "fonte": "combate" },
+    { "nivel": 5, "talento": "Foco em Armadura (Pesada)", "fonte": "comum" },
+    { "nivel": 6, "talento": "Escudo Fraterno", "fonte": "combate", "efeito": "Cede o bônus de CA do escudo a um aliado adjacente ao fim do turno, sem perder o próprio." },
+    { "nivel": 7, "talento": "Duro de Ferir", "fonte": "comum", "efeito": "Ignora o primeiro dano sofrido a cada combate." },
+    { "nivel": 8, "talento": "Foco em Arma Aprimorado (Espada Longa)", "fonte": "combate" },
+    { "nivel": 9, "talento": "Especialização em Armadura (Pesada)", "fonte": "comum", "efeito": "RD 2 usando armadura pesada." },
+    { "nivel": 10, "talento": "Ataque Poderoso Aprimorado", "fonte": "combate" },
+    { "nivel": 11, "talento": "Vontade de Ferro", "fonte": "comum", "efeito": "+2 no bônus base de Vontade." },
+    { "nivel": 12, "talento": "Especialização em Arma Aprimorada (Espada Longa)", "fonte": "combate" },
+    { "nivel": 13, "talento": "Fortitude Maior (2ª vez, cumulativo)", "fonte": "comum", "efeito": "+2 adicional no bônus base de Fortitude." },
+    { "nivel": 14, "talento": "Escudo Destemido", "fonte": "combate" },
+    { "nivel": 15, "talento": "Alcance Supremo", "fonte": "comum" },
+    { "nivel": 16, "talento": "Mestre em Arma (Espada Longa)", "fonte": "combate" },
+    { "nivel": 17, "talento": "Reflexos Rápidos", "fonte": "comum", "efeito": "+2 no bônus base de Reflexos." },
+    { "nivel": 18, "talento": "Ataque com Escudo", "fonte": "combate" },
+    { "nivel": 19, "talento": "Até Acertar", "fonte": "comum" },
+    { "nivel": 20, "talento": "Basta!", "fonte": "combate", "efeito": "1x/dia, ignora camuflagem, imunidade e RD do alvo." }
+  ],
+  "variantesConsideradas": [
+    { "nome": "Estilo Colosso", "fonte": "Manual do Combate, pág. 19-20", "status": "descartada", "motivo": "Substitui Técnica de Luta por só 2 talentos fixos (Especialização em Combate no 1º, Foco em Armadura no 2º), perdendo os outros 9 talentos de combate livres; Especialização em Combate exige Int 13 (Andor tem Int 11)." },
+    { "nome": "Soldado Veterano (classe de prestígio)", "fonte": "Manual do Combate, pág. 59-60", "status": "não adotada", "motivo": "Combina com o histórico de ex-soldado, mas exigiria multiclasse — não avaliado em detalhe, registrado como opção futura." }
   ],
   "habilidadesEspeciais": [
     { "nome": "Despertar", "fonte": "Concedida pelo mestre (homebrew, não é regra oficial)", "efeito": "Emite uma luz (cor à escolha). +1 nas jogadas de ataque (armado e desarmado). Ataque desarmado causa o mesmo dano do ataque armado e ignora Redução de Dano mundana." }

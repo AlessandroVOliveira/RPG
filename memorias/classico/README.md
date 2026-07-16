@@ -7,7 +7,7 @@ Resumo das regras da edição **clássica** do Tormenta RPG (pré-T20 — usa CA
 - **[regras-base.md](regras-base.md)** — geração de atributos, tabela de modificadores, perícias (fórmula de teste, graduações, tabela de habilidade-chave/treinada/penalidade de armadura).
 - **[raca-humano.md](raca-humano.md)** — traços raciais do Humano (+2 em duas habilidades, 2 talentos extras, 2 perícias treinadas extras).
 - **[guerreiro.md](guerreiro.md)** — características de classe, BBA cheio, Técnica de Luta (talentos de combate por nível).
-- **[talentos.md](talentos.md)** — talentos de combate relevantes para build de tanque com escudo (Esquiva, Ataque com Escudo Aprimorado, Especialização em Armadura, Foco/Especialização em Arma, Duro de Matar, Reflexos de Combate etc.).
+- **[talentos.md](talentos.md)** — talentos de combate relevantes para build de tanque com escudo (livro básico + Compilado de Talentos: Esquiva, Ataque com Escudo Aprimorado/Escudo Fraterno, Especialização em Armadura, Foco/Especialização em Arma, Duro de Matar/Duro de Ferir, Reflexos de Combate etc.), os 3 Talentos de Destino confirmados (Fortitude Maior/Vontade de Ferro/Reflexos Rápidos, +2 cumulativo cada) e a variante de classe Estilo Colosso (Manual do Combate — avaliada e descartada para o Andor, ver arquivo).
 - **[combate.md](combate.md)** — fórmulas de CA, PV, ataque, dano, testes de resistência, iniciativa, ações por rodada.
 - **[equipamento.md](equipamento.md)** — tabela de armaduras/escudos completa, armas relevantes (espada longa, machado de batalha), dinheiro inicial.
 
@@ -15,7 +15,7 @@ Ver `CLAUDE.md` na raiz para o fluxo de consulta (memórias primeiro, PDF depois
 
 ## O que ainda NÃO foi extraído
 
-Magias (Cap. 8), Talentos de Perícia/Magia/Poderes Concedidos/Tormenta/Destino em detalhe (só nomes, efeitos de Fortitude Maior/Vontade de Ferro/Reflexos Rápidos pendentes — ver aviso em `talentos.md`), outras raças e classes, Cap. 6 (Tendência/Deuses/Pontos de Ação), Cap. 10 (Mestre/Tesouros/Itens Mágicos), Bestiário. Só foi extraído o necessário pra montar Humano Guerreiro.
+Magias (Cap. 8), Talentos de Perícia/Magia/Poderes Concedidos/Tormenta/Racial/Regional/Épicos do Compilado (só a seção Combate e Destino foram lidas), outras raças e classes do Manual das Raças/Manual do Combate (Cavaleiro, Lutador, tribos de Bárbaro, Artes de Monge, Clãs de Samurai, Golpes Marciais/Posturas/Escolas de Combate/Gritos de Poder), classes de prestígio do Manual de Classes de Prestígio (nenhuma delas é boa opção pra um Humano Guerreiro tanque — são majoritariamente arcanas/furtivas), Cap. 6 do livro básico (Tendência/Deuses/Pontos de Ação), Cap. 10 (Mestre/Tesouros/Itens Mágicos), Bestiário. Foi extraído o necessário pra montar e progredir (1º-20º nível) um Humano Guerreiro tanque de espada e escudo.
 
 ## Livros disponíveis em `manuais-classico/` e o que cada um cobre
 

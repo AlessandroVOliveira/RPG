@@ -34,12 +34,46 @@ Combate, Perícia, Magia, Poderes Concedidos, Tormenta, Destino. Só **Talentos 
 | **Ataque Poderoso** | For 13 | −2 no ataque / +4 no dano (arma de uma mão ou desarmado) |
 | **Golpe com Duas Mãos** | For 15, Ataque Poderoso | Ao usar arma de duas mãos, soma **dobro** do mod. de Força (em vez de 1x) — não combina com armas leves |
 
-## Talentos de Destino (gerais) úteis
+## Talentos de Destino (gerais) — confirmados
 
-- **Fortitude Maior** — bônus de graça do Guerreiro (ver `guerreiro.md`); efeito provável +2 em Fortitude (não confirmado nesta passada — cruzar na próxima leitura do capítulo de Talentos de Destino, pág. 108-109).
-- **Vontade de Ferro** — provável +2 em Vontade (mesma ressalva acima).
-- ⚠️ Tabela de pré-requisitos de Talentos de Destino/Perícia veio com colunas desalinhadas na extração `-layout` (ver aviso no topo de `equipamento.md` sobre o mesmo problema) — os nomes e efeitos de Fortitude Maior/Vontade de Ferro/Reflexos Rápidos ainda não foram lidos em prosa; só a lista de nomes foi confirmada. Reabrir pág. 108-109 sem `-layout` antes de cravar o efeito exato.
+Fonte: `manuais-classico/tormenta-rpg-compilado-de-talentos-biblioteca-elfica.pdf`, seção "Talentos de Destino" (pág. 37-49 do compilado — numeração própria do PDF, não é a página impressa do livro básico). Todos **sem pré-requisito de atributo** e **cumulativos** (podem ser escolhidos várias vezes, efeito soma):
+
+| Talento | Efeito |
+|---|---|
+| **Fortitude Maior** | +2 no bônus base de Fortitude. Cumulativo. |
+| **Reflexos Rápidos** | +2 no bônus base de Reflexos. Cumulativo. |
+| **Vontade de Ferro** | +2 no bônus base de Vontade. Cumulativo. |
+
+Guerreiro já recebe **Fortitude Maior de graça** (talento adicional da classe, ver `guerreiro.md`) — pegar de novo como talento comum soma mais +2 (é cumulativo).
+
+## Talentos extras encontrados no Compilado de Talentos (`tormenta-rpg-compilado-de-talentos-biblioteca-elfica.pdf`, seção Combate, pág. 3-23)
+
+Além dos talentos de combate do livro básico (acima), o compilado traz mais opções relevantes pra um tanque com escudo:
+
+| Talento | Pré-requisito | Efeito |
+|---|---|---|
+| **Escudo Fraterno** | Usar Escudo | Ao terminar o turno adjacente a um aliado, você pode ceder seu bônus de escudo na CA para ele (sem perder o seu) — **a peça mecânica mais alinhada com "Protetor Imortal"** encontrada até agora |
+| **Duro de Ferir** | Con 13 | Ignora o primeiro dano que sofrer a cada combate |
+| **Escudo Destemido** | Usar Escudo | Não sofre a penalidade de −2 na CA ao fazer uma investida usando escudo |
+| **Escudo Heroico** | Ataque com Escudo Aprimorado | Pode arremessar o escudo como arma |
+| **Ataque com Escudo** | Usar Escudo | Ataque adicional com o escudo (−2 em todas as jogadas de ataque, perde o bônus de CA do escudo até a próxima rodada) |
+| **Ataque Poderoso Aprimorado** | Ataque Poderoso, BBA +6 | Como Ataque Poderoso, mas pode trocar −4 no ataque por +8 no dano (não cumulativo com Ataque Poderoso) |
+| **Até Acertar** | Foco em Arma | Cada erro consecutivo com a mesma arma contra o mesmo alvo dá +1 acumulado no próximo ataque, até acertar |
+| **Animal Encurralado** | Des 13 | Quando flanqueado, sua margem de ameaça aumenta em 1 por oponente flanqueando |
+| **Alcance Supremo** | Especialização em Arma | +1,5m de alcance natural com a arma escolhida |
+| **Basta!** | Vontade de Ferro, BBA +10 | 1x/dia, um golpe ignora camuflagem, imunidade e RD do alvo (não perde o uso se errar) |
+| **Trespassar** | (prereq exato ainda não lido em prosa — só citado no exemplo do livro básico, pág. 92, como "ataque adicional ao derrotar um inimigo", equivalente a Cleave) | Ataque extra imediato ao reduzir um inimigo a 0 PV |
+
+## Variante de classe: Estilo Colosso (considerado, não adotado para o Andor)
+
+Fonte: `manuais-classico/tormenta-rpg---manual-do-combate.pdf`, pág. 19-20. "Estilos de Guerreiros" são variantes do Guerreiro comum — **mesma classe, trocando só as habilidades listadas**. O **Estilo Colosso** é um encaixe temático quase perfeito pra "Protetor Imortal" (tanque que sempre usa a armadura/escudo mais pesados, "Pose Desafiadora" que força inimigos a atacá-lo em vez dos aliados, chance crescente de ignorar críticos/ataques furtivos, PV 24+Con em vez de 20+Con, Domínio do Escudo com escudo de corpo).
+
+⚠️ **Motivo de não adotar:** a habilidade Técnica de Luta do Colosso é **substituída** por só 2 talentos fixos (Especialização em Combate no 1º nível, Foco em Armadura no 2º), perdendo os outros 9 talentos de combate livres que o Guerreiro comum ganharia do 4º ao 20º nível. Além disso, **Especialização em Combate exige Inteligência 13**, e o Andor tem Int 11 — não fica claro no texto se a concessão forçada de classe dispensa esse pré-requisito. Decisão do jogador: manter Guerreiro comum e replicar o sabor do Colosso via talentos normais (Escudo Fraterno, Duro de Ferir, Ataque com Escudo Aprimorado — já na build). Pré-requisitos do Colosso: Tendência Leal, Constituição 15 (Andor teria Con 17 ✓, caso reconsiderado no futuro).
+
+## Classe de prestígio: Soldado Veterano (mencionado, não adotado)
+
+Fonte: `manuais-classico/tormenta-rpg---manual-do-combate.pdf`, pág. 59-60. Classe de prestígio (BBA cheio, PV 5+Con/nível) pra guerreiros veteranos "sem ambição de comando", com o traço de **Lealdade** (a uma pessoa/instituição/causa). Pré-requisitos: BBA +5, Tendência Leal, talento Foco em Arma, não pode ter Comandar/Liderança nem ser oficial/nobre. Combina com o histórico de ex-soldado do Andor, mas teria que abrir mão de níveis de Guerreiro puro — não avaliado em detalhe pra esta build; fica registrado como opção futura caso o jogador queira multiclasse.
 
 ## Fontes usadas neste build
 
-Todas as descrições de Talentos de Combate acima vêm da prosa (não da tabela de pré-requisitos, que saiu com colunas desalinhadas por causa de `-layout`) — pág. 96-102.
+Descrições de Talentos de Combate do livro básico vêm da prosa (não da tabela de pré-requisitos, que saiu com colunas desalinhadas por causa de `-layout`) — pág. 96-102. Talentos de Destino e talentos extras de combate vêm de `tormenta-rpg-compilado-de-talentos-biblioteca-elfica.pdf` (extração sem `-layout`), seções Combate (pág. 3-23) e Destino (pág. 37-49, numeração do PDF).

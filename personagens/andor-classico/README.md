@@ -15,13 +15,14 @@ Atributos base, rolados nos dados, ordenados: **17, 15, 13, 12, 12, 11** — id�
 - **Equipamento inicial:** Espada Longa + Escudo pesado + Brunea (armadura média) — armadura pesada completa fica pra quando puder pagar (1.500 TO)
 - **CA 1º nível:** 17 · **PV:** 23 · **Ataque:** +6 (1d8+4, 19-20/x2)
 - **Talentos 1º nível:** Foco em Arma (Espada Longa), Esquiva, Ataque com Escudo Aprimorado, Duro de Matar
-- Progressão de talentos confirmada até o 9º nível em `docs/` — 10º-20º pendente (falta extrair Talentos de Destino em detalhe)
+- **Roadmap de talentos completo, 1º ao 20º nível**, em `docs/` — inclui picareta de Escudo Fraterno (6º), Especialização em Armadura (9º), toda a cadeia de arma (Foco→Especialização→Aprimorados→Mestre em Arma) e os 3 talentos de Destino (Fortitude Maior/Vontade de Ferro/Reflexos Rápidos, todos cumulativos e confirmados em prosa)
+- Avaliada e descartada a variante **Estilo Colosso** (Manual do Combate) — ver `docs/` e `memorias/classico/talentos.md` para o porquê
 
 ## Pendências conhecidas
 
-- Efeito exato de Fortitude Maior/Vontade de Ferro/Reflexos Rápidos (só os nomes foram confirmados)
 - Talento Nativo "Lutar em Formação" (do livro de Arton, mesma edição clássica — pode valer sem adaptação, só falta reextrair o texto)
 - Se existe um sistema de "origem/antecedente" mecânico nesta edição (Cap. 6, ainda não lido)
+- Classe de prestígio Soldado Veterano (Manual do Combate) combina com o histórico de ex-soldado mas não foi avaliada em detalhe — opção futura de multiclasse
 
 ## Conteúdo
 

@@ -64,25 +64,37 @@ Sem Pontos de Mana, sem marcos automáticos (Durão/Ataque Extra/Campeão de T20
 | **Ataque com Escudo Aprimorado** | Bônus de Humano | Usar Escudo ✓ | Mantém o bônus de CA do escudo ao atacar com ele (normalmente se perderia até a próxima rodada) |
 | **Duro de Matar** | Bônus de Humano | — | 1x/dia ignora completamente um dano que o levaria a 0 PV ou menos — a essência mecânica do "Protetor Imortal" nesta edição |
 
-## Guia de progressão confirmado (1º-9º nível)
+## Guia de progressão completo (1º-20º nível)
 
-Só inclui talentos cujo pré-requisito e efeito foram **lidos em prosa** no livro (Talentos de Combate, pág. 96-102) — evita cravar algo de uma tabela que saiu desalinhada na extração (ver aviso em `memorias/classico/talentos.md`). Todos batem com os atributos finais do Andor (For 19, Des 13, Con 17, Int 11, Sab 12, Car 12) — **Int 11 bloqueia toda a árvore de "Especialização em Combate"** (Aparar, Derrubar/Desarmar Aprimorado, Ataque Giratório, Fintar Aprimorado — todos pedem Int 13), igual ao Andor de T20 ter Inteligência como dump stat.
+Revisado após consultar Manual do Combate e Compilado de Talentos (ver `memorias/classico/talentos.md` para a lista completa com fontes). Todo talento abaixo tem pré-requisito e efeito **lidos em prosa**, nenhum vem só da tabela desalinhada. Todos batem com os atributos finais do Andor (For 19, Des 13, Con 17, Int 11, Sab 12, Car 12) — **Int 11 bloqueia toda a árvore de "Especialização em Combate"** (Aparar, Derrubar/Desarmar Aprimorado, Ataque Giratório, Fintar Aprimorado — todos pedem Int 13), igual ao Andor de T20 ter Inteligência como dump stat. Por esse motivo, a variante de classe **Estilo Colosso** (Manual do Combate, pág. 19 — tanque que provoca inimigos, ignora críticos, mais PV) **foi avaliada e descartada**: ela força escolher Especialização em Combate no 1º nível (que o Andor não pode cumprir) e troca os 9 talentos de combate livres por só 2 fixos — ver `memorias/classico/talentos.md` para o raciocínio completo. Em vez disso, o sabor "Protetor Imortal" do Colosso foi replicado com talentos normais (**Escudo Fraterno**, **Duro de Ferir**, **Ataque com Escudo Aprimorado**), sem trocar de classe.
 
 | Nível | Talento escolhido | Fonte | Pré-requisito | Efeito |
 |---|---|---|---|---|
-| 1 | Foco em Arma, Esquiva, Ataque com Escudo Aprimorado, Duro de Matar | (ver tabela acima) | | |
-| 2 | **Ataque Poderoso** | Técnica de Luta | For 13 ✓ | −2 no ataque / +4 no dano, à escolha por ataque |
-| 3 | **Reflexos de Combate** | Talento comum | Des 13 ✓ | Ataque corpo-a-corpo livre contra oponente adjacente desprevenido — pune quem tenta passar pela linha de frente |
-| 4 | **Especialização em Arma (Espada Longa)** | Técnica de Luta | Foco em Arma ✓, Guerreiro 4º nível ✓ | +2 no dano com espada longa |
-| 5 | **Foco em Armadura (Pesada)** | Talento comum | saber usar armadura pesada ✓ | +1 no bônus de armadura, −1 na penalidade — prepara a Especialização em Armadura do 9º |
-| 6 | **Empurrar Aprimorado** | Técnica de Luta | For 13 ✓, Ataque Poderoso ✓ | +4 em jogadas de ataque para empurrar — afasta inimigos do aliado protegido |
-| 7 | **Trespassar** | Talento comum | (pré-requisito exato não lido em detalhe — só descrito no exemplo do livro, pág. 92: "fornece um ataque adicional quando derrota um inimigo", equivalente a Cleave) | Ataque extra ao derrubar um inimigo |
-| 8 | **Foco em Arma Aprimorado (Espada Longa)** | Técnica de Luta | Foco em Arma ✓, Guerreiro 8º nível ✓ | Bônus de Foco em Arma sobe de +1 para +2 |
-| 9 | **Especialização em Armadura (Pesada)** | Talento comum | Foco em Armadura (mesmo tipo) ✓, Guerreiro 8º nível ✓ | Redução de Dano 2 usando armadura pesada |
+| 1 | Foco em Arma (Espada Longa) | comum | saber usar ✓, BBA+1 ✓ | +1 ataque com espada longa |
+| 1 | Ataque com Escudo Aprimorado | humano | Usar Escudo ✓ | Mantém o bônus de CA do escudo ao atacar com ele |
+| 1 | Duro de Matar | humano | — | 1x/dia ignora um dano que o levaria a 0 PV ou menos |
+| 1 | Esquiva | combate (Técnica de Luta) | Des 13 ✓ | +1 CA |
+| 2 | **Ataque Poderoso** | combate | For 13 ✓ | −2 ataque / +4 dano, à escolha |
+| 3 | **Reflexos de Combate** | comum | Des 13 ✓ | Ataque livre contra adjacente desprevenido |
+| 4 | **Especialização em Arma (Espada Longa)** | combate | Foco em Arma ✓, Guerreiro 4º ✓ | +2 no dano com espada longa |
+| 5 | **Foco em Armadura (Pesada)** | comum | saber usar armadura pesada ✓ | +1 bônus de armadura, −1 penalidade |
+| 6 | **Escudo Fraterno** | combate | Usar Escudo ✓ | Ao terminar o turno adjacente a um aliado, cede o bônus de CA do escudo pra ele sem perder o seu — a peça central do "Protetor Imortal" nesta edição |
+| 7 | **Duro de Ferir** | comum | Con 13 ✓ | Ignora o primeiro dano sofrido a cada combate |
+| 8 | **Foco em Arma Aprimorado (Espada Longa)** | combate | Foco em Arma ✓, Guerreiro 8º ✓ | Bônus de Foco em Arma sobe de +1 para +2 |
+| 9 | **Especialização em Armadura (Pesada)** | comum | Foco em Armadura ✓, Guerreiro 8º ✓ | Redução de Dano 2 usando armadura pesada |
+| 10 | **Ataque Poderoso Aprimorado** | combate | Ataque Poderoso ✓, BBA +6 ✓ | Alternativa: −4 ataque / +8 dano (não cumulativo com Ataque Poderoso) |
+| 11 | **Vontade de Ferro** | comum | — | +2 no bônus base de Vontade |
+| 12 | **Especialização em Arma Aprimorada (Espada Longa)** | combate | Foco em Arma ✓, Foco em Arma Aprimorado ✓, Especialização em Arma ✓, Guerreiro 12º ✓ | Bônus de Especialização em Arma sobe de +2 para +4 |
+| 13 | **Fortitude Maior** (2ª vez) | comum | — (cumulativo) | +2 adicional no bônus base de Fortitude |
+| 14 | **Escudo Destemido** | combate | Usar Escudo ✓ | Sem penalidade de −2 na CA ao investir usando escudo |
+| 15 | **Alcance Supremo** | comum | Especialização em Arma ✓ | +1,5m de alcance com a espada longa |
+| 16 | **Mestre em Arma (Espada Longa)** | combate | Especialização em Arma Aprimorada ✓, Foco em Arma Aprimorado ✓, Guerreiro 16º ✓ | +1 ataque/dano extra, margem de ameaça +1, 1x/dia repete uma jogada de ataque |
+| 17 | **Reflexos Rápidos** | comum | — | +2 no bônus base de Reflexos |
+| 18 | **Ataque com Escudo** | combate | Usar Escudo ✓ | Ataque adicional com o escudo (−2 no ataque, perde CA do escudo até a próxima rodada) |
+| 19 | **Até Acertar** | comum | Foco em Arma ✓ | Erros consecutivos com a mesma arma no mesmo alvo dão +1 acumulado no próximo ataque |
+| 20 | **Basta!** | combate | Vontade de Ferro ✓ (11º nível), BBA +10 ✓ | 1x/dia, um golpe ignora camuflagem, imunidade e Redução de Dano do alvo |
 
-## Pendente (10º-20º nível e além)
-
-Não foi extraído em detalhe o texto de **Talentos de Destino** (pág. 108-109 — Vontade de Ferro, Reflexos Rápidos, Fortitude Maior: só os nomes foram confirmados, os efeitos exatos não) nem **Talentos de Perícia**. Antes de fechar a progressão 10-20, vale reabrir essas páginas sem `-layout` (mesmo método usado em `equipamento.md`) e cruzar com a prosa. Candidatos prováveis pra continuar a cadeia de armas: **Especialização em Arma Aprimorada** (12º nível) e **Mestre em Arma** (16º nível), ambas já com pré-requisitos confirmados em `memorias/classico/talentos.md`.
+**Equipamento ao longo da progressão:** usando a tabela de "Dinheiro Inicial por Nível" (`memorias/classico/equipamento.md`) como referência de riqueza esperada, por volta do **6º-7º nível** (3.000-5.000 TO) já dá pra trocar a Brunea por **Armadura Completa** (1.500 TO + 500 TO de ajuste) — no espírito de "armadura pesada assim que puder pagar" da versão T20. Com Armadura Completa (+8, melhorada pra +9 com Foco em Armadura do 5º nível) + Escudo Pesado (+2) + Especialização em Armadura (RD 2, do 9º nível), o Andor se torna um tanque muito resistente na segunda metade da progressão.
 
 ---
 
@@ -95,7 +107,7 @@ Mesma descrição narrativa e mecânica de T20, só traduzida pro vocabulário d
 - Ataque desarmado passa a causar **o mesmo dano do ataque armado** (1d8+4, em vez do 1d3 padrão de ataque desarmado desta edição).
 - Ataque desarmado **ignora Redução de Dano mundana**.
 
-"Protetor Imortal" continua sem mecânica própria além do que já está nos talentos escolhidos (Duro de Matar, Especialização em Armadura, Empurrar Aprimorado) — é o conceito narrativo que guia as escolhas, igual em T20.
+"Protetor Imortal" agora tem uma peça mecânica direta nesta edição: **Escudo Fraterno** (6º nível) deixa o Andor ceder a própria CA de escudo a um aliado adjacente, além de Duro de Matar, Duro de Ferir e Especialização em Armadura reforçando a resiliência. É o conjunto de talentos que dá corpo ao conceito narrativo, igual em T20.
 
 ## Pendente: Talento Nativo "Lutar em Formação"
 
@@ -105,4 +117,4 @@ Na versão T20, este talento veio do livro `tormenta-rpg---o-mundo-de-arton.pdf`
 
 T20 tinha "Origens" com benefícios mecânicos (perícias + poderes). Esta edição não parece ter o mesmo conceito no que já foi extraído (Cap. 6: Características, pág. 114-125, ainda não lido — cobre Tendência, Deuses, Pontos de Ação, mas não menciona "origem" no sumário). O histórico de soldado de Doherimm continua válido como pano de fundo narrativo; se houver algum sistema de antecedentes/histórico com benefício mecânico nesta edição, ainda não foi localizado.
 
-**Fontes:** Capítulo 1 (Habilidades, pág. 24-27), Capítulo 2 (Raças — Humano, pág. 36), Capítulo 3 (Classes — Guerreiro, pág. 58-59), Capítulo 4 (Perícias, pág. 76-89), Capítulo 5 (Talentos — Talentos de Combate, pág. 90-102), Capítulo 7 (Equipamento, pág. 126-141), Capítulo 9 (Combate, pág. 210-221), todos de `manuais-classico/tormenta-rpg-modulo-basico-biblioteca-elfica.pdf`.
+**Fontes:** Capítulo 1 (Habilidades, pág. 24-27), Capítulo 2 (Raças — Humano, pág. 36), Capítulo 3 (Classes — Guerreiro, pág. 58-59), Capítulo 4 (Perícias, pág. 76-89), Capítulo 5 (Talentos — Talentos de Combate, pág. 90-102), Capítulo 7 (Equipamento, pág. 126-141), Capítulo 9 (Combate, pág. 210-221), todos de `manuais-classico/tormenta-rpg-modulo-basico-biblioteca-elfica.pdf`. Progressão de talentos revisada com `tormenta-rpg---manual-do-combate.pdf` (Estilos de Guerreiros, pág. 18-20; Soldado Veterano, pág. 59-60) e `tormenta-rpg-compilado-de-talentos-biblioteca-elfica.pdf` (Talentos de Combate e Destino).
