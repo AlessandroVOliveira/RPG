@@ -145,6 +145,48 @@
     .panel, .header-panel{ box-shadow:none; break-inside:avoid; }
     .toolbar, .del-btn, .add-row-btn{ display:none !important; }
   }
+
+  /* ---- dice roller modal ---- */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(20,15,10,0.55); display:none;
+    align-items:center; justify-content:center; z-index:1000; padding:16px;
+  }
+  .modal-overlay.show{ display:flex; }
+  .modal-box{
+    background:var(--paper2); border:3px solid var(--line); border-radius:8px;
+    padding:16px 20px 20px; max-width:480px; width:100%; max-height:88vh; overflow-y:auto;
+    box-shadow:4px 6px 0 rgba(0,0,0,0.28);
+  }
+  .modal-box h2{
+    font-family:Georgia,serif; color:var(--red); text-transform:uppercase; letter-spacing:1.5px;
+    font-size:1.1em; margin:2px 0 12px; display:flex; align-items:center; justify-content:space-between;
+  }
+  .modal-box h2 .close-x{ cursor:pointer; font-size:0.85em; color:var(--ink-soft); border:1.5px solid var(--ink-soft); border-radius:4px; padding:0 7px; font-family:'Segoe UI',sans-serif; }
+  .modal-box h2 .close-x:hover{ background:var(--bad); color:#fff; border-color:var(--bad); }
+  .dice-quick{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px; }
+  .dice-quick button{ padding:5px 10px; font-size:0.8em; }
+  .dice-rows{ display:flex; flex-direction:column; gap:6px; margin-bottom:10px; }
+  .dice-row{ display:flex; align-items:center; gap:6px; font-family:'Segoe UI',sans-serif; font-size:0.9em; }
+  .dice-row input[type=number]{ width:56px; text-align:center; padding:4px; }
+  .dice-row .d-sep{ font-weight:700; color:var(--ink-soft); }
+  .dice-row .del-btn{ margin-left:auto; }
+  .dice-mod-row{ display:flex; align-items:center; gap:8px; margin:10px 0; font-family:'Segoe UI',sans-serif; font-size:0.9em; }
+  .dice-mod-row input{ width:70px; }
+  .dice-actions{ display:flex; gap:8px; margin-bottom:12px; }
+  .dice-results{ border-top:2px solid var(--line); padding-top:10px; margin-top:4px; }
+  .dice-result-group{ font-size:0.88em; margin-bottom:5px; font-family:'Segoe UI',sans-serif; }
+  .die-chip{
+    display:inline-block; min-width:20px; text-align:center; background:var(--box); border:1.5px solid var(--line);
+    border-radius:4px; padding:1px 5px; margin:0 2px; font-weight:700; font-family:Georgia,serif; font-size:0.95em;
+  }
+  .die-chip.crit-max{ background:var(--good); color:#fff; border-color:var(--good); }
+  .die-chip.crit-min{ background:var(--bad); color:#fff; border-color:var(--bad); }
+  .dice-grand-total{
+    display:flex; align-items:center; gap:10px; margin-top:8px; font-family:Georgia,serif;
+  }
+  .dice-grand-total .total-box{ font-size:1.5em; padding:2px 12px; }
+  .dice-history{ margin-top:14px; font-size:0.78em; color:var(--ink-soft); font-family:'Segoe UI',sans-serif; }
+  .dice-history div{ padding:2px 0; border-bottom:1px dashed #cfc3a3; }
 </style>
 </head>
 <body>
@@ -158,8 +200,33 @@
   <button onclick="exportJSON()">⬇ Exportar JSON</button>
   <button onclick="document.getElementById('fileInput').click()">⬆ Importar JSON</button>
   <button onclick="window.print()">🖨 Imprimir</button>
+  <button onclick="openDiceRoller()">🎲 Rolar Dados</button>
   <button class="danger" onclick="resetToDefault()">↺ Restaurar Andor (padrão)</button>
   <input type="file" id="fileInput" accept="application/json">
+</div>
+
+<div class="modal-overlay" id="diceModal">
+  <div class="modal-box">
+    <h2>Rolador de Dados <span class="close-x" onclick="closeDiceRoller()">✕ fechar</span></h2>
+
+    <div class="dice-quick" id="diceQuick"></div>
+
+    <div class="dice-rows" id="diceRows"></div>
+    <button class="add-row-btn" onclick="addDiceRow(20,1)" style="font-size:0.8em;">+ tipo de dado personalizado</button>
+
+    <div class="dice-mod-row">
+      <label style="margin:0;">Modificador fixo</label>
+      <input type="number" id="diceMod" value="0">
+      <button onclick="clearDiceRows()" style="margin-left:auto;">Limpar</button>
+    </div>
+
+    <div class="dice-actions">
+      <button onclick="rollDice()" style="flex:1; background:var(--red); color:var(--paper2);">🎲 Rolar</button>
+    </div>
+
+    <div class="dice-results" id="diceResults"></div>
+    <div class="dice-history" id="diceHistory"></div>
+  </div>
 </div>
 
 <div id="updateBanner" style="display:none; background:#2f5233; color:#f3e9d5; border:2px solid var(--line); border-radius:6px; padding:10px 14px; margin-bottom:16px; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; font-family:'Segoe UI',sans-serif; font-size:0.88em;">
@@ -1084,6 +1151,115 @@ document.getElementById('d_escudo_preset').addEventListener('change', function()
   el.addEventListener('input', recalc);
   el.addEventListener('change', recalc);
 });
+
+// ---------- ROLADOR DE DADOS ----------
+const DICE_PRESETS = [4,6,8,10,12,20,100];
+let diceRows = [{sides:20, qty:1}];
+let diceHistory = [];
+
+function openDiceRoller(){
+  renderDiceQuick();
+  renderDiceRows();
+  document.getElementById('diceModal').classList.add('show');
+}
+function closeDiceRoller(){
+  document.getElementById('diceModal').classList.remove('show');
+}
+document.getElementById('diceModal').addEventListener('click', function(e){
+  if(e.target === this) closeDiceRoller();
+});
+
+function renderDiceQuick(){
+  const box = document.getElementById('diceQuick');
+  box.innerHTML = '';
+  DICE_PRESETS.forEach(sides=>{
+    const btn = document.createElement('button');
+    btn.textContent = 'd' + sides;
+    btn.onclick = ()=> quickAddDie(sides);
+    box.appendChild(btn);
+  });
+}
+
+function quickAddDie(sides){
+  const row = diceRows.find(r=>r.sides===sides);
+  if(row) row.qty++;
+  else diceRows.push({sides, qty:1});
+  renderDiceRows();
+}
+
+function addDiceRow(sides,qty){
+  diceRows.push({sides:sides||6, qty:qty||1});
+  renderDiceRows();
+}
+
+function removeDiceRow(i){
+  diceRows.splice(i,1);
+  renderDiceRows();
+}
+
+function clearDiceRows(){
+  diceRows = [];
+  document.getElementById('diceMod').value = 0;
+  document.getElementById('diceResults').innerHTML = '';
+  renderDiceRows();
+}
+
+function renderDiceRows(){
+  const box = document.getElementById('diceRows');
+  box.innerHTML = '';
+  diceRows.forEach((r,i)=>{
+    const row = document.createElement('div');
+    row.className = 'dice-row';
+    row.innerHTML = `
+      <input type="number" min="1" max="100" value="${r.qty}" data-i="${i}" data-f="qty">
+      <span class="d-sep">×</span>
+      <span class="d-sep">d</span>
+      <input type="number" min="2" max="1000" value="${r.sides}" data-i="${i}" data-f="sides">
+      <button class="del-btn" onclick="removeDiceRow(${i})">✕</button>
+    `;
+    box.appendChild(row);
+  });
+  box.querySelectorAll('input').forEach(el=>{
+    el.addEventListener('change', function(){
+      const i = Number(this.dataset.i), f = this.dataset.f;
+      diceRows[i][f] = Math.max(f==='qty'?1:2, Number(this.value)||1);
+      renderDiceRows();
+    });
+  });
+}
+
+function rollDice(){
+  if(diceRows.length===0){ document.getElementById('diceResults').innerHTML = '<div class="hint">Adicione ao menos um tipo de dado.</div>'; return; }
+  const modifier = Number(document.getElementById('diceMod').value)||0;
+  let grandTotal = modifier;
+  let groupsHtml = '';
+  let summaryParts = [];
+
+  diceRows.forEach(r=>{
+    const rolls = [];
+    for(let k=0;k<r.qty;k++) rolls.push(1 + Math.floor(Math.random()*r.sides));
+    const subtotal = rolls.reduce((a,b)=>a+b,0);
+    grandTotal += subtotal;
+    const chips = rolls.map(v=>{
+      let cls = 'die-chip';
+      if(v===r.sides) cls += ' crit-max';
+      else if(v===1) cls += ' crit-min';
+      return `<span class="${cls}">${v}</span>`;
+    }).join('');
+    groupsHtml += `<div class="dice-result-group"><b>${r.qty}d${r.sides}</b>: ${chips} = ${subtotal}</div>`;
+    summaryParts.push(`${r.qty}d${r.sides}`);
+  });
+
+  if(modifier) groupsHtml += `<div class="dice-result-group">Modificador: ${fmt(modifier)}</div>`;
+
+  document.getElementById('diceResults').innerHTML = groupsHtml +
+    `<div class="dice-grand-total"><span>Total</span><span class="total-box">${grandTotal}</span></div>`;
+
+  const label = summaryParts.join(' + ') + (modifier? ' '+fmt(modifier):'');
+  diceHistory.unshift(`${label} = ${grandTotal}`);
+  diceHistory = diceHistory.slice(0,6);
+  document.getElementById('diceHistory').innerHTML = diceHistory.map(h=>`<div>${h}</div>`).join('');
+}
 
 // ---------- INIT ----------
 loadData();
