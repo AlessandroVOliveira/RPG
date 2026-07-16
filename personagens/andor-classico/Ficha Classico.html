@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Ficha Tormenta RPG (clássico)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --paper:#f4f2ec; --ink:#161616; --ink-soft:#5a5a5a; --line:#161616;
+    --bar:#161616; --bar-text:#f4f2ec; --box:#ffffff; --accent:#8a1f1f;
+    --good:#2f6b3f; --bad:#8a1f1f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; font-family:'Segoe UI', Tahoma, sans-serif; color:var(--ink); line-height:1.35;
+    padding:18px; background:var(--paper);
+  }
+  .sheet{ max-width:1360px; margin:0 auto; }
+
+  h1.title{
+    font-family:Georgia, 'Times New Roman', serif; font-weight:900; text-transform:uppercase;
+    letter-spacing:5px; color:var(--accent); margin:0 0 2px 0; font-size:1.9em;
+  }
+  .sub{color:var(--ink-soft); font-size:0.85em; margin-bottom:14px;}
+  .saved-flash{ color:var(--good); font-size:0.8em; opacity:0; transition:opacity .3s; font-weight:600;}
+  .saved-flash.show{ opacity:1; }
+
+  .toolbar{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;}
+  button{
+    font-family:'Segoe UI', sans-serif; background:var(--box); color:var(--ink); border:2px solid var(--line);
+    padding:6px 14px; border-radius:4px; cursor:pointer; font-size:0.82em; font-weight:600;
+  }
+  button:hover{ background:var(--accent); color:#fff; border-color:var(--accent); }
+  button.danger:hover{ background:var(--bad); color:#fff; }
+  #fileInput{ display:none; }
+
+  /* ---- boxed sections (mirrors the official sheet's black bar headers) ---- */
+  .box{ background:var(--box); border:2px solid var(--line); border-radius:2px; margin-bottom:14px; }
+  .bar{
+    background:var(--bar); color:var(--bar-text); font-weight:800; text-transform:uppercase;
+    letter-spacing:1px; padding:6px 12px; font-size:0.9em;
+  }
+  .box-body{ padding:10px 12px; }
+  .box-body.tight{ padding:6px 8px; }
+
+  .cols{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; align-items:start; }
+  .cols2{ display:grid; grid-template-columns:1.3fr 1fr; gap:14px; align-items:start; }
+  @media (max-width:1000px){ .cols, .cols2{ grid-template-columns:1fr; } }
+
+  label{ display:block; font-size:0.65em; text-transform:uppercase; letter-spacing:0.4px; color:var(--ink-soft); margin-bottom:2px; font-weight:700;}
+  input[type=text], input[type=number], textarea, select{
+    width:100%; background:#fff; border:1.4px solid #9a9a9a; color:var(--ink);
+    padding:4px 6px; border-radius:2px; font-family:inherit; font-size:0.92em;
+  }
+  input:focus, textarea:focus, select:focus{ outline:none; border-color:var(--accent);}
+  textarea{ resize:vertical; min-height:60px; }
+  .field{ margin-bottom:7px; }
+  .row-fields{ display:flex; gap:8px; flex-wrap:wrap; }
+  .row-fields > div{ flex:1; min-width:90px; }
+
+  /* header row */
+  .header-grid{ display:grid; grid-template-columns:2fr 1.2fr auto; gap:12px; align-items:end; padding:12px; }
+  .header-grid .name-field input{ font-size:1.15em; font-weight:700; font-family:Georgia,serif; }
+  .header-grid2{ grid-column:1/-1; display:grid; grid-template-columns:1fr 1.4fr 1fr; gap:10px; }
+  .header-grid3{ grid-column:1/-1; display:grid; grid-template-columns:1fr 1fr 1fr 1fr 1fr; gap:10px; }
+  .wordmark{ text-align:right; }
+  .wordmark .t{ font-family:Georgia,serif; font-weight:900; font-size:1.5em; color:var(--accent); letter-spacing:1px;}
+  .wordmark .s{ font-size:0.62em; color:var(--ink-soft); letter-spacing:3px; text-transform:uppercase;}
+
+  /* attribute boxes */
+  .attrs{ display:grid; grid-template-columns:repeat(6,1fr); gap:10px; margin-bottom:14px; }
+  .attr-box{ background:var(--box); border:2px solid var(--line); border-radius:4px; padding:6px; text-align:center; }
+  .attr-box .lbl{ font-family:Georgia,serif; font-weight:900; font-size:1.3em; }
+  .attr-box .sub-lbl{ font-size:0.6em; color:var(--ink-soft); text-transform:uppercase; margin-bottom:3px;}
+  .attr-box .valores{ display:flex; gap:4px; }
+  .attr-box .valores > div{ flex:1; }
+  .attr-box input.score{ text-align:center; font-weight:700; }
+  .attr-box .mod-display{ background:#eee; border:1.4px solid #9a9a9a; border-radius:2px; padding:4px; font-weight:800; font-family:Georgia,serif; }
+
+  /* stat boxes: PV / CA / redução de dano / pontos de ação */
+  .stat-row{ display:grid; grid-template-columns:1fr 1.4fr 0.8fr 0.8fr; gap:10px; margin-bottom:12px; }
+  .stat-box{ background:var(--box); border:2px solid var(--line); border-radius:4px; padding:8px; text-align:center; }
+  .stat-box .lbl{ font-family:Georgia,serif; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; font-size:0.68em; margin-bottom:4px;}
+  .stat-box .nums{ display:flex; align-items:center; justify-content:center; gap:5px; }
+  .stat-box input{ text-align:center; font-weight:700; font-size:1.05em; width:52px; padding:3px;}
+  .stat-box .slash{ font-weight:800; color:var(--ink-soft); }
+  .stat-box .total-box{ font-weight:800; font-size:1.2em; }
+  .breakdown-line{ font-size:0.62em; color:var(--ink-soft); margin-top:4px; }
+
+  /* tables */
+  table{ width:100%; border-collapse:collapse; font-size:0.82em; }
+  th{ text-align:left; text-transform:uppercase; font-size:0.64em; color:var(--ink-soft); padding:3px 4px; border-bottom:2px solid var(--line);}
+  td{ padding:2px 4px; border-bottom:1px solid #ccc; vertical-align:middle;}
+  tr.trained{ background:rgba(138,31,31,0.08); }
+  .total-box{
+    display:inline-block; min-width:30px; text-align:center; font-weight:800; font-family:Georgia,serif;
+    background:#eee; border:1.6px solid var(--line); border-radius:3px; padding:1px 5px; color:var(--accent);
+  }
+  .badge{ font-size:0.6em; padding:0 4px; border-radius:2px; border:1px solid var(--ink-soft); color:var(--ink-soft); margin-left:3px; white-space:nowrap;}
+  .badge.warn{ color:var(--accent); border-color:var(--accent); }
+  .small-input{ width:44px; text-align:center; padding:3px; }
+  .skill-name{ font-weight:600; }
+  input[type=checkbox]{ width:16px; height:16px; cursor:pointer; accent-color:var(--accent); }
+  .del-btn{ background:none; border:none; color:var(--bad); cursor:pointer; font-size:1.0em; padding:2px 5px;}
+  .add-row-btn{ margin-top:6px; }
+  .hint{ font-size:0.7em; color:var(--ink-soft); margin-top:3px; }
+
+  footer{ text-align:center; color:var(--ink-soft); font-size:0.75em; margin-top:24px; }
+  .page-divider{ text-align:center; margin:24px 0 14px; font-family:Georgia,serif; text-transform:uppercase; letter-spacing:4px; color:var(--ink-soft); font-size:0.78em; }
+  .page-divider::before, .page-divider::after{ content:""; display:inline-block; width:110px; height:1px; background:var(--ink-soft); vertical-align:middle; margin:0 10px;}
+
+  @media print{
+    body{ background:#fff; }
+    .box{ break-inside:avoid; }
+    .toolbar, .del-btn, .add-row-btn{ display:none !important; }
+  }
+
+  /* dice roller modal (same pattern as Ficha T20) */
+  .modal-overlay{ position:fixed; inset:0; background:rgba(20,15,10,0.55); display:none; align-items:center; justify-content:center; z-index:1000; padding:16px;}
+  .modal-overlay.show{ display:flex; }
+  .modal-box{ background:var(--paper); border:3px solid var(--line); border-radius:6px; padding:16px 20px 20px; max-width:480px; width:100%; max-height:88vh; overflow-y:auto; }
+  .modal-box h2{ font-family:Georgia,serif; color:var(--accent); text-transform:uppercase; letter-spacing:1.5px; font-size:1.1em; margin:2px 0 12px; display:flex; align-items:center; justify-content:space-between; }
+  .modal-box h2 .close-x{ cursor:pointer; font-size:0.85em; color:var(--ink-soft); border:1.5px solid var(--ink-soft); border-radius:4px; padding:0 7px; }
+  .modal-box h2 .close-x:hover{ background:var(--bad); color:#fff; border-color:var(--bad); }
+  .dice-quick{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px; }
+  .dice-quick button{ padding:5px 10px; font-size:0.8em; }
+  .dice-rows{ display:flex; flex-direction:column; gap:6px; margin-bottom:10px; }
+  .dice-row{ display:flex; align-items:center; gap:6px; font-size:0.9em; }
+  .dice-row input[type=number]{ width:56px; text-align:center; padding:4px; }
+  .dice-row .d-sep{ font-weight:700; color:var(--ink-soft); }
+  .dice-row .del-btn{ margin-left:auto; }
+  .dice-mod-row{ display:flex; align-items:center; gap:8px; margin:10px 0; font-size:0.9em; }
+  .dice-mod-row input{ width:70px; }
+  .dice-actions{ display:flex; gap:8px; margin-bottom:12px; }
+  .dice-results{ border-top:2px solid var(--line); padding-top:10px; margin-top:4px; }
+  .dice-result-group{ font-size:0.88em; margin-bottom:5px; }
+  .die-chip{ display:inline-block; min-width:20px; text-align:center; background:#eee; border:1.5px solid var(--line); border-radius:4px; padding:1px 5px; margin:0 2px; font-weight:700; font-family:Georgia,serif; font-size:0.95em; }
+  .die-chip.crit-max{ background:var(--good); color:#fff; border-color:var(--good); }
+  .die-chip.crit-min{ background:var(--bad); color:#fff; border-color:var(--bad); }
+  .dice-grand-total{ display:flex; align-items:center; gap:10px; margin-top:8px; }
+  .dice-grand-total .total-box{ font-size:1.5em; padding:2px 12px; }
+  .dice-history{ margin-top:14px; font-size:0.78em; color:var(--ink-soft); }
+  .dice-history div{ padding:2px 0; border-bottom:1px dashed #ccc; }
+</style>
+</head>
+<body>
+
+<div class="sheet">
+
+<h1 class="title">Tormenta RPG</h1>
+<div class="sub">Ficha eletrônica da edição clássica — layout espelha a "Ficha de Personagem Editável" oficial, campos calculados automaticamente. <span class="saved-flash" id="savedFlash">salvo ✓</span></div>
+
+<div class="toolbar">
+  <button onclick="exportJSON()">⬇ Exportar JSON</button>
+  <button onclick="document.getElementById('fileInput').click()">⬆ Importar JSON</button>
+  <button onclick="window.print()">🖨 Imprimir</button>
+  <button onclick="openDiceRoller()">🎲 Rolar Dados</button>
+  <button class="danger" onclick="resetToDefault()">↺ Restaurar Andor (padrão)</button>
+  <input type="file" id="fileInput" accept="application/json">
+</div>
+
+<div class="modal-overlay" id="diceModal">
+  <div class="modal-box">
+    <h2>Rolador de Dados <span class="close-x" onclick="closeDiceRoller()">✕ fechar</span></h2>
+    <div class="dice-quick" id="diceQuick"></div>
+    <div class="dice-rows" id="diceRows"></div>
+    <button class="add-row-btn" onclick="addDiceRow(20,1)" style="font-size:0.8em;">+ tipo de dado personalizado</button>
+    <div class="dice-mod-row">
+      <label style="margin:0;">Modificador fixo</label>
+      <input type="number" id="diceMod" value="0">
+      <button onclick="clearDiceRows()" style="margin-left:auto;">Limpar</button>
+    </div>
+    <div class="dice-actions">
+      <button onclick="rollDice()" style="flex:1; background:var(--accent); color:#fff;">🎲 Rolar</button>
+    </div>
+    <div class="dice-results" id="diceResults"></div>
+    <div class="dice-history" id="diceHistory"></div>
+  </div>
+</div>
+
+<div id="updateBanner" style="display:none; background:#2f5233; color:#f3e9d5; border:2px solid var(--line); border-radius:6px; padding:10px 14px; margin-bottom:16px; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; font-size:0.88em;">
+  <span>📦 Os dados padrão deste arquivo foram atualizados desde a última vez que você abriu a ficha neste navegador.</span>
+  <span style="display:flex; gap:8px;">
+    <button onclick="applyDefaultUpdate()" style="background:#f3e9d5; color:#2f5233;">Atualizar agora</button>
+    <button onclick="dismissUpdateBanner()">Ignorar</button>
+  </span>
+</div>
+
+<!-- HEADER -->
+<div class="box">
+  <div class="header-grid">
+    <div class="field name-field"><label>Nome do Personagem</label><input type="text" id="m_nome"></div>
+    <div class="field"><label>Jogador</label><input type="text" id="m_jogador"></div>
+    <div class="wordmark"><div class="t">Tormenta</div><div class="s">RPG</div></div>
+    <div class="header-grid2">
+      <div class="field"><label>Raça</label><input type="text" id="m_raca"></div>
+      <div class="field"><label>Classe e Nível</label>
+        <div class="row-fields" style="gap:6px;">
+          <div><input type="text" id="m_classe"></div>
+          <div style="max-width:60px;"><input type="number" id="m_nivel" min="1" max="20"></div>
+        </div>
+      </div>
+      <div class="field"><label>Tendência</label><input type="text" id="m_tendencia"></div>
+    </div>
+    <div class="header-grid3">
+      <div class="field"><label>Sexo</label><input type="text" id="m_sexo"></div>
+      <div class="field"><label>Idade</label><input type="text" id="m_idade"></div>
+      <div class="field"><label>Divindade</label><input type="text" id="m_divindade"></div>
+      <div class="field"><label>Tamanho</label>
+        <select id="m_tamanho"><option>Minúsculo</option><option>Pequeno</option><option>Médio</option><option>Grande</option><option>Enorme</option><option>Colossal</option></select>
+      </div>
+      <div class="field"><label>Deslocamento (m)</label><input type="number" id="m_desloc_base"></div>
+    </div>
+  </div>
+</div>
+
+<!-- HABILIDADES -->
+<div class="attrs">
+  <div class="attr-box"><div class="sub-lbl">Força</div><div class="lbl">FOR</div><div class="valores"><div><label>Valor</label><input type="number" class="score" id="a_for"></div><div><label>Mod.</label><div class="mod-display" id="mod_for">+0</div></div></div></div>
+  <div class="attr-box"><div class="sub-lbl">Destreza</div><div class="lbl">DES</div><div class="valores"><div><label>Valor</label><input type="number" class="score" id="a_des"></div><div><label>Mod.</label><div class="mod-display" id="mod_des">+0</div></div></div></div>
+  <div class="attr-box"><div class="sub-lbl">Constituição</div><div class="lbl">CON</div><div class="valores"><div><label>Valor</label><input type="number" class="score" id="a_con"></div><div><label>Mod.</label><div class="mod-display" id="mod_con">+0</div></div></div></div>
+  <div class="attr-box"><div class="sub-lbl">Inteligência</div><div class="lbl">INT</div><div class="valores"><div><label>Valor</label><input type="number" class="score" id="a_int"></div><div><label>Mod.</label><div class="mod-display" id="mod_int">+0</div></div></div></div>
+  <div class="attr-box"><div class="sub-lbl">Sabedoria</div><div class="lbl">SAB</div><div class="valores"><div><label>Valor</label><input type="number" class="score" id="a_sab"></div><div><label>Mod.</label><div class="mod-display" id="mod_sab">+0</div></div></div></div>
+  <div class="attr-box"><div class="sub-lbl">Carisma</div><div class="lbl">CAR</div><div class="valores"><div><label>Valor</label><input type="number" class="score" id="a_car"></div><div><label>Mod.</label><div class="mod-display" id="mod_car">+0</div></div></div></div>
+</div>
+
+<!-- PV / CA / RD / PONTOS DE AÇÃO -->
+<div class="stat-row">
+  <div class="stat-box">
+    <div class="lbl">Pontos de Vida</div>
+    <div class="nums"><input type="number" id="pv_atual"><span class="slash">/</span><span class="total-box" id="pv_max">0</span></div>
+    <div class="breakdown-line">Temp <input type="number" id="pv_temp" style="width:40px;"></div>
+  </div>
+  <div class="stat-box">
+    <div class="lbl">Classe de Armadura (CA)</div>
+    <div class="nums"><span class="total-box" id="ca_total" style="font-size:1.3em;">10</span></div>
+    <div class="breakdown-line" id="ca_formula">10 + ½Nv + Des + armadura + escudo</div>
+  </div>
+  <div class="stat-box">
+    <div class="lbl">Redução de Dano</div>
+    <div class="nums"><input type="number" id="rd_valor" value="0"></div>
+  </div>
+  <div class="stat-box">
+    <div class="lbl">Pontos de Ação</div>
+    <div class="nums"><input type="number" id="pontos_acao" value="0"></div>
+  </div>
+</div>
+
+<div class="cols2">
+  <!-- LEFT: resistencias + ataques + armadura -->
+  <div>
+    <div class="box">
+      <div class="bar">Testes de Resistência</div>
+      <div class="box-body tight">
+        <table>
+          <thead><tr><th>Teste</th><th>Total</th><th colspan="2">= ½Nv + Atributo</th><th>Outros</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="skill-name">Fortitude</td>
+              <td><span class="total-box" id="res_fort_total">+0</span></td>
+              <td class="breakdown-line" id="res_fort_half">0</td>
+              <td class="breakdown-line">Con <span id="res_fort_attr">+0</span></td>
+              <td><input type="number" class="small-input" id="res_fort_outros" value="0"></td>
+            </tr>
+            <tr>
+              <td class="skill-name">Reflexos</td>
+              <td><span class="total-box" id="res_ref_total">+0</span></td>
+              <td class="breakdown-line" id="res_ref_half">0</td>
+              <td class="breakdown-line">Des <span id="res_ref_attr">+0</span></td>
+              <td><input type="number" class="small-input" id="res_ref_outros" value="0"></td>
+            </tr>
+            <tr>
+              <td class="skill-name">Vontade</td>
+              <td><span class="total-box" id="res_von_total">+0</span></td>
+              <td class="breakdown-line" id="res_von_half">0</td>
+              <td class="breakdown-line">Sab <span id="res_von_attr">+0</span></td>
+              <td><input type="number" class="small-input" id="res_von_outros" value="0"></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="hint">Fortitude/Reflexos/Vontade de Ferro (talentos de Destino) somam em "Outros" — cada um +2, cumulativo.</div>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="bar">Ataques</div>
+      <div class="box-body tight">
+        <table>
+          <thead><tr><th>Tipo</th><th>Total</th><th colspan="2">= BBA + Atributo</th><th>Outros</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="skill-name">Corpo-a-Corpo</td>
+              <td><span class="total-box" id="atk_cac_total">+0</span></td>
+              <td class="breakdown-line" id="atk_cac_bba">0</td>
+              <td class="breakdown-line">For <span id="atk_cac_attr">+0</span></td>
+              <td><input type="number" class="small-input" id="atk_cac_outros" value="0"></td>
+            </tr>
+            <tr>
+              <td class="skill-name">À Distância</td>
+              <td><span class="total-box" id="atk_dist_total">+0</span></td>
+              <td class="breakdown-line" id="atk_dist_bba">0</td>
+              <td class="breakdown-line">Des <span id="atk_dist_attr">+0</span></td>
+              <td><input type="number" class="small-input" id="atk_dist_outros" value="0"></td>
+            </tr>
+          </tbody>
+        </table>
+        <table style="margin-top:8px;">
+          <thead><tr><th>Arma</th><th>Bônus Atq.</th><th>Dano</th><th>Crítico</th><th>Distância</th><th>Tipo</th><th></th></tr></thead>
+          <tbody id="armas_body"></tbody>
+        </table>
+        <button class="add-row-btn" onclick="addArma()">+ arma</button>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="bar">Armadura / Escudo</div>
+      <div class="box-body tight">
+        <table>
+          <thead><tr><th></th><th>Preset</th><th>Bônus na CA</th><th>Bônus Máx. Destreza</th><th>Penalidade</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="skill-name">Armadura</td>
+              <td><select id="d_armadura_preset"></select></td>
+              <td><input type="number" class="small-input" id="d_armadura_bonus"></td>
+              <td><input type="number" class="small-input" id="d_armadura_maxdes"></td>
+              <td><input type="number" class="small-input" id="d_armadura_pen"></td>
+            </tr>
+            <tr>
+              <td class="skill-name">Escudo</td>
+              <td><select id="d_escudo_preset"></select></td>
+              <td><input type="number" class="small-input" id="d_escudo_bonus"></td>
+              <td><input type="text" class="small-input" value="—" disabled></td>
+              <td><input type="number" class="small-input" id="d_escudo_pen"></td>
+            </tr>
+            <tr>
+              <td class="skill-name">Outros</td>
+              <td></td>
+              <td><input type="number" class="small-input" id="d_outros_bonus"></td>
+              <td></td>
+              <td><input type="number" class="small-input" id="d_outros_pen"></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="row-fields" style="margin-top:8px;">
+          <div class="field"><label>Nome da armadura</label><input type="text" id="d_armadura_nome"></div>
+          <div class="field"><label>Nome do escudo</label><input type="text" id="d_escudo_nome"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: pericias -->
+  <div class="box">
+    <div class="bar">Perícias</div>
+    <div class="box-body tight">
+      <div class="hint">🔒 = só treinada · 🛡 = sofre penalidade de armadura</div>
+      <table>
+        <thead><tr><th>Perícia</th><th>Total</th><th colspan="2">= Grad. + Atributo</th><th>Outros</th><th>Trei.</th></tr></thead>
+        <tbody id="pericias_body"></tbody>
+      </table>
+      <div class="hint" style="margin-top:6px;">Graduações: treinada = nível+3; não treinada = metade do nível (arredondado pra baixo).</div>
+    </div>
+  </div>
+</div>
+
+<div class="cols2">
+  <div class="box">
+    <div class="bar">Habilidades de Raça</div>
+    <div class="box-body tight"><textarea id="t_raca" style="min-height:90px;"></textarea></div>
+  </div>
+  <div class="box">
+    <div class="bar">Habilidades de Classe</div>
+    <div class="box-body tight"><textarea id="t_classe" style="min-height:90px;"></textarea></div>
+  </div>
+</div>
+
+<div class="page-divider">página 2</div>
+
+<div class="cols2">
+  <div>
+    <div class="box">
+      <div class="bar">Equipamento</div>
+      <div class="box-body tight">
+        <table>
+          <thead><tr><th>Item</th><th style="width:60px;">Qtd.</th><th style="width:70px;">Peso un.</th><th style="width:70px;">Subtotal</th><th></th></tr></thead>
+          <tbody id="inventario_body"></tbody>
+        </table>
+        <button class="add-row-btn" onclick="addItem()">+ item</button>
+        <div class="row-fields" style="margin-top:8px;">
+          <div class="field" style="max-width:140px;"><label>Carga total</label><input type="text" id="carga_usada" disabled></div>
+          <div class="field" style="max-width:150px;"><label>Máx. sem penal. (For×3)</label><input type="text" id="carga_max" disabled></div>
+          <div class="field" style="max-width:150px;"><label>Levantar (For×10)</label><input type="text" id="carga_levantar" disabled></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cols2">
+      <div class="box">
+        <div class="bar">Dinheiro</div>
+        <div class="box-body tight">
+          <div class="row-fields">
+            <div class="field"><label>T$ (cobre)</label><input type="number" id="d_ts"></div>
+            <div class="field"><label>TP (prata)</label><input type="number" id="d_tp"></div>
+            <div class="field"><label>TO (ouro)</label><input type="number" id="d_to"></div>
+            <div class="field"><label>TL (platina)</label><input type="number" id="d_tl"></div>
+          </div>
+        </div>
+      </div>
+      <div class="box">
+        <div class="bar">Idiomas</div>
+        <div class="box-body tight"><textarea id="t_idiomas" style="min-height:70px;"></textarea></div>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="bar">Informações</div>
+      <div class="box-body tight">
+        <div class="row-fields">
+          <div class="field"><label>Campanha</label><input type="text" id="i_campanha"></div>
+          <div class="field"><label>Mestre</label><input type="text" id="i_mestre"></div>
+        </div>
+        <div class="field"><label>Outros Jogadores</label><input type="text" id="i_outros_jogadores"></div>
+        <div class="row-fields">
+          <div class="field"><label>XP Atual</label><input type="number" id="i_xp_atual"></div>
+          <div class="field"><label>XP Próximo Nível</label><input type="number" id="i_xp_proximo"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="box">
+      <div class="bar">Talentos</div>
+      <div class="box-body tight">
+        <table>
+          <thead><tr><th style="width:20%;">Nome</th><th style="width:14%;">Nível</th><th>Efeito</th><th></th></tr></thead>
+          <tbody id="talentos_body"></tbody>
+        </table>
+        <button class="add-row-btn" onclick="addTalento()">+ talento</button>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="bar">Magias</div>
+      <div class="box-body tight">
+        <div class="row-fields">
+          <div class="field" style="max-width:110px;"><label>Atributo-chave</label>
+            <select id="magia_attr"><option value="for">For</option><option value="des">Des</option><option value="con">Con</option><option value="int">Int</option><option value="sab">Sab</option><option value="car">Car</option></select>
+          </div>
+          <div class="field" style="max-width:90px;"><label>PM Total</label><input type="number" id="pm_max"></div>
+          <div class="field" style="max-width:90px;"><label>PM Atuais</label><input type="number" id="pm_atual"></div>
+        </div>
+        <table>
+          <thead><tr><th style="width:50px;">Nível</th><th>Magia</th><th></th></tr></thead>
+          <tbody id="magias_body"></tbody>
+        </table>
+        <button class="add-row-btn" onclick="addMagia()">+ magia</button>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="bar">Notas</div>
+      <div class="box-body tight"><textarea id="t_notas" style="min-height:100px;"></textarea></div>
+    </div>
+  </div>
+</div>
+
+<div class="cols">
+  <div class="box">
+    <div class="bar">História</div>
+    <div class="box-body tight"><textarea id="t_historia" style="min-height:130px;"></textarea></div>
+  </div>
+  <div class="box">
+    <div class="bar">Personalidade</div>
+    <div class="box-body tight"><textarea id="t_personalidade" style="min-height:130px;"></textarea></div>
+  </div>
+  <div class="box">
+    <div class="bar">Aparência</div>
+    <div class="box-body tight"><textarea id="t_aparencia" style="min-height:130px;"></textarea></div>
+  </div>
+</div>
+
+<footer>Ficha gerada a partir das regras de Tormenta RPG (edição clássica, módulo básico). Cálculos automáticos: Perícias, CA, Testes de Resistência e Ataques — ver <code>memorias/classico/</code> no projeto para as fórmulas e páginas citadas.</footer>
+
+</div>
+
+<script id="default-data" type="application/json">
+{
+  "_dataVersion": 1,
+  "meta": {
+    "nome": "Andor Duvane",
+    "jogador": "",
+    "raca": "Humano",
+    "classe": "Guerreiro",
+    "nivel": 1,
+    "tendencia": "Leal e Neutro",
+    "sexo": "Masculino",
+    "idade": "",
+    "divindade": "",
+    "tamanho": "Médio",
+    "deslocamentoBase": 9
+  },
+  "atributos": { "for": 19, "des": 13, "con": 17, "int": 11, "sab": 12, "car": 12 },
+  "pv": { "atual": 23, "max": 23, "temp": 0 },
+  "pm": { "atual": 0, "max": 0 },
+  "ca": {
+    "armadura": { "nome": "Brunea", "bonus": 4, "maxDes": 3, "penalidade": -3 },
+    "escudo": { "nome": "Escudo pesado", "bonus": 2, "penalidade": -2 },
+    "outrosBonus": 0, "outrosPen": 0
+  },
+  "rd": 0,
+  "pontosAcao": 0,
+  "resistencias": { "fortOutros": 2, "refOutros": 0, "vonOutros": 0 },
+  "ataques": { "cacOutros": 0, "distOutros": 0 },
+  "armas": [
+    { "nome": "Espada Longa", "bba": true, "attrAtaque": "for", "outroAtaque": 1, "dano": "1d8", "somaFor": true, "outroDano": 0, "critico": "19-20/x2", "distancia": "—", "tipo": "Corte" },
+    { "nome": "Desarmado (Despertar)", "bba": true, "attrAtaque": "for", "outroAtaque": 1, "dano": "1d8", "somaFor": true, "outroDano": 0, "critico": "19-20/x2", "distancia": "—", "tipo": "Impacto — ignora RD mundana" }
+  ],
+  "pericias": {
+    "acrobacia": { "treinada": false, "outros": 0 },
+    "adestrar_animais": { "treinada": false, "outros": 0 },
+    "atletismo": { "treinada": true, "outros": 0 },
+    "atuacao1": { "treinada": false, "outros": 0, "especialidade": "" },
+    "atuacao2": { "treinada": false, "outros": 0, "especialidade": "" },
+    "cavalgar": { "treinada": false, "outros": 0 },
+    "conhecimento1": { "treinada": false, "outros": 0, "especialidade": "" },
+    "conhecimento2": { "treinada": false, "outros": 0, "especialidade": "" },
+    "cura": { "treinada": false, "outros": 0 },
+    "diplomacia": { "treinada": false, "outros": 0 },
+    "enganacao": { "treinada": false, "outros": 0 },
+    "furtividade": { "treinada": false, "outros": 0 },
+    "identificar_magia": { "treinada": false, "outros": 0 },
+    "iniciativa": { "treinada": true, "outros": 0 },
+    "intimidacao": { "treinada": true, "outros": 0 },
+    "intuicao": { "treinada": false, "outros": 0 },
+    "ladinagem": { "treinada": false, "outros": 0 },
+    "obter_informacao": { "treinada": false, "outros": 0 },
+    "oficio1": { "treinada": false, "outros": 0, "especialidade": "" },
+    "oficio2": { "treinada": false, "outros": 0, "especialidade": "" },
+    "percepcao": { "treinada": true, "outros": 0 },
+    "sobrevivencia": { "treinada": false, "outros": 0 }
+  },
+  "periciasExtras": [],
+  "inventario": [
+    { "item": "Espada Longa", "qtd": 1, "peso": 2 },
+    { "item": "Escudo Pesado", "qtd": 1, "peso": 7 },
+    { "item": "Brunea (armadura média)", "qtd": 1, "peso": 15 },
+    { "item": "Mochila", "qtd": 1, "peso": 1 },
+    { "item": "Saco de dormir", "qtd": 1, "peso": 1.5 },
+    { "item": "Corda (15m)", "qtd": 1, "peso": 4.5 },
+    { "item": "Pederneira", "qtd": 1, "peso": 0.1 },
+    { "item": "Tocha", "qtd": 2, "peso": 0.5 },
+    { "item": "Odre", "qtd": 1, "peso": 1 },
+    { "item": "Ração de viagem (1 semana)", "qtd": 1, "peso": 3.5 },
+    { "item": "Traje de explorador", "qtd": 1, "peso": 2 }
+  ],
+  "dinheiro": { "ts": 0, "tp": 0, "to": 20, "tl": 0 },
+  "talentos": [
+    { "nome": "Foco em Arma (Espada Longa)", "nivel": 1, "efeito": "+1 em jogadas de ataque com espada longa." },
+    { "nome": "Esquiva", "nivel": 1, "efeito": "+1 CA (Técnica de Luta)." },
+    { "nome": "Ataque com Escudo Aprimorado", "nivel": 1, "efeito": "Mantém o bônus de CA do escudo mesmo atacando com ele (bônus de Humano)." },
+    { "nome": "Duro de Matar", "nivel": 1, "efeito": "1x/dia ignora um dano que o levaria a 0 PV ou menos (bônus de Humano)." }
+  ],
+  "magias": [],
+  "idiomas": "Comum",
+  "informacoes": { "campanha": "", "mestre": "", "outrosJogadores": "", "xpAtual": 0, "xpProximo": 1000 },
+  "textos": {
+    "raca": "Humano — +2 em Força e Constituição (à escolha); 2 talentos adicionais à escolha (Ataque com Escudo Aprimorado, Duro de Matar); 2 perícias treinadas extras (não precisam ser de classe).",
+    "classe": "Guerreiro — PV 20+Con (+5+Con/nível); BBA cheio (=nível); 2+Int perícias treinadas; Técnica de Luta (1 talento de combate no 1º nível e a cada 2 níveis); Talentos Adicionais de graça: Usar Armaduras (leves/médias/pesadas), Usar Armas (simples/marciais), Usar Escudos, Fortitude Maior (+2 Fortitude).",
+    "notas": "Conceito: \"Protetor Imortal\" — guerreiro silencioso e disciplinado que absorve dano destinado aos aliados. Roadmap de talentos completo (1º-20º nível) em personagens/andor-classico/docs/.",
+    "historia": "Mesmo histórico da versão T20: natural de Doherimm, o complexo subterrâneo dos anões, treinado desde cedo a lutar em formação ao lado de guardas anões antes de se alistar como soldado no Reinado.",
+    "personalidade": "",
+    "aparencia": ""
+  }
+}
+</script>
+
+<script>
+const PERICIAS = [
+  {id:'acrobacia', nome:'Acrobacia', attr:'des', soTreinada:false, penArmadura:true},
+  {id:'adestrar_animais', nome:'Adestrar Animais', attr:'car', soTreinada:true, penArmadura:false},
+  {id:'atletismo', nome:'Atletismo', attr:'for', soTreinada:false, penArmadura:true},
+  {id:'atuacao1', nome:'Atuação', attr:'car', soTreinada:false, penArmadura:false, especialidade:true},
+  {id:'atuacao2', nome:'Atuação', attr:'car', soTreinada:false, penArmadura:false, especialidade:true},
+  {id:'cavalgar', nome:'Cavalgar', attr:'des', soTreinada:false, penArmadura:false},
+  {id:'conhecimento1', nome:'Conhecimento', attr:'int', soTreinada:true, penArmadura:false, especialidade:true},
+  {id:'conhecimento2', nome:'Conhecimento', attr:'int', soTreinada:true, penArmadura:false, especialidade:true},
+  {id:'cura', nome:'Cura', attr:'sab', soTreinada:false, penArmadura:false},
+  {id:'diplomacia', nome:'Diplomacia', attr:'car', soTreinada:false, penArmadura:false},
+  {id:'enganacao', nome:'Enganação', attr:'car', soTreinada:false, penArmadura:false},
+  {id:'furtividade', nome:'Furtividade', attr:'des', soTreinada:false, penArmadura:true},
+  {id:'identificar_magia', nome:'Identificar Magia', attr:'int', soTreinada:true, penArmadura:false},
+  {id:'iniciativa', nome:'Iniciativa', attr:'des', soTreinada:false, penArmadura:false},
+  {id:'intimidacao', nome:'Intimidação', attr:'car', soTreinada:false, penArmadura:false},
+  {id:'intuicao', nome:'Intuição', attr:'sab', soTreinada:false, penArmadura:false},
+  {id:'ladinagem', nome:'Ladinagem', attr:'des', soTreinada:true, penArmadura:true},
+  {id:'obter_informacao', nome:'Obter Informação', attr:'car', soTreinada:false, penArmadura:false},
+  {id:'oficio1', nome:'Ofício', attr:'int', soTreinada:false, penArmadura:false, especialidade:true},
+  {id:'oficio2', nome:'Ofício', attr:'int', soTreinada:false, penArmadura:false, especialidade:true},
+  {id:'percepcao', nome:'Percepção', attr:'sab', soTreinada:false, penArmadura:false},
+  {id:'sobrevivencia', nome:'Sobrevivência', attr:'sab', soTreinada:false, penArmadura:false},
+];
+
+// memorias/classico/equipamento.md — Tabela de Armaduras e Escudos (pág. 136-137)
+const ARMADURAS = [
+  {nome:"(nenhuma)", bonus:0, maxDes:99, penalidade:0},
+  {nome:"Armadura Acolchoada", bonus:1, maxDes:8, penalidade:0},
+  {nome:"Corselete de Couro", bonus:2, maxDes:6, penalidade:0},
+  {nome:"Couro Batido", bonus:3, maxDes:5, penalidade:-1},
+  {nome:"Camisa de Cota de Malha", bonus:4, maxDes:4, penalidade:-2},
+  {nome:"Gibão de Peles", bonus:3, maxDes:4, penalidade:-2},
+  {nome:"Brunea", bonus:4, maxDes:3, penalidade:-3},
+  {nome:"Cota de Malha", bonus:5, maxDes:2, penalidade:-3},
+  {nome:"Couraça", bonus:5, maxDes:3, penalidade:-4},
+  {nome:"Cota de Talas", bonus:6, maxDes:0, penalidade:-4},
+  {nome:"Loriga Segmentada", bonus:6, maxDes:1, penalidade:-5},
+  {nome:"Meia-Armadura", bonus:7, maxDes:1, penalidade:-4},
+  {nome:"Armadura Completa", bonus:8, maxDes:1, penalidade:-5},
+];
+const ESCUDOS = [
+  {nome:"(nenhum)", bonus:0, penalidade:0},
+  {nome:"Escudo Leve", bonus:1, penalidade:-1},
+  {nome:"Escudo Pesado", bonus:2, penalidade:-2},
+];
+const TAMANHOS = { "Minúsculo": 4, "Pequeno": 1, "Médio": 0, "Grande": -1, "Enorme": -2, "Colossal": -4 };
+
+let DATA = null;
+
+function mod(score){ return Math.floor(((Number(score)||0) - 10)/2); }
+function fmt(n){ n = Math.round(n*100)/100; return (n>=0?'+':'') + n; }
+
+function getDefaultData(){ return JSON.parse(document.getElementById('default-data').textContent); }
+
+let pendingDefaultData = null;
+
+function loadData(){
+  const def = getDefaultData();
+  const saved = localStorage.getItem('classico_ficha_data');
+  if(saved){
+    try{
+      DATA = JSON.parse(saved);
+      const savedVersion = DATA._dataVersion || 0;
+      const defVersion = def._dataVersion || 0;
+      const dismissedVersion = Number(localStorage.getItem('classico_ficha_dismissed_version') || 0);
+      if(defVersion > savedVersion && defVersion > dismissedVersion){
+        pendingDefaultData = def;
+        document.getElementById('updateBanner').style.display = 'flex';
+      }
+      return;
+    }catch(e){}
+  }
+  DATA = def;
+}
+
+function applyDefaultUpdate(){
+  if(!pendingDefaultData) return;
+  DATA = pendingDefaultData;
+  pendingDefaultData = null;
+  document.getElementById('updateBanner').style.display = 'none';
+  renderAll(); saveData();
+}
+function dismissUpdateBanner(){
+  if(pendingDefaultData) localStorage.setItem('classico_ficha_dismissed_version', pendingDefaultData._dataVersion || 0);
+  document.getElementById('updateBanner').style.display = 'none';
+}
+function resetToDefault(){
+  if(!confirm('Restaurar os dados originais do Andor? Isso substitui os dados atuais na tela (o arquivo JSON exportado não é afetado).')) return;
+  DATA = getDefaultData();
+  document.getElementById('updateBanner').style.display = 'none';
+  renderAll(); saveData();
+}
+function saveData(){
+  collectFromForm();
+  localStorage.setItem('classico_ficha_data', JSON.stringify(DATA));
+  const el = document.getElementById('savedFlash');
+  el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'), 900);
+}
+function exportJSON(){
+  collectFromForm();
+  const blob = new Blob([JSON.stringify(DATA, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = (DATA.meta.nome || 'personagem').replace(/[^\w\- ]/g,'') + '-classico.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+document.getElementById('fileInput').addEventListener('change', function(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev){
+    try{ DATA = JSON.parse(ev.target.result); renderAll(); saveData(); }
+    catch(err){ alert('Arquivo JSON inválido: ' + err.message); }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+});
+
+function fillPresetSelect(sel, list, extra){
+  sel.innerHTML = '';
+  list.forEach((it, i)=>{
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = it.nome + (it.bonus?` (+${it.bonus} CA, ${it.penalidade} pen.)`:'');
+    sel.appendChild(opt);
+  });
+}
+
+function renderAll(){
+  const d = DATA;
+  document.title = d.meta.nome ? ('Ficha Tormenta RPG — ' + d.meta.nome) : 'Ficha Tormenta RPG';
+
+  document.getElementById('m_nome').value = d.meta.nome||'';
+  document.getElementById('m_jogador').value = d.meta.jogador||'';
+  document.getElementById('m_raca').value = d.meta.raca||'';
+  document.getElementById('m_classe').value = d.meta.classe||'';
+  document.getElementById('m_nivel').value = d.meta.nivel||1;
+  document.getElementById('m_tendencia').value = d.meta.tendencia||'';
+  document.getElementById('m_sexo').value = d.meta.sexo||'';
+  document.getElementById('m_idade').value = d.meta.idade||'';
+  document.getElementById('m_divindade').value = d.meta.divindade||'';
+  document.getElementById('m_tamanho').value = d.meta.tamanho||'Médio';
+  document.getElementById('m_desloc_base').value = d.meta.deslocamentoBase||9;
+
+  document.getElementById('a_for').value = d.atributos.for;
+  document.getElementById('a_des').value = d.atributos.des;
+  document.getElementById('a_con').value = d.atributos.con;
+  document.getElementById('a_int').value = d.atributos.int;
+  document.getElementById('a_sab').value = d.atributos.sab;
+  document.getElementById('a_car').value = d.atributos.car;
+
+  document.getElementById('pv_atual').value = d.pv.atual;
+  document.getElementById('pv_temp').value = d.pv.temp||0;
+  document.getElementById('pm_atual').value = d.pm.atual||0;
+  document.getElementById('pm_max').value = d.pm.max||0;
+
+  document.getElementById('rd_valor').value = d.rd||0;
+  document.getElementById('pontos_acao').value = d.pontosAcao||0;
+
+  document.getElementById('res_fort_outros').value = d.resistencias.fortOutros||0;
+  document.getElementById('res_ref_outros').value = d.resistencias.refOutros||0;
+  document.getElementById('res_von_outros').value = d.resistencias.vonOutros||0;
+
+  document.getElementById('atk_cac_outros').value = d.ataques.cacOutros||0;
+  document.getElementById('atk_dist_outros').value = d.ataques.distOutros||0;
+
+  document.getElementById('d_armadura_nome').value = d.ca.armadura.nome;
+  document.getElementById('d_armadura_bonus').value = d.ca.armadura.bonus;
+  document.getElementById('d_armadura_maxdes').value = d.ca.armadura.maxDes;
+  document.getElementById('d_armadura_pen').value = d.ca.armadura.penalidade;
+  document.getElementById('d_escudo_nome').value = d.ca.escudo.nome;
+  document.getElementById('d_escudo_bonus').value = d.ca.escudo.bonus;
+  document.getElementById('d_escudo_pen').value = d.ca.escudo.penalidade;
+  document.getElementById('d_outros_bonus').value = d.ca.outrosBonus||0;
+  document.getElementById('d_outros_pen').value = d.ca.outrosPen||0;
+
+  fillPresetSelect(document.getElementById('d_armadura_preset'), ARMADURAS);
+  fillPresetSelect(document.getElementById('d_escudo_preset'), ESCUDOS);
+
+  renderPericias();
+  renderArmas();
+  renderInventario();
+  renderTalentos();
+  renderMagias();
+
+  const dinh = d.dinheiro || {ts:0,tp:0,to:0,tl:0};
+  document.getElementById('d_ts').value = dinh.ts||0;
+  document.getElementById('d_tp').value = dinh.tp||0;
+  document.getElementById('d_to').value = dinh.to||0;
+  document.getElementById('d_tl').value = dinh.tl||0;
+
+  document.getElementById('t_idiomas').value = d.idiomas||'';
+  document.getElementById('magia_attr').value = d.magiasConfig || 'int';
+
+  const info = d.informacoes || {};
+  document.getElementById('i_campanha').value = info.campanha||'';
+  document.getElementById('i_mestre').value = info.mestre||'';
+  document.getElementById('i_outros_jogadores').value = info.outrosJogadores||'';
+  document.getElementById('i_xp_atual').value = info.xpAtual||0;
+  document.getElementById('i_xp_proximo').value = info.xpProximo||0;
+
+  const t = d.textos || {};
+  document.getElementById('t_raca').value = t.raca||'';
+  document.getElementById('t_classe').value = t.classe||'';
+  document.getElementById('t_notas').value = t.notas||'';
+  document.getElementById('t_historia').value = t.historia||'';
+  document.getElementById('t_personalidade').value = t.personalidade||'';
+  document.getElementById('t_aparencia').value = t.aparencia||'';
+
+  recalc();
+}
+
+function renderPericias(){
+  const tbody = document.getElementById('pericias_body');
+  tbody.innerHTML = '';
+  PERICIAS.forEach(p=>{
+    const sd = DATA.pericias[p.id] || {treinada:false, outros:0, especialidade:''};
+    const tr = document.createElement('tr');
+    tr.id = 'peri_row_' + p.id;
+    tr.innerHTML = `
+      <td class="skill-name">${p.nome}${p.especialidade?` (<input type="text" class="peri-especialidade" data-peri="${p.id}" value="${(sd.especialidade||'').replace(/"/g,'&quot;')}" style="width:90px; display:inline-block; padding:1px;">)`:''}${p.soTreinada?'<span class="badge warn">🔒</span>':''}${p.penArmadura?'<span class="badge">🛡</span>':''}</td>
+      <td><span class="total-box" id="peri_total_${p.id}">+0</span></td>
+      <td class="breakdown-line" id="peri_grad_${p.id}">0</td>
+      <td class="breakdown-line" id="peri_attr_${p.id}">+0</td>
+      <td><input type="number" class="small-input peri-outro" data-peri="${p.id}" value="${sd.outros||0}"></td>
+      <td style="text-align:center;"><input type="checkbox" data-peri="${p.id}" class="peri-trained" ${sd.treinada?'checked':''}></td>
+    `;
+    tbody.appendChild(tr);
+  });
+  (DATA.periciasExtras||[]).forEach((pe, i)=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input type="text" class="pex-nome" data-i="${i}" value="${(pe.nome||'').replace(/"/g,'&quot;')}" style="width:110px;"></td>
+      <td><span class="total-box" id="pex_total_${i}">+0</span></td>
+      <td class="breakdown-line" id="pex_grad_${i}">0</td>
+      <td>
+        <select class="pex-attr" data-i="${i}" style="width:60px; padding:1px;">
+          <option value="for" ${pe.attr==='for'?'selected':''}>For</option>
+          <option value="des" ${pe.attr==='des'?'selected':''}>Des</option>
+          <option value="con" ${pe.attr==='con'?'selected':''}>Con</option>
+          <option value="int" ${pe.attr==='int'?'selected':''}>Int</option>
+          <option value="sab" ${pe.attr==='sab'?'selected':''}>Sab</option>
+          <option value="car" ${pe.attr==='car'?'selected':''}>Car</option>
+        </select>
+      </td>
+      <td><input type="number" class="small-input pex-outro" data-i="${i}" value="${pe.outros||0}"></td>
+      <td style="text-align:center;"><input type="checkbox" data-i="${i}" class="pex-trained" ${pe.treinada?'checked':''}></td>
+      <td><button class="del-btn" onclick="removePericiaExtra(${i})">✕</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+  const trAdd = document.createElement('tr');
+  trAdd.innerHTML = `<td colspan="7"><button class="add-row-btn" onclick="addPericiaExtra()">+ perícia personalizada</button></td>`;
+  tbody.appendChild(trAdd);
+
+  tbody.querySelectorAll('.peri-trained, .peri-outro, .peri-especialidade, .pex-trained, .pex-outro, .pex-attr, .pex-nome').forEach(el=>{
+    el.addEventListener('input', recalc);
+    el.addEventListener('change', recalc);
+  });
+}
+function addPericiaExtra(){ collectFromForm(); if(!DATA.periciasExtras) DATA.periciasExtras=[]; DATA.periciasExtras.push({nome:'Nova perícia', attr:'int', treinada:false, outros:0}); renderPericias(); recalc(); }
+function removePericiaExtra(i){ collectFromForm(); DATA.periciasExtras.splice(i,1); renderPericias(); recalc(); }
+
+function renderArmas(){
+  const tbody = document.getElementById('armas_body');
+  tbody.innerHTML = '';
+  DATA.armas.forEach((a, i)=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input type="text" class="arma-nome" data-i="${i}" value="${(a.nome||'').replace(/"/g,'&quot;')}" style="width:110px;"></td>
+      <td>
+        <span class="total-box" id="arma_atk_${i}">+0</span>
+        <div style="font-size:0.68em; margin-top:2px;">
+          <select class="arma-attr" data-i="${i}" style="width:52px; padding:1px;">
+            <option value="for" ${a.attrAtaque==='for'?'selected':''}>For</option>
+            <option value="des" ${a.attrAtaque==='des'?'selected':''}>Des</option>
+          </select>
+          <input type="number" class="small-input arma-outro" data-i="${i}" value="${a.outroAtaque||0}" style="width:30px;" title="outro bônus de ataque">
+        </div>
+      </td>
+      <td>
+        <span class="total-box" id="arma_dano_${i}">-</span>
+        <div style="font-size:0.68em; margin-top:2px;">
+          <input type="text" class="arma-dano small-input" data-i="${i}" value="${a.dano||''}" style="width:36px;">
+          <label style="display:inline-block; font-size:0.9em;"><input type="checkbox" class="arma-somafor" data-i="${i}" ${a.somaFor?'checked':''} style="width:12px;height:12px;vertical-align:middle;"> For</label>
+        </div>
+      </td>
+      <td><input type="text" class="arma-critico small-input" data-i="${i}" value="${a.critico||''}" style="width:56px;"></td>
+      <td><input type="text" class="arma-distancia small-input" data-i="${i}" value="${a.distancia||''}" style="width:56px;"></td>
+      <td><input type="text" class="arma-tipo small-input" data-i="${i}" value="${a.tipo||''}" style="width:80px;"></td>
+      <td><button class="del-btn" onclick="removeArma(${i})">✕</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+  tbody.querySelectorAll('input,select').forEach(el=>{ el.addEventListener('input', recalc); el.addEventListener('change', recalc); });
+}
+function addArma(){ collectFromForm(); DATA.armas.push({nome:"Nova arma", attrAtaque:"for", outroAtaque:0, dano:"1d6", somaFor:true, outroDano:0, critico:"x2", distancia:"—", tipo:""}); renderArmas(); recalc(); }
+function removeArma(i){ collectFromForm(); DATA.armas.splice(i,1); renderArmas(); recalc(); }
+
+function renderInventario(){
+  const tbody = document.getElementById('inventario_body');
+  tbody.innerHTML = '';
+  DATA.inventario.forEach((it, i)=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input type="text" class="inv-item" data-i="${i}" value="${(it.item||'').replace(/"/g,'&quot;')}"></td>
+      <td><input type="number" class="small-input inv-qtd" data-i="${i}" value="${it.qtd}"></td>
+      <td><input type="number" class="small-input inv-peso" data-i="${i}" value="${it.peso}"></td>
+      <td><span class="total-box" id="inv_sub_${i}">0</span></td>
+      <td><button class="del-btn" onclick="removeItem(${i})">✕</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+  tbody.querySelectorAll('input').forEach(el=> el.addEventListener('input', recalc));
+}
+function addItem(){ collectFromForm(); DATA.inventario.push({item:"Novo item", qtd:1, peso:0}); renderInventario(); recalc(); }
+function removeItem(i){ collectFromForm(); DATA.inventario.splice(i,1); renderInventario(); recalc(); }
+
+function renderTalentos(){
+  const tbody = document.getElementById('talentos_body');
+  tbody.innerHTML = '';
+  DATA.talentos.forEach((t, i)=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input type="text" class="tal-nome" data-i="${i}" value="${(t.nome||'').replace(/"/g,'&quot;')}"></td>
+      <td><input type="number" class="small-input tal-nivel" data-i="${i}" value="${t.nivel||1}"></td>
+      <td><input type="text" class="tal-efeito" data-i="${i}" value="${(t.efeito||'').replace(/"/g,'&quot;')}"></td>
+      <td><button class="del-btn" onclick="removeTalento(${i})">✕</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+function addTalento(){ collectFromForm(); DATA.talentos.push({nome:"Novo talento", nivel: DATA.meta.nivel||1, efeito:""}); renderTalentos(); }
+function removeTalento(i){ collectFromForm(); DATA.talentos.splice(i,1); renderTalentos(); }
+
+function renderMagias(){
+  const tbody = document.getElementById('magias_body');
+  tbody.innerHTML = '';
+  (DATA.magias||[]).forEach((m,i)=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input type="text" class="small-input mag-nivel" data-i="${i}" value="${(m.nivel||'').toString().replace(/"/g,'&quot;')}" style="width:40px;"></td>
+      <td><input type="text" class="mag-nome" data-i="${i}" value="${(m.nome||'').replace(/"/g,'&quot;')}"></td>
+      <td><button class="del-btn" onclick="removeMagia(${i})">✕</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+  tbody.querySelectorAll('input').forEach(el=> el.addEventListener('input', recalc));
+}
+function addMagia(){ collectFromForm(); if(!DATA.magias) DATA.magias=[]; DATA.magias.push({nivel:"0",nome:""}); renderMagias(); }
+function removeMagia(i){ collectFromForm(); DATA.magias.splice(i,1); renderMagias(); }
+
+function collectFromForm(){
+  const d = DATA;
+  d.meta.nome = document.getElementById('m_nome').value;
+  d.meta.jogador = document.getElementById('m_jogador').value;
+  d.meta.raca = document.getElementById('m_raca').value;
+  d.meta.classe = document.getElementById('m_classe').value;
+  d.meta.nivel = Number(document.getElementById('m_nivel').value)||1;
+  d.meta.tendencia = document.getElementById('m_tendencia').value;
+  d.meta.sexo = document.getElementById('m_sexo').value;
+  d.meta.idade = document.getElementById('m_idade').value;
+  d.meta.divindade = document.getElementById('m_divindade').value;
+  d.meta.tamanho = document.getElementById('m_tamanho').value;
+  d.meta.deslocamentoBase = Number(document.getElementById('m_desloc_base').value)||9;
+
+  d.atributos.for = Number(document.getElementById('a_for').value)||0;
+  d.atributos.des = Number(document.getElementById('a_des').value)||0;
+  d.atributos.con = Number(document.getElementById('a_con').value)||0;
+  d.atributos.int = Number(document.getElementById('a_int').value)||0;
+  d.atributos.sab = Number(document.getElementById('a_sab').value)||0;
+  d.atributos.car = Number(document.getElementById('a_car').value)||0;
+
+  d.pv.atual = Number(document.getElementById('pv_atual').value)||0;
+  d.pv.temp = Number(document.getElementById('pv_temp').value)||0;
+  d.pm.atual = Number(document.getElementById('pm_atual').value)||0;
+  d.pm.max = Number(document.getElementById('pm_max').value)||0;
+
+  d.rd = Number(document.getElementById('rd_valor').value)||0;
+  d.pontosAcao = Number(document.getElementById('pontos_acao').value)||0;
+
+  d.resistencias.fortOutros = Number(document.getElementById('res_fort_outros').value)||0;
+  d.resistencias.refOutros = Number(document.getElementById('res_ref_outros').value)||0;
+  d.resistencias.vonOutros = Number(document.getElementById('res_von_outros').value)||0;
+
+  d.ataques.cacOutros = Number(document.getElementById('atk_cac_outros').value)||0;
+  d.ataques.distOutros = Number(document.getElementById('atk_dist_outros').value)||0;
+
+  d.ca.armadura.nome = document.getElementById('d_armadura_nome').value;
+  d.ca.armadura.bonus = Number(document.getElementById('d_armadura_bonus').value)||0;
+  d.ca.armadura.maxDes = Number(document.getElementById('d_armadura_maxdes').value);
+  if(isNaN(d.ca.armadura.maxDes)) d.ca.armadura.maxDes = 99;
+  d.ca.armadura.penalidade = Number(document.getElementById('d_armadura_pen').value)||0;
+  d.ca.escudo.nome = document.getElementById('d_escudo_nome').value;
+  d.ca.escudo.bonus = Number(document.getElementById('d_escudo_bonus').value)||0;
+  d.ca.escudo.penalidade = Number(document.getElementById('d_escudo_pen').value)||0;
+  d.ca.outrosBonus = Number(document.getElementById('d_outros_bonus').value)||0;
+  d.ca.outrosPen = Number(document.getElementById('d_outros_pen').value)||0;
+
+  document.querySelectorAll('.peri-trained').forEach(el=>{
+    const id = el.dataset.peri;
+    if(!d.pericias[id]) d.pericias[id] = {treinada:false, outros:0};
+    d.pericias[id].treinada = el.checked;
+  });
+  document.querySelectorAll('.peri-outro').forEach(el=>{
+    const id = el.dataset.peri;
+    if(!d.pericias[id]) d.pericias[id] = {treinada:false, outros:0};
+    d.pericias[id].outros = Number(el.value)||0;
+  });
+  document.querySelectorAll('.peri-especialidade').forEach(el=>{
+    const id = el.dataset.peri;
+    if(!d.pericias[id]) d.pericias[id] = {treinada:false, outros:0};
+    d.pericias[id].especialidade = el.value;
+  });
+
+  if(!d.periciasExtras) d.periciasExtras = [];
+  document.querySelectorAll('#pericias_body .pex-nome').forEach((el,i)=>{ if(d.periciasExtras[i]) d.periciasExtras[i].nome = el.value; });
+  document.querySelectorAll('#pericias_body .pex-attr').forEach((el,i)=>{ if(d.periciasExtras[i]) d.periciasExtras[i].attr = el.value; });
+  document.querySelectorAll('#pericias_body .pex-outro').forEach((el,i)=>{ if(d.periciasExtras[i]) d.periciasExtras[i].outros = Number(el.value)||0; });
+  document.querySelectorAll('#pericias_body .pex-trained').forEach((el,i)=>{ if(d.periciasExtras[i]) d.periciasExtras[i].treinada = el.checked; });
+
+  document.querySelectorAll('#armas_body tr').forEach((tr,i)=>{
+    if(!d.armas[i]) return;
+    d.armas[i].nome = tr.querySelector('.arma-nome').value;
+    d.armas[i].attrAtaque = tr.querySelector('.arma-attr').value;
+    d.armas[i].outroAtaque = Number(tr.querySelector('.arma-outro').value)||0;
+    d.armas[i].dano = tr.querySelector('.arma-dano').value;
+    d.armas[i].somaFor = tr.querySelector('.arma-somafor').checked;
+    d.armas[i].critico = tr.querySelector('.arma-critico').value;
+    d.armas[i].distancia = tr.querySelector('.arma-distancia').value;
+    d.armas[i].tipo = tr.querySelector('.arma-tipo').value;
+  });
+
+  document.querySelectorAll('#inventario_body tr').forEach((tr,i)=>{
+    if(!d.inventario[i]) return;
+    d.inventario[i].item = tr.querySelector('.inv-item').value;
+    d.inventario[i].qtd = Number(tr.querySelector('.inv-qtd').value)||0;
+    d.inventario[i].peso = Number(tr.querySelector('.inv-peso').value)||0;
+  });
+
+  document.querySelectorAll('#talentos_body tr').forEach((tr,i)=>{
+    if(!d.talentos[i]) return;
+    d.talentos[i].nome = tr.querySelector('.tal-nome').value;
+    d.talentos[i].nivel = Number(tr.querySelector('.tal-nivel').value)||1;
+    d.talentos[i].efeito = tr.querySelector('.tal-efeito').value;
+  });
+
+  if(!d.magias) d.magias = [];
+  document.querySelectorAll('#magias_body tr').forEach((tr,i)=>{
+    if(!d.magias[i]) return;
+    d.magias[i].nivel = tr.querySelector('.mag-nivel').value;
+    d.magias[i].nome = tr.querySelector('.mag-nome').value;
+  });
+  d.magiasConfig = document.getElementById('magia_attr').value;
+
+  d.dinheiro = d.dinheiro || {};
+  d.dinheiro.ts = Number(document.getElementById('d_ts').value)||0;
+  d.dinheiro.tp = Number(document.getElementById('d_tp').value)||0;
+  d.dinheiro.to = Number(document.getElementById('d_to').value)||0;
+  d.dinheiro.tl = Number(document.getElementById('d_tl').value)||0;
+
+  d.idiomas = document.getElementById('t_idiomas').value;
+
+  d.informacoes = d.informacoes || {};
+  d.informacoes.campanha = document.getElementById('i_campanha').value;
+  d.informacoes.mestre = document.getElementById('i_mestre').value;
+  d.informacoes.outrosJogadores = document.getElementById('i_outros_jogadores').value;
+  d.informacoes.xpAtual = Number(document.getElementById('i_xp_atual').value)||0;
+  d.informacoes.xpProximo = Number(document.getElementById('i_xp_proximo').value)||0;
+
+  d.textos = d.textos || {};
+  d.textos.raca = document.getElementById('t_raca').value;
+  d.textos.classe = document.getElementById('t_classe').value;
+  d.textos.notas = document.getElementById('t_notas').value;
+  d.textos.historia = document.getElementById('t_historia').value;
+  d.textos.personalidade = document.getElementById('t_personalidade').value;
+  d.textos.aparencia = document.getElementById('t_aparencia').value;
+}
+
+function periciaGraduacao(nivel, treinada){
+  return treinada ? (nivel + 3) : Math.floor(nivel/2);
+}
+
+function recalc(){
+  collectFromForm();
+  const d = DATA;
+  const nivel = d.meta.nivel || 1;
+  const bba = nivel; // Guerreiro: BBA cheio = nível do personagem
+
+  const mods = {
+    for: mod(d.atributos.for), des: mod(d.atributos.des), con: mod(d.atributos.con),
+    int: mod(d.atributos.int), sab: mod(d.atributos.sab), car: mod(d.atributos.car)
+  };
+  document.getElementById('mod_for').textContent = fmt(mods.for);
+  document.getElementById('mod_des').textContent = fmt(mods.des);
+  document.getElementById('mod_con').textContent = fmt(mods.con);
+  document.getElementById('mod_int').textContent = fmt(mods.int);
+  document.getElementById('mod_sab').textContent = fmt(mods.sab);
+  document.getElementById('mod_car').textContent = fmt(mods.car);
+
+  const halfNivel = Math.floor(nivel/2);
+
+  // PV (Guerreiro: 20 + Con no 1º nível, +5+Con por nível seguinte)
+  const pvMax = 20 + mods.con + Math.max(0,nivel-1) * (5 + mods.con);
+  document.getElementById('pv_max').textContent = pvMax;
+
+  // Carga (mesma regra da edição clássica: For x3 sem penalidade, For x10 máximo absoluto)
+  let cargaTotal = 0;
+  d.inventario.forEach((it)=>{ cargaTotal += (it.qtd||0) * (it.peso||0); });
+  const cargaSemPenalidade = d.atributos.for * 3;
+  const cargaMaxAbsoluta = d.atributos.for * 10;
+  document.getElementById('carga_max').value = cargaSemPenalidade + ' kg';
+  document.getElementById('carga_levantar').value = cargaMaxAbsoluta + ' kg';
+  document.getElementById('carga_usada').value = (Math.round(cargaTotal*100)/100) + ' kg';
+
+  // CA: 10 + metade do nível + min(Des, maxDes armadura) + armadura + escudo + outros
+  const desCapArmadura = Math.min(mods.des, d.ca.armadura.maxDes ?? 99);
+  const ca = 10 + halfNivel + desCapArmadura + (d.ca.armadura.bonus||0) + (d.ca.escudo.bonus||0) + (d.ca.outrosBonus||0);
+  document.getElementById('ca_total').textContent = ca;
+  document.getElementById('ca_formula').textContent =
+    `10 + ${halfNivel} ½Nv + ${fmt(desCapArmadura)} Des${desCapArmadura!==mods.des?' (limitado pela armadura)':''} + ${d.ca.armadura.bonus||0} armadura + ${d.ca.escudo.bonus||0} escudo + ${fmt(d.ca.outrosBonus||0)} outros`;
+
+  // Testes de Resistência: metade do nível + atributo + outros
+  const fort = halfNivel + mods.con + (d.resistencias.fortOutros||0);
+  const ref = halfNivel + mods.des + (d.resistencias.refOutros||0);
+  const von = halfNivel + mods.sab + (d.resistencias.vonOutros||0);
+  document.getElementById('res_fort_total').textContent = fmt(fort);
+  document.getElementById('res_fort_half').textContent = halfNivel;
+  document.getElementById('res_fort_attr').textContent = fmt(mods.con);
+  document.getElementById('res_ref_total').textContent = fmt(ref);
+  document.getElementById('res_ref_half').textContent = halfNivel;
+  document.getElementById('res_ref_attr').textContent = fmt(mods.des);
+  document.getElementById('res_von_total').textContent = fmt(von);
+  document.getElementById('res_von_half').textContent = halfNivel;
+  document.getElementById('res_von_attr').textContent = fmt(mods.sab);
+
+  // Ataques corpo-a-corpo / à distância: BBA + atributo + outros (tamanho Médio = +0)
+  const tamMod = TAMANHOS[d.meta.tamanho] ?? 0;
+  const cac = bba + mods.for + tamMod + (d.ataques.cacOutros||0);
+  const dist = bba + mods.des + tamMod + (d.ataques.distOutros||0);
+  document.getElementById('atk_cac_total').textContent = fmt(cac);
+  document.getElementById('atk_cac_bba').textContent = 'BBA ' + fmt(bba);
+  document.getElementById('atk_cac_attr').textContent = fmt(mods.for);
+  document.getElementById('atk_dist_total').textContent = fmt(dist);
+  document.getElementById('atk_dist_bba').textContent = 'BBA ' + fmt(bba);
+  document.getElementById('atk_dist_attr').textContent = fmt(mods.des);
+
+  // Armas: bônus de ataque = BBA + atributo escolhido + outro; dano = dano base + metade do nível + (For se corpo-a-corpo)
+  d.armas.forEach((a,i)=>{
+    const attrAtk = mods[a.attrAtaque] ?? mods.for;
+    const bonusAtaque = bba + attrAtk + (a.outroAtaque||0);
+    const atkCell = document.getElementById('arma_atk_'+i);
+    if(atkCell) atkCell.textContent = fmt(bonusAtaque);
+    const forcaTxt = a.somaFor ? fmt(mods.for + halfNivel) : fmt(halfNivel);
+    const danoCell = document.getElementById('arma_dano_'+i);
+    if(danoCell) danoCell.textContent = (a.dano||'') + forcaTxt;
+  });
+
+  // Pericias
+  PERICIAS.forEach(p=>{
+    const sd = d.pericias[p.id] || {treinada:false, outros:0};
+    const grad = periciaGraduacao(nivel, sd.treinada);
+    const penalidade = p.penArmadura ? ((d.ca.armadura.penalidade||0) + (d.ca.escudo.penalidade||0)) : 0;
+    const total = grad + mods[p.attr] + (sd.outros||0) + penalidade;
+    const totalCell = document.getElementById('peri_total_'+p.id);
+    if(totalCell) totalCell.textContent = (p.soTreinada && !sd.treinada) ? 'NT' : fmt(total);
+    const gradCell = document.getElementById('peri_grad_'+p.id);
+    if(gradCell) gradCell.textContent = grad;
+    const attrCell = document.getElementById('peri_attr_'+p.id);
+    if(attrCell) attrCell.textContent = fmt(mods[p.attr]) + (penalidade? ' ('+penalidade+' armad.)':'');
+    const row = document.getElementById('peri_row_'+p.id);
+    if(row) row.classList.toggle('trained', !!sd.treinada);
+  });
+  (d.periciasExtras||[]).forEach((pe,i)=>{
+    const grad = periciaGraduacao(nivel, pe.treinada);
+    const total = grad + (mods[pe.attr]||0) + (pe.outros||0);
+    const totalCell = document.getElementById('pex_total_'+i);
+    if(totalCell) totalCell.textContent = fmt(total);
+    const gradCell = document.getElementById('pex_grad_'+i);
+    if(gradCell) gradCell.textContent = grad;
+  });
+
+  // Inventario
+  d.inventario.forEach((it,i)=>{
+    const sub = (it.qtd||0) * (it.peso||0);
+    const cell = document.getElementById('inv_sub_'+i);
+    if(cell) cell.textContent = (Math.round(sub*100)/100) + 'kg';
+  });
+
+  saveDebounced();
+}
+
+let saveTimer = null;
+function saveDebounced(){ clearTimeout(saveTimer); saveTimer = setTimeout(saveData, 600); }
+
+document.getElementById('d_armadura_preset').addEventListener('change', function(){
+  const it = ARMADURAS[Number(this.value)];
+  document.getElementById('d_armadura_nome').value = it.nome;
+  document.getElementById('d_armadura_bonus').value = it.bonus;
+  document.getElementById('d_armadura_maxdes').value = it.maxDes;
+  document.getElementById('d_armadura_pen').value = it.penalidade;
+  recalc();
+});
+document.getElementById('d_escudo_preset').addEventListener('change', function(){
+  const it = ESCUDOS[Number(this.value)];
+  document.getElementById('d_escudo_nome').value = it.nome;
+  document.getElementById('d_escudo_bonus').value = it.bonus;
+  document.getElementById('d_escudo_pen').value = it.penalidade;
+  recalc();
+});
+
+['m_nome','m_jogador','m_raca','m_classe','m_nivel','m_tendencia','m_sexo','m_idade','m_divindade','m_tamanho','m_desloc_base',
+ 'a_for','a_des','a_con','a_int','a_sab','a_car',
+ 'pv_atual','pv_temp','pm_atual','pm_max','rd_valor','pontos_acao',
+ 'res_fort_outros','res_ref_outros','res_von_outros','atk_cac_outros','atk_dist_outros',
+ 'd_armadura_nome','d_armadura_bonus','d_armadura_maxdes','d_armadura_pen','d_escudo_nome','d_escudo_bonus','d_escudo_pen','d_outros_bonus','d_outros_pen',
+ 'd_ts','d_tp','d_to','d_tl','t_idiomas','magia_attr',
+ 'i_campanha','i_mestre','i_outros_jogadores','i_xp_atual','i_xp_proximo',
+ 't_raca','t_classe','t_notas','t_historia','t_personalidade','t_aparencia'
+].forEach(id=>{
+  const el = document.getElementById(id);
+  el.addEventListener('input', recalc);
+  el.addEventListener('change', recalc);
+});
+
+// ---------- ROLADOR DE DADOS ----------
+const DICE_PRESETS = [4,6,8,10,12,20,100];
+let diceRows = [{sides:20, qty:1}];
+let diceHistory = [];
+
+function openDiceRoller(){ renderDiceQuick(); renderDiceRows(); document.getElementById('diceModal').classList.add('show'); }
+function closeDiceRoller(){ document.getElementById('diceModal').classList.remove('show'); }
+document.getElementById('diceModal').addEventListener('click', function(e){ if(e.target === this) closeDiceRoller(); });
+
+function renderDiceQuick(){
+  const box = document.getElementById('diceQuick');
+  box.innerHTML = '';
+  DICE_PRESETS.forEach(sides=>{
+    const btn = document.createElement('button');
+    btn.textContent = 'd' + sides;
+    btn.onclick = ()=> quickAddDie(sides);
+    box.appendChild(btn);
+  });
+}
+function quickAddDie(sides){
+  const row = diceRows.find(r=>r.sides===sides);
+  if(row) row.qty++; else diceRows.push({sides, qty:1});
+  renderDiceRows();
+}
+function addDiceRow(sides,qty){ diceRows.push({sides:sides||6, qty:qty||1}); renderDiceRows(); }
+function removeDiceRow(i){ diceRows.splice(i,1); renderDiceRows(); }
+function clearDiceRows(){
+  diceRows = [];
+  document.getElementById('diceMod').value = 0;
+  document.getElementById('diceResults').innerHTML = '';
+  renderDiceRows();
+}
+function renderDiceRows(){
+  const box = document.getElementById('diceRows');
+  box.innerHTML = '';
+  diceRows.forEach((r,i)=>{
+    const row = document.createElement('div');
+    row.className = 'dice-row';
+    row.innerHTML = `
+      <input type="number" min="1" max="100" value="${r.qty}" data-i="${i}" data-f="qty">
+      <span class="d-sep">×</span><span class="d-sep">d</span>
+      <input type="number" min="2" max="1000" value="${r.sides}" data-i="${i}" data-f="sides">
+      <button class="del-btn" onclick="removeDiceRow(${i})">✕</button>
+    `;
+    box.appendChild(row);
+  });
+  box.querySelectorAll('input').forEach(el=>{
+    el.addEventListener('change', function(){
+      const i = Number(this.dataset.i), f = this.dataset.f;
+      diceRows[i][f] = Math.max(f==='qty'?1:2, Number(this.value)||1);
+      renderDiceRows();
+    });
+  });
+}
+function rollDice(){
+  if(diceRows.length===0){ document.getElementById('diceResults').innerHTML = '<div class="hint">Adicione ao menos um tipo de dado.</div>'; return; }
+  const modifier = Number(document.getElementById('diceMod').value)||0;
+  let grandTotal = modifier;
+  let groupsHtml = '';
+  let summaryParts = [];
+  diceRows.forEach(r=>{
+    const rolls = [];
+    for(let k=0;k<r.qty;k++) rolls.push(1 + Math.floor(Math.random()*r.sides));
+    const subtotal = rolls.reduce((a,b)=>a+b,0);
+    grandTotal += subtotal;
+    const chips = rolls.map(v=>{
+      let cls = 'die-chip';
+      if(v===r.sides) cls += ' crit-max'; else if(v===1) cls += ' crit-min';
+      return `<span class="${cls}">${v}</span>`;
+    }).join('');
+    groupsHtml += `<div class="dice-result-group"><b>${r.qty}d${r.sides}</b>: ${chips} = ${subtotal}</div>`;
+    summaryParts.push(`${r.qty}d${r.sides}`);
+  });
+  if(modifier) groupsHtml += `<div class="dice-result-group">Modificador: ${fmt(modifier)}</div>`;
+  document.getElementById('diceResults').innerHTML = groupsHtml +
+    `<div class="dice-grand-total"><span>Total</span><span class="total-box">${grandTotal}</span></div>`;
+  const label = summaryParts.join(' + ') + (modifier? ' '+fmt(modifier):'');
+  diceHistory.unshift(`${label} = ${grandTotal}`);
+  diceHistory = diceHistory.slice(0,6);
+  document.getElementById('diceHistory').innerHTML = diceHistory.map(h=>`<div>${h}</div>`).join('');
+}
+
+// ---------- INIT ----------
+loadData();
+renderAll();
+</script>
+</body>
+</html>

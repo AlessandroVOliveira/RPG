@@ -19,7 +19,7 @@ Imagens/                → arte de referência visual do Andor (compartilhada)
 
 ## Uso rápido
 
-- Jogar/editar a ficha ativa: ver `personagens/andor-classico/` (build em andamento).
+- Jogar/editar a ficha ativa: abra `personagens/andor-classico/Ficha Classico.html` no navegador.
 - Consultar a versão antiga: `personagens/andor-t20/Ficha T20.html`.
 - Consultar uma build ou decisão já tomada: `docs/` dentro da pasta de cada personagem.
 - Consultar uma regra: `memorias/classico/` primeiro (ou `memorias/t20/` para a versão arquivada), PDF em `manuais-classico/`/`manuais-t20/` só se não estiver lá.

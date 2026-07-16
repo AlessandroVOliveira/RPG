@@ -26,6 +26,6 @@ Atributos base, rolados nos dados, ordenados: **17, 15, 13, 12, 12, 11** — id�
 
 ## Conteúdo
 
+- **`Ficha Classico.html`** — ficha interativa (abrir no navegador, funciona offline). Layout espelha a "Ficha de Personagem Editável" oficial desta edição (`manuais-classico/tormenta-rpg-ficha-de-personagem-editavel-biblioteca-elfica.pdf`): cabeçalhos em barra preta, blocos de Habilidades/CA/Resistências/Ataques/Armadura/Perícias na página 1, Equipamento/Talentos/Magias/Dinheiro/Idiomas/Informações/História na página 2. Cálculos automáticos (CA, testes de resistência, perícias, ataques, carga) seguem as fórmulas de `memorias/classico/`. Mesmo conjunto de ferramentas da ficha de T20: exportar/importar JSON, rolador de dados, impressão, autosave no navegador.
 - `andor-classico.json` — dados estruturados do personagem (atributos, CA, talentos, equipamento)
 - `docs/` — decisão de build completa, com fontes e páginas citadas
-- Ficha jogável (HTML) — ainda não existe; por enquanto jogar direto do JSON/docs
